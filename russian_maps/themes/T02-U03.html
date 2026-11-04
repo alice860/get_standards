@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>记忆与遗忘 · T02-U03</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T02-U02.html">上一组：知道与理解</a><a href="T02-U04.html">下一组：决定与选择</a></nav><header class="top"><h1 class="ru">«по́мнить · запомина́ть · вспомина́ть · забыва́ть…»<small>T02 思维与认知 · 详细单元图 T02-U03 · 记忆与遗忘 · 9 张卡片</small></h1><p class="meta"><b>意图：</b>我想描述记住、记得、想起、忘记、提醒。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">по́мнить<small>记得（记忆的状态）</small></div><div class="forks"><div class="fork"><i class="tag t-deriv">派</i><span class="hw">па́мять</span><span class="zh">记忆</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">воспомина́ние</span><span class="zh">回忆；回忆录</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">напомина́ть кого́</span><span class="zh">长得像某人</span></div></div><p class="note">记忆的四个阶段：形成（запомнить、заучить）→ 保持（помнить）→ 提取（вспомнить、припомнить）→ 丢失（забыть）；外力：提醒（напомнить）。</p></div><div class="clusters"><div class="cluster"><h3>形成与保持</h3><article class="card"><div class="head"><span class="hw">запомина́ть / запо́мнить</span><span class="pt">严格体对应</span></div><p class="mean">记住</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">запомнить слова</span></li><li><i class="tag t-deriv">派</i><span class="ru">запомина́ющийся（令人难忘的）</span></li></ul><p class="ex"><span class="ru">Мне трудно запоминать новые термины.</span><span class="zh">我很难记住新术语。</span></p></article><article class="card"><div class="head"><span class="hw">зау́чивать / заучи́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">背熟、死记</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">заучить наизусть</span></li></ul><p class="ex"><span class="ru">Не стоит заучивать доклад наизусть.</span><span class="zh">不必把报告背下来。</span></p></article><article class="card"><div class="head"><span class="hw">по́мнить</span><span class="pt">无对</span></div><p class="mean">记得</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · о чём? · кого́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">хорошо помнить</span></li><li><i class="tag t-deriv">派</i><span class="ru">па́мять</span></li><li><i class="tag t-trap">⚠</i><span>“一时想不起来”用 не могу вспомнить</span></li></ul><p class="ex"><span class="ru">Я хорошо помню этот день.</span><span class="zh">我清楚记得那一天。</span></p></article><article class="card short"><div class="head"><span class="hw">име́ть в виду́</span><span class="kind k-short">简写</span></div><p class="mean">记住、考虑到；指的是</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div><div class="cluster"><h3>提取</h3><article class="card"><div class="head"><span class="hw">вспомина́ть / вспо́мнить</span><span class="pt">严格体对应</span></div><p class="mean">回想起、想起</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · о чём? · кого́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">не могу вспомнить</span></li><li><i class="tag t-deriv">派</i><span class="ru">воспомина́ние</span></li></ul><p class="ex"><span class="ru">Я никак не могу вспомнить его фамилию.</span><span class="zh">我怎么也想不起他的姓。</span></p></article><article class="card new"><div class="head"><span class="hw">припомина́ть / припо́мнить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">努力回想起</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article><article class="card new"><div class="head"><span class="hw">вспомина́ться / вспо́мниться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">（某事）被想起</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кому́?</span></li></ul></article></div><div class="cluster"><h3>丢失</h3><article class="card"><div class="head"><span class="hw">забыва́ть / забы́ть</span><span class="pt">严格体对应</span></div><p class="mean">忘记</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · о чём? · + 不定式（忘了做）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">забыть дома ключи</span></li><li><i class="tag t-deriv">派</i><span class="ru">забы́вчивый</span></li><li><i class="tag t-trap">⚠</i><span>забыть + 不定式 = 忘了去做</span></li></ul><p class="ex"><span class="ru">Я забыл отправить письмо.</span><span class="zh">我忘了寄信。</span></p></article></div><div class="cluster"><h3>提醒</h3><article class="card"><div class="head"><span class="hw">напомина́ть / напо́мнить</span><span class="pt">按义项体对应</span></div><p class="mean">① 提醒 ② （НСВ）像、使人想起</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кому́? о чём? / что? · кого́?（像）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">напомнить о сроке</span></li><li><i class="tag t-deriv">派</i><span class="ru">напомина́ние</span></li><li><i class="tag t-trap">⚠</i><span>напоминать кого = 像某人</span></li><li><i class="tag t-acad">学</i><span class="ru">Напомним, что…</span></li></ul><p class="ex"><span class="ru">Напомните мне, пожалуйста, о встрече.</span><span class="zh">请提醒我开会的事。</span></p></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T02-U02.html">知道与理解</a></span><span class="zh">знать, узнать</span></div><div class="x"><span class="hw"><a href="T01-U02.html">提醒（告知）</a></span><span class="zh">предупредить（T01）</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">по́мнить / запо́мнить / вспо́мнить</td><td>记忆状态 / 形成记忆 / 从记忆中提取</td><td class="ru">помню · запомнил · вспомнил</td></tr><tr><td class="hw">запо́мнить / заучи́ть</td><td>记住（自然地）/ 背熟（反复）</td><td class="ru">запомнил дорогу · заучил стихотворение</td></tr><tr><td class="hw">забы́ть о / забы́ть + 不定式</td><td>忘了某事 / 忘了去做</td><td class="ru">забыл о встрече · забыл позвонить</td></tr><tr><td class="hw">напо́мнить кому́ / напомина́ть кого́</td><td>提醒某人 / 长得像某人</td><td class="ru">напомни ему · он напоминает отца</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>支配</h3><div class="pair"><span class="bad ru">напомнить его о встрече</span><span class="good ru">напомнить ему о встрече（三格）</span></div></div><div class="trapbox"><h3>义项</h3><div class="pair"><span class="bad ru">Я не помню его фамилию（想说“一时想不起”）</span><span class="good ru">Я не могу вспомнить его фамилию</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">запомина́ть / запо́мнить</td><td class="ru">что?</td></tr><tr><td class="hw">зау́чивать / заучи́ть</td><td class="ru">что?</td></tr><tr><td class="hw">по́мнить</td><td class="ru">что? · о чём? · кого́?</td></tr><tr><td class="hw">име́ть в виду́</td><td class="ru">что?</td></tr><tr><td class="hw">вспомина́ть / вспо́мнить</td><td class="ru">что? · о чём? · кого́?</td></tr><tr><td class="hw">припомина́ть / припо́мнить</td><td class="ru">что?</td></tr><tr><td class="hw">вспомина́ться / вспо́мниться</td><td class="ru">кому́?</td></tr><tr><td class="hw">забыва́ть / забы́ть</td><td class="ru">что? · о чём? · + 不定式（忘了做）</td></tr><tr><td class="hw">напомина́ть / напо́мнить</td><td class="ru">кому́? о чём? / что? · кого́?（像）</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>书面 / 学术</th></tr></thead><tbody><tr><td class="zh">提醒</td><td class="ru">Не забудь!</td><td class="ru">Напоминаю, что…</td><td class="ru">Напомним, что… / Следует напомнить…</td></tr><tr><td class="zh">想不起</td><td class="ru">Вылетело из головы.</td><td class="ru">Не могу вспомнить.</td><td class="ru">—</td></tr><tr><td class="zh">记住</td><td class="ru">Запомни!</td><td class="ru">Запомните, пожалуйста…</td><td class="ru">Следует иметь в виду, что…</td></tr><tr><td class="zh">回忆</td><td class="ru">Помнишь, как…?</td><td class="ru">Я вспоминаю…</td><td class="ru">Обратимся к истории вопроса…</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">还记得</span><span class="arr">→</span><span class="q ru" tabindex="0">помнить</span></div><div class="iv"><span class="zh">记住</span><span class="arr">→</span><span class="q ru" tabindex="0">запомнить</span></div><div class="iv"><span class="zh">背熟</span><span class="arr">→</span><span class="q ru" tabindex="0">заучить</span></div><div class="iv"><span class="zh">想起来了</span><span class="arr">→</span><span class="q ru" tabindex="0">вспомнить</span></div><div class="iv"><span class="zh">一时想不起来</span><span class="arr">→</span><span class="q ru" tabindex="0">не могу вспомнить / вылетело из головы</span></div><div class="iv"><span class="zh">忘了做某事</span><span class="arr">→</span><span class="q ru" tabindex="0">забыть + 不定式</span></div><div class="iv"><span class="zh">提醒某人</span><span class="arr">→</span><span class="q ru" tabindex="0">напомнить кому о чём</span></div><div class="iv"><span class="zh">文中“需要回顾的是”</span><span class="arr">→</span><span class="q ru" tabindex="0">Напомним, что…</span></div><div class="iv"><span class="zh">需要注意的是</span><span class="arr">→</span><span class="q ru" tabindex="0">Следует иметь в виду, что…</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">我记住了这些公式。</span><span class="q ru" tabindex="0">Я запомнил(а) эти формулы.</span></div><div class="dr"><span class="zh">请提醒我交论文的期限。</span><span class="q ru" tabindex="0">Напомните мне, пожалуйста, о сроке сдачи диссертации.</span></div><div class="dr"><span class="zh">我忘了把文件发给秘书。</span><span class="q ru" tabindex="0">Я забыл(а) отправить документы секретарю.</span></div><div class="dr"><span class="zh">需要注意的是，这些数据是初步的。</span><span class="q ru" tabindex="0">Следует иметь в виду, что эти данные предварительные.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>

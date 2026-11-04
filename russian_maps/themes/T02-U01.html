@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>思考与看法 · T02-U01</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T01-U12.html">上一组：发声与沉默</a><a href="T02-U02.html">下一组：知道与理解</a></nav><header class="top"><h1 class="ru">«ду́мать · счита́ть · полага́ть · сомнева́ться…»<small>T02 思维与认知 · 详细单元图 T02-U01 · 思考与看法 · 15 张卡片</small></h1><p class="meta"><b>意图：</b>我想说思考、考虑、想出、改变主意、认为、觉得、推测、猜到、怀疑。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">ду́мать / поду́мать<small>想、思考（对应 NSM 素元 THINK）</small></div><div class="forks"><div class="fork"><i class="tag t-deriv">派</i><span class="hw">мысль</span><span class="zh">想法、思想</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">обду́мать · приду́мать · переду́мать</span><span class="zh">考虑周全 · 想出 · 改变主意</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">ду́мать о / над</span><span class="zh">想到 / 思考解决</span></div></div><p class="note">分三类：思考的过程（думать、обдумать、размышлять、придумать、передумать）；表达看法（считать、полагать、находить、казаться、представляться）；推测与怀疑（предполагать、догадываться、сомневаться、подозревать）。</p></div><div class="clusters"><div class="cluster"><h3>思考的过程（дум- 词族）</h3><article class="card"><div class="head"><span class="hw">ду́мать / поду́мать</span><span class="pt">严格体对应</span></div><p class="mean">想、思考</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">о чём? · над чем?（思考解决）· , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">думать над задачей; подумать о будущем</span></li><li><i class="tag t-deriv">派</i><span class="ru">мысль, ду́ма</span></li><li><i class="tag t-trap">⚠</i><span>思考怎么解：думать над；✗ думать задачу</span></li></ul><p class="ex"><span class="ru">Нам надо подумать над этим вопросом.</span><span class="zh">我们需要好好想想这个问题。</span></p></article><article class="card"><div class="head"><span class="hw">обду́мывать / обду́мать</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">仔细考虑</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">обдумать предложение</span></li></ul><p class="ex"><span class="ru">Я обдумаю ваше предложение и отвечу завтра.</span><span class="zh">我会考虑您的提议，明天答复。</span></p></article><article class="card"><div class="head"><span class="hw">приду́мывать / приду́мать</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">想出、构思</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">придумать способ / название</span></li></ul><p class="ex"><span class="ru">Мы придумали простой способ проверки.</span><span class="zh">我们想出了一个简单的检验办法。</span></p></article><article class="card"><div class="head"><span class="hw">переду́мывать / переду́мать</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">改变主意</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">+ 不定式</span></li><li><i class="tag t-deriv">搭</i><span class="ru">передумать ехать</span></li></ul><p class="ex"><span class="ru">Я передумал менять тему.</span><span class="zh">我改主意了，不换题目了。</span></p></article><article class="card"><div class="head"><span class="hw">размышля́ть / поразмы́слить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">思索、反思</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">о чём? · над чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">размышлять о смысле</span></li><li><i class="tag t-deriv">派</i><span class="ru">размышле́ние</span></li></ul><p class="ex"><span class="ru">Автор размышляет о роли языка в обществе.</span><span class="zh">作者思考语言在社会中的作用。</span></p></article><article class="card"><div class="head"><span class="hw">заду́мываться / заду́маться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">陷入沉思；认真想想</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">о чём? · над чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Стоит задуматься о…</span></li></ul><p class="ex"><span class="ru">Эти данные заставляют задуматься.</span><span class="zh">这些数据发人深省。</span></p></article></div><div class="cluster"><h3>看法与观点</h3><article class="card"><div class="head"><span class="hw">счита́ть</span><span class="pt">无对</span></div><p class="mean">认为（“认为”义无完成体）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? кем? · что? каким? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">считать важным; Считается, что…</span></li><li><i class="tag t-trap">⚠</i><span>认为某人是……用五格：✗ считать его как…</span></li><li><i class="tag t-acad">学</i><span class="ru">Считается, что…</span></li></ul><p class="ex"><span class="ru">Я считаю этот подход наиболее перспективным.</span><span class="zh">我认为这种方法最有前景。</span></p></article><article class="card"><div class="head"><span class="hw">полага́ть</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">认为（书面）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">, что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Мы полагаем, что…</span></li><li><i class="tag t-trap">⚠</i><span>полагается（无人称）= 按规定应该</span></li><li><i class="tag t-acad">学</i><span class="ru">Мы полагаем, что…</span></li></ul><p class="ex"><span class="ru">Мы полагаем, что эффект носит временный характер.</span><span class="zh">我们认为该效应是暂时的。</span></p></article><article class="card"><div class="head"><span class="hw">находи́ть（认为义）</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">觉得、认为（某物怎样）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? что? каким?（五格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">находить интересным</span></li><li><i class="tag t-trap">⚠</i><span>认为义只用这个结构：нахожу это интересным</span></li></ul><p class="ex"><span class="ru">Я нахожу эту идею интересной.</span><span class="zh">我觉得这个想法很有意思。</span></p></article><article class="card"><div class="head"><span class="hw">каза́ться / показа́ться</span><span class="pt">严格体对应</span></div><p class="mean">觉得、似乎</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кому́? кем? каким?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Мне кажется…; казалось бы</span></li><li><i class="tag t-trap">⚠</i><span>казалось бы = 看似（其实不然）</span></li></ul><p class="ex"><span class="ru">Мне кажется, здесь возможна другая интерпретация.</span><span class="zh">我觉得这里可以有另一种解释。</span></p></article><article class="card"><div class="head"><span class="hw">представля́ть / предста́вить (себе́)</span><span class="pt">严格体对应</span></div><p class="mean">想象；（представляется）看来</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Представьте себе…; представляется, что…</span></li><li><i class="tag t-trap">⚠</i><span>学术里 «Представляется, что…» = 看来</span></li><li><i class="tag t-acad">学</i><span class="ru">Представляется, что…</span></li></ul><p class="ex"><span class="ru">Представляется, что этот вывод преждевременен.</span><span class="zh">看来这个结论为时过早。</span></p></article></div><div class="cluster"><h3>推测、猜测与怀疑</h3><article class="card"><div class="head"><span class="hw">предполага́ть / предположи́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">推测、假定</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">можно предположить, что…</span></li><li><i class="tag t-deriv">派</i><span class="ru">предположе́ние</span></li><li><i class="tag t-acad">学</i><span class="ru">Можно предположить, что…</span></li></ul><p class="ex"><span class="ru">Можно предположить, что причина в составе выборки.</span><span class="zh">可以推测原因在于样本构成。</span></p></article><article class="card"><div class="head"><span class="hw">дога́дываться / догада́ться</span><span class="pt">严格体对应</span></div><p class="mean">猜到、想到</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">о чём? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">сразу догадаться</span></li><li><i class="tag t-deriv">派</i><span class="ru">дога́дка</span></li></ul><p class="ex"><span class="ru">Я сразу догадался, о чём он хочет спросить.</span><span class="zh">我马上猜到了他想问什么。</span></p></article><article class="card"><div class="head"><span class="hw">сомнева́ться</span><span class="pt">无对</span></div><p class="mean">怀疑、拿不准</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">в чём?（六格）· в том, что… · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">сомневаться в результатах</span></li><li><i class="tag t-deriv">派</i><span class="ru">сомне́ние, несомне́нно</span></li><li><i class="tag t-trap">⚠</i><span>用 в：✗ сомневаться о…</span></li><li><i class="tag t-acad">学</i><span class="ru">Не вызывает сомнения, что…</span></li></ul><p class="ex"><span class="ru">Я сомневаюсь в правильности этого вывода.</span><span class="zh">我对这个结论的正确性有疑问。</span></p></article><article class="card"><div class="head"><span class="hw">подозрева́ть</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">怀疑（某种坏事存在）；猜想</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? в чём? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">подозревать ошибку</span></li><li><i class="tag t-deriv">派</i><span class="ru">подозре́ние</span></li></ul><p class="ex"><span class="ru">Я подозреваю, что в данных есть ошибка.</span><span class="zh">我怀疑数据里有错误。</span></p></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="https://claude.ai/artifact/6A9BACCUy994KKQfobhtct">证据强度</a></span><span class="zh">推测说到几分</span></div><div class="x"><span class="hw"><a href="T02-U02.html">знать / понять</a></span><span class="zh">知道与理解</span></div><div class="x"><span class="hw"><a href="T04-U06.html">допустить</a></span><span class="zh">为推理假设（T04）</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">ду́мать о / ду́мать над</td><td>想到、惦记 / 思考解决（问题）</td><td class="ru">думать о семье · думать над задачей</td></tr><tr><td class="hw">ду́мать / счита́ть / полага́ть / находи́ть</td><td>想（口语）/ 认为（中性）/ 认为（书面）/ 觉得某物怎样</td><td class="ru">Я думаю… · Считаю… · Полагаем… · нахожу интересным</td></tr><tr><td class="hw">обду́мать / приду́мать / переду́мать</td><td>仔细考虑 / 想出新东西 / 改变主意</td><td class="ru">обдумать план · придумать название · передумать ехать</td></tr><tr><td class="hw">предположи́ть / догада́ться</td><td>提出推测（可能错）/ 猜对了</td><td class="ru">можно предположить · я догадался</td></tr><tr><td class="hw">сомнева́ться / подозрева́ть</td><td>不确定是否属实 / 怀疑有（坏事）</td><td class="ru">сомневаюсь в успехе · подозреваю ошибку</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>支配</h3><div class="pair"><span class="bad ru">думать задачу</span><span class="good ru">думать над задачей</span></div><div class="pair"><span class="bad ru">считать его как специалиста</span><span class="good ru">считать его специалистом（五格）</span></div><div class="pair"><span class="bad ru">сомневаться о результате</span><span class="good ru">сомневаться в результате</span></div></div><div class="trapbox"><h3>结构</h3><div class="pair"><span class="bad ru">находить это как интересное</span><span class="good ru">находить это интересным（五格）</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">ду́мать / поду́мать</td><td class="ru">о чём? · над чем?（思考解决）· , что…</td></tr><tr><td class="hw">обду́мывать / обду́мать</td><td class="ru">что?</td></tr><tr><td class="hw">приду́мывать / приду́мать</td><td class="ru">что?</td></tr><tr><td class="hw">переду́мывать / переду́мать</td><td class="ru">+ 不定式</td></tr><tr><td class="hw">размышля́ть / поразмы́слить</td><td class="ru">о чём? · над чем?</td></tr><tr><td class="hw">заду́мываться / заду́маться</td><td class="ru">о чём? · над чем?</td></tr><tr><td class="hw">счита́ть</td><td class="ru">кого́? кем? · что? каким? · , что…</td></tr><tr><td class="hw">полага́ть</td><td class="ru">, что…</td></tr><tr><td class="hw">находи́ть（认为义）</td><td class="ru">кого́? что? каким?（五格）</td></tr><tr><td class="hw">каза́ться / показа́ться</td><td class="ru">кому́? кем? каким?</td></tr><tr><td class="hw">представля́ть / предста́вить (себе́)</td><td class="ru">что? · , что…</td></tr><tr><td class="hw">предполага́ть / предположи́ть</td><td class="ru">что? · , что…</td></tr><tr><td class="hw">дога́дываться / догада́ться</td><td class="ru">о чём? · , что…</td></tr><tr><td class="hw">сомнева́ться</td><td class="ru">в чём?（六格）· в том, что… · , что…</td></tr><tr><td class="hw">подозрева́ть</td><td class="ru">кого́? в чём? · , что…</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>书面 / 学术</th></tr></thead><tbody><tr><td class="zh">看法</td><td class="ru">Я думаю…</td><td class="ru">Я считаю…</td><td class="ru">Мы полагаем / Представляется, что…</td></tr><tr><td class="zh">似乎</td><td class="ru">Вроде…</td><td class="ru">Мне кажется…</td><td class="ru">По-видимому, … / Как представляется, …</td></tr><tr><td class="zh">思考</td><td class="ru">Подумаю.</td><td class="ru">Надо подумать над этим.</td><td class="ru">Данный вопрос требует осмысления.</td></tr><tr><td class="zh">推测</td><td class="ru">Может, …</td><td class="ru">Можно предположить…</td><td class="ru">Есть основания предполагать…</td></tr><tr><td class="zh">怀疑</td><td class="ru">Сомневаюсь.</td><td class="ru">Я сомневаюсь, что…</td><td class="ru">Вызывает сомнение…</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">思考怎么解决</span><span class="arr">→</span><span class="q ru" tabindex="0">думать над чем</span></div><div class="iv"><span class="zh">仔细考虑提议</span><span class="arr">→</span><span class="q ru" tabindex="0">обдумать предложение</span></div><div class="iv"><span class="zh">想出办法</span><span class="arr">→</span><span class="q ru" tabindex="0">придумать способ</span></div><div class="iv"><span class="zh">改主意了</span><span class="arr">→</span><span class="q ru" tabindex="0">передумать</span></div><div class="iv"><span class="zh">发人深省</span><span class="arr">→</span><span class="q ru" tabindex="0">заставляет задуматься</span></div><div class="iv"><span class="zh">我认为（中性）</span><span class="arr">→</span><span class="q ru" tabindex="0">Я считаю…</span></div><div class="iv"><span class="zh">我们认为（论文）</span><span class="arr">→</span><span class="q ru" tabindex="0">Мы полагаем…</span></div><div class="iv"><span class="zh">我觉得这很有意思</span><span class="arr">→</span><span class="q ru" tabindex="0">Я нахожу это интересным</span></div><div class="iv"><span class="zh">看来（学术）</span><span class="arr">→</span><span class="q ru" tabindex="0">Представляется, что…</span></div><div class="iv"><span class="zh">可以推测</span><span class="arr">→</span><span class="q ru" tabindex="0">Можно предположить…</span></div><div class="iv"><span class="zh">对……有疑问</span><span class="arr">→</span><span class="q ru" tabindex="0">сомневаться в чём</span></div><div class="iv"><span class="zh">毫无疑问</span><span class="arr">→</span><span class="q ru" tabindex="0">Несомненно / Не вызывает сомнения</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">我会考虑您的提议，明天答复。</span><span class="q ru" tabindex="0">Я обдумаю ваше предложение и отвечу завтра.</span></div><div class="dr"><span class="zh">看来这个结论为时过早。</span><span class="q ru" tabindex="0">Представляется, что этот вывод преждевременен.</span></div><div class="dr"><span class="zh">我觉得这个想法很有意思。</span><span class="q ru" tabindex="0">Я нахожу эту идею интересной.</span></div><div class="dr"><span class="zh">我改主意了，不换题目了。</span><span class="q ru" tabindex="0">Я передумал(а) менять тему.</span></div><div class="dr"><span class="zh">我怀疑数据里有错误。</span><span class="q ru" tabindex="0">Я подозреваю, что в данных есть ошибка.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>
