@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>研究与实验操作（学术） · T04-U06</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T04-U05.html">上一组：制作、创造与举办</a><a href="T05-U01.html">下一组：存在、出现与发生</a></nav><header class="top"><h1 class="ru">«проводи́ть · иссле́довать · сра́внивать · выявля́ть…»<small>T04 行动：阶段、能力与实现 · 详细单元图 T04-U06 · 研究与实验操作（学术） · 24 张卡片</small></h1><p class="meta"><b>意图：</b>我想按研究流程说：假设、进行、测量、分析、比较、发现、确定、检验、评估、考虑、排除、应用。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">проводи́ть / провести́<small>进行（研究、实验）——学术里最常见的功能动词</small></div><div class="forks"><div class="fork"><i class="tag t-deriv">派</i><span class="hw">проведе́ние</span><span class="zh">进行、举行</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">иссле́дование</span><span class="zh">研究</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">проводи́ть（送行）</span><span class="zh">провожать 的完成体，同形</span></div></div><p class="note">按研究流程排列：设计与假设 → 进行、收集与测量 → 分析与比较 → 发现与确定 → 检验、评估、考虑与排除 → 应用。</p></div><div class="clusters"><div class="cluster"><h3>设计与假设</h3><article class="card"><div class="head"><span class="hw">допуска́ть / допусти́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 假设 ② 允许 ③ 犯（错误）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">допустим, что…; допустить ошибку</span></li><li><i class="tag t-deriv">派</i><span class="ru">допуще́ние（假设）</span></li><li><i class="tag t-acad">学</i><span class="ru">Допустим, что…</span></li></ul><p class="ex"><span class="ru">Допустим, что выборка репрезентативна.</span><span class="zh">假设样本具有代表性。</span></p></article><article class="card new"><div class="head"><span class="hw">предполага́ть / предположи́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">推测、假定（→ T02）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">, что…</span></li></ul></article><article class="card short"><div class="head"><span class="hw">ста́вить / поста́вить зада́чу</span><span class="pt">严格体对应</span><span class="kind k-short">简写</span></div><p class="mean">提出任务（→ T04-U03）</p><ul class="rel"></ul></article></div><div class="cluster"><h3>进行、收集与测量</h3><article class="card"><div class="head"><span class="hw">проводи́ть / провести́</span><span class="pt">按义项体对应</span></div><p class="mean">① 进行（研究、实验）② 举行 ③ 度过</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">провести исследование / эксперимент / опрос</span></li><li><i class="tag t-deriv">派</i><span class="ru">проведе́ние</span></li><li><i class="tag t-trap">⚠</i><span>与 провожать 的完成体 проводить 同形</span></li><li><i class="tag t-acad">学</i><span class="ru">провести исследование</span></li></ul><p class="ex"><span class="ru">Исследование проводилось в 2023–2024 годах.</span><span class="zh">研究于 2023—2024 年进行。</span></p></article><article class="card"><div class="head"><span class="hw">иссле́довать</span><span class="pt">两体</span><span class="kind k-new">表外补充</span></div><p class="mean">研究</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">исследовать процесс / влияние</span></li><li><i class="tag t-deriv">派</i><span class="ru">иссле́дование, иссле́дователь</span></li><li><i class="tag t-trap">⚠</i><span>两体动词</span></li><li><i class="tag t-acad">学</i><span class="ru">В работе исследуется…</span></li></ul><p class="ex"><span class="ru">В работе исследуется влияние X на Y.</span><span class="zh">本文研究 X 对 Y 的影响。</span></p></article><article class="card"><div class="head"><span class="hw">измеря́ть / изме́рить</span><span class="pt">严格体对应</span></div><p class="mean">测量</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">измерить температуру</span></li><li><i class="tag t-deriv">派</i><span class="ru">измере́ние</span></li><li><i class="tag t-acad">学</i><span class="ru">измерять параметры</span></li></ul><p class="ex"><span class="ru">Параметры измерялись три раза.</span><span class="zh">参数测了三次。</span></p></article><article class="card"><div class="head"><span class="hw">обраба́тывать / обрабо́тать</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">处理（数据）；加工</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">обработать данные</span></li><li><i class="tag t-deriv">派</i><span class="ru">обрабо́тка</span></li><li><i class="tag t-acad">学</i><span class="ru">обработка данных</span></li></ul><p class="ex"><span class="ru">Данные обрабатывались в программе R.</span><span class="zh">数据用 R 软件处理。</span></p></article><article class="card new"><div class="head"><span class="hw">вычисля́ть / вы́числить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">计算</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article><article class="card short"><div class="head"><span class="hw">собира́ть / собра́ть да́нные</span><span class="pt">严格体对应</span><span class="kind k-short">简写</span></div><p class="mean">收集数据（→ T07）</p><ul class="rel"></ul></article></div><div class="cluster"><h3>分析与比较</h3><article class="card"><div class="head"><span class="hw">анализи́ровать / проанализи́ровать</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">分析</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">проанализировать данные</span></li><li><i class="tag t-deriv">派</i><span class="ru">ана́лиз</span></li></ul><p class="ex"><span class="ru">Мы проанализировали 120 интервью.</span><span class="zh">我们分析了 120 份访谈。</span></p></article><article class="card"><div class="head"><span class="hw">сра́внивать / сравни́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">比较</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? с чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">сравнить результаты с данными…</span></li><li><i class="tag t-deriv">派</i><span class="ru">сравне́ние</span></li><li><i class="tag t-trap">⚠</i><span>A 与 B 比：сравнить A с B</span></li><li><i class="tag t-acad">学</i><span class="ru">по сравнению с…</span></li></ul><p class="ex"><span class="ru">Мы сравнили результаты с данными предыдущих исследований.</span><span class="zh">我们把结果与以往研究的数据作了比较。</span></p></article><article class="card"><div class="head"><span class="hw">сопоставля́ть / сопоста́вить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">对比（书面）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? с чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">сопоставить две выборки</span></li><li><i class="tag t-deriv">派</i><span class="ru">сопоставле́ние, сопостави́тельный</span></li><li><i class="tag t-acad">学</i><span class="ru">сопоставительный анализ</span></li></ul><p class="ex"><span class="ru">Проведён сопоставительный анализ двух групп.</span><span class="zh">对两组进行了对比分析。</span></p></article><article class="card new"><div class="head"><span class="hw">рассма́тривать / рассмотре́ть</span><span class="pt">按义项体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">探讨、审议（→ T01-U06）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div><div class="cluster"><h3>发现与确定</h3><article class="card"><div class="head"><span class="hw">выявля́ть / вы́явить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">揭示、发现（原本不明显的）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">выявить закономерность / различия</span></li><li><i class="tag t-deriv">派</i><span class="ru">выявле́ние</span></li><li><i class="tag t-acad">学</i><span class="ru">Было выявлено, что…</span></li></ul><p class="ex"><span class="ru">Были выявлены значимые различия между группами.</span><span class="zh">发现了组间的显著差异。</span></p></article><article class="card"><div class="head"><span class="hw">устана́вливать / установи́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 确定、查明 ② 安装 ③ 建立（联系）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">установить закономерность / причину; установить связь</span></li><li><i class="tag t-deriv">派</i><span class="ru">устано́вка</span></li><li><i class="tag t-acad">学</i><span class="ru">Было установлено, что…</span></li></ul><p class="ex"><span class="ru">Было установлено, что эффект временный.</span><span class="zh">已确定该效应是暂时的。</span></p></article><article class="card"><div class="head"><span class="hw">определя́ть / определи́ть</span><span class="pt">按义项体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">① 确定、测定 ② 下定义</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">определить параметры / уровень</span></li><li><i class="tag t-deriv">派</i><span class="ru">определе́ние</span></li></ul><p class="ex"><span class="ru">Необходимо определить оптимальный объём выборки.</span><span class="zh">需要确定最佳样本量。</span></p></article><article class="card"><div class="head"><span class="hw">обнару́живать / обнару́жить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">发现（书面）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">обнаружить ошибку / зависимость</span></li><li><i class="tag t-deriv">派</i><span class="ru">обнаруже́ние</span></li></ul><p class="ex"><span class="ru">В данных обнаружены выбросы.</span><span class="zh">数据中发现了异常值。</span></p></article></div><div class="cluster"><h3>检验、评估、考虑与排除</h3><article class="card"><div class="head"><span class="hw">испы́тывать / испыта́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 测试、试验 ② 感受到</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">испытать прибор; испытывать трудности</span></li><li><i class="tag t-deriv">派</i><span class="ru">испыта́ние</span></li></ul><p class="ex"><span class="ru">Мы испытывали трудности со сбором данных.</span><span class="zh">我们在收集数据时遇到了困难。</span></p></article><article class="card short"><div class="head"><span class="hw">проверя́ть / прове́рить</span><span class="pt">严格体对应</span><span class="kind k-short">简写</span></div><p class="mean">检查；验证（гипотезу）→ T02</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article><article class="card"><div class="head"><span class="hw">оце́нивать / оцени́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">评估、评价</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? как?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">оценить эффективность / риск</span></li><li><i class="tag t-deriv">派</i><span class="ru">оце́нка</span></li></ul><p class="ex"><span class="ru">Была проведена оценка эффективности метода.</span><span class="zh">对方法的有效性进行了评估。</span></p></article><article class="card"><div class="head"><span class="hw">учи́тывать / уче́сть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">考虑到</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?（四格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">учитывать фактор</span></li><li><i class="tag t-deriv">派</i><span class="ru">учёт（с учётом чего）</span></li><li><i class="tag t-trap">⚠</i><span>接四格：✗ учесть о…</span></li><li><i class="tag t-acad">学</i><span class="ru">с учётом…</span></li></ul><p class="ex"><span class="ru">Мы учли влияние сезона.</span><span class="zh">我们考虑了季节的影响。</span></p></article><article class="card"><div class="head"><span class="hw">исключа́ть / исключи́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 排除 ② 开除</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · кого́? из чего́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">исключить возможность</span></li><li><i class="tag t-deriv">派</i><span class="ru">исключе́ние（例外）</span></li><li><i class="tag t-acad">学</i><span class="ru">не исключать возможности</span></li></ul><p class="ex"><span class="ru">Нельзя исключать влияние внешних факторов.</span><span class="zh">不能排除外部因素的影响。</span></p></article></div><div class="cluster"><h3>应用</h3><article class="card"><div class="head"><span class="hw">применя́ть / примени́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">应用（方法、模型）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? к чему́? · где?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">применить метод к данным</span></li><li><i class="tag t-deriv">派</i><span class="ru">примене́ние</span></li></ul><p class="ex"><span class="ru">Метод можно применить и к другим языкам.</span><span class="zh">这种方法也可以用于其他语言。</span></p></article><article class="card short"><div class="head"><span class="hw">испо́льзовать</span><span class="pt">两体</span><span class="kind k-short">简写</span></div><p class="mean">使用（→ T07）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T04-U04.html">完成任务</a></span><span class="zh">осуществить анализ</span></div><div class="x"><span class="hw"><a href="https://claude.ai/artifact/6A9BACCUy994KKQfobhtct">证据强度</a></span><span class="zh">结果说到几分</span></div><div class="x"><span class="hw"><a href="T02.html">изучать / проверять</a></span><span class="zh">学习、验证（T02）</span></div><div class="x"><span class="hw"><a href="T05-U01.html">出现与发生</a></span><span class="zh">наблюдается рост</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">иссле́довать / изуча́ть / анализи́ровать</td><td>研究（较正式）/ 研究、学习 / 分析（拆开看）</td><td class="ru">исследовать процесс · изучать влияние · анализировать данные</td></tr><tr><td class="hw">сравни́ть / сопоста́вить</td><td>比较（中性）/ 对比（书面，常用于方法名）</td><td class="ru">сравнить результаты · сопоставительный анализ</td></tr><tr><td class="hw">вы́явить / установи́ть / определи́ть / обнару́жить</td><td>揭示出（原本不明显的）/ 确定、查明 / 确定、测定（数值）/ 发现（存在）</td><td class="ru">выявить различия · установить причину · определить уровень · обнаружить ошибку</td></tr><tr><td class="hw">допусти́ть / предположи́ть</td><td>（为推理）假设 / 推测</td><td class="ru">Допустим, что x &gt; 0 · Можно предположить, что…</td></tr><tr><td class="hw">примени́ть / испо́льзовать</td><td>应用（方法到对象上）/ 使用（工具、数据）</td><td class="ru">применить метод к данным · использовать программу</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>支配</h3><div class="pair"><span class="bad ru">сравнить A и B（想说“把 A 与 B 比较”）</span><span class="good ru">сравнить A с B（五格）</span></div><div class="pair"><span class="bad ru">учесть о факторе</span><span class="good ru">учесть фактор（四格）</span></div></div><div class="trapbox"><h3>结构</h3><div class="pair"><span class="bad ru">установили о том, что…</span><span class="good ru">установили, что…</span></div></div><div class="trapbox"><h3>同形</h3><div class="pair"><span class="bad ru">проводить（送行）与 проводить（进行）不分</span><span class="good ru">провести исследование / проводить гостя</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">допуска́ть / допусти́ть</td><td class="ru">что? · , что…</td></tr><tr><td class="hw">предполага́ть / предположи́ть</td><td class="ru">, что…</td></tr><tr><td class="hw">проводи́ть / провести́</td><td class="ru">что?</td></tr><tr><td class="hw">иссле́довать</td><td class="ru">что?</td></tr><tr><td class="hw">измеря́ть / изме́рить</td><td class="ru">что? чем?</td></tr><tr><td class="hw">обраба́тывать / обрабо́тать</td><td class="ru">что?</td></tr><tr><td class="hw">вычисля́ть / вы́числить</td><td class="ru">что?</td></tr><tr><td class="hw">анализи́ровать / проанализи́ровать</td><td class="ru">что?</td></tr><tr><td class="hw">сра́внивать / сравни́ть</td><td class="ru">что? с чем?</td></tr><tr><td class="hw">сопоставля́ть / сопоста́вить</td><td class="ru">что? с чем?</td></tr><tr><td class="hw">рассма́тривать / рассмотре́ть</td><td class="ru">что?</td></tr><tr><td class="hw">выявля́ть / вы́явить</td><td class="ru">что?</td></tr><tr><td class="hw">устана́вливать / установи́ть</td><td class="ru">что? · , что…</td></tr><tr><td class="hw">определя́ть / определи́ть</td><td class="ru">что?</td></tr><tr><td class="hw">обнару́живать / обнару́жить</td><td class="ru">что?</td></tr><tr><td class="hw">испы́тывать / испыта́ть</td><td class="ru">что?</td></tr><tr><td class="hw">проверя́ть / прове́рить</td><td class="ru">что?</td></tr><tr><td class="hw">оце́нивать / оцени́ть</td><td class="ru">что? как?</td></tr><tr><td class="hw">учи́тывать / уче́сть</td><td class="ru">что?（四格）</td></tr><tr><td class="hw">исключа́ть / исключи́ть</td><td class="ru">что? · кого́? из чего́?</td></tr><tr><td class="hw">применя́ть / примени́ть</td><td class="ru">что? к чему́? · где?</td></tr><tr><td class="hw">испо́льзовать</td><td class="ru">что?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>书面 / 学术</th></tr></thead><tbody><tr><td class="zh">进行</td><td class="ru">Мы тут померили…</td><td class="ru">Мы провели измерения.</td><td class="ru">Было проведено исследование…</td></tr><tr><td class="zh">比较</td><td class="ru">Сравним.</td><td class="ru">Мы сравнили результаты.</td><td class="ru">Проведён сопоставительный анализ…</td></tr><tr><td class="zh">发现</td><td class="ru">Нашли, что…</td><td class="ru">Мы выяснили, что…</td><td class="ru">Было установлено / выявлено, что…</td></tr><tr><td class="zh">考虑</td><td class="ru">Учли.</td><td class="ru">Мы учли этот фактор.</td><td class="ru">С учётом данного фактора…</td></tr><tr><td class="zh">评估</td><td class="ru">Вроде нормально.</td><td class="ru">Мы оценили эффективность.</td><td class="ru">Проведена оценка эффективности…</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">进行研究</span><span class="arr">→</span><span class="q ru" tabindex="0">провести исследование</span></div><div class="iv"><span class="zh">本文研究……</span><span class="arr">→</span><span class="q ru" tabindex="0">В работе исследуется…</span></div><div class="iv"><span class="zh">测量参数</span><span class="arr">→</span><span class="q ru" tabindex="0">измерять параметры</span></div><div class="iv"><span class="zh">处理数据</span><span class="arr">→</span><span class="q ru" tabindex="0">обработать данные</span></div><div class="iv"><span class="zh">假设……</span><span class="arr">→</span><span class="q ru" tabindex="0">Допустим, что…</span></div><div class="iv"><span class="zh">与……比较</span><span class="arr">→</span><span class="q ru" tabindex="0">сравнить с чем</span></div><div class="iv"><span class="zh">对比分析</span><span class="arr">→</span><span class="q ru" tabindex="0">сопоставительный анализ</span></div><div class="iv"><span class="zh">发现差异</span><span class="arr">→</span><span class="q ru" tabindex="0">выявить различия</span></div><div class="iv"><span class="zh">已确定……</span><span class="arr">→</span><span class="q ru" tabindex="0">Было установлено, что…</span></div><div class="iv"><span class="zh">考虑到</span><span class="arr">→</span><span class="q ru" tabindex="0">учитывать / с учётом…</span></div><div class="iv"><span class="zh">不能排除</span><span class="arr">→</span><span class="q ru" tabindex="0">нельзя исключать</span></div><div class="iv"><span class="zh">评估有效性</span><span class="arr">→</span><span class="q ru" tabindex="0">оценить эффективность</span></div><div class="iv"><span class="zh">把方法用于</span><span class="arr">→</span><span class="q ru" tabindex="0">применить метод к…</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">研究于 2024 年进行。</span><span class="q ru" tabindex="0">Исследование проводилось в 2024 году.</span></div><div class="dr"><span class="zh">发现了组间的显著差异。</span><span class="q ru" tabindex="0">Были выявлены значимые различия между группами.</span></div><div class="dr"><span class="zh">我们把结果与以往研究的数据作了比较。</span><span class="q ru" tabindex="0">Мы сравнили результаты с данными предыдущих исследований.</span></div><div class="dr"><span class="zh">不能排除季节因素的影响。</span><span class="q ru" tabindex="0">Нельзя исключать влияние сезонного фактора.</span></div><div class="dr"><span class="zh">数据用 R 软件处理。</span><span class="q ru" tabindex="0">Данные обрабатывались в программе R.</span></div><div class="dr"><span class="zh">这种方法也可以用于其他语言。</span><span class="q ru" tabindex="0">Метод можно применить и к другим языкам.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>
