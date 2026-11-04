@@ -1,0 +1,306 @@
+<title>证据强度单元图</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.axis{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.lvl{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:6px;padding:10px 11px;display:grid;gap:6px;align-content:start;min-width:0}
+.lvl h3{font-family:var(--f-zh);font-size:14px;color:var(--c)}
+.meter{display:flex;gap:3px}.meter i{width:14px;height:6px;border-radius:2px;background:var(--line)}.meter i.on{background:var(--c)}
+.lvl .use{font-size:12px;color:var(--muted)}
+.cons{display:grid;gap:5px;font-size:13px}.cons li{font-family:var(--f-ru);border-left:2px solid var(--line);padding-left:7px}
+.strip{display:grid;gap:6px;background:var(--soft);border-radius:6px;padding:10px 12px;margin-top:12px}
+.strip h3{font-family:var(--f-zh);font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.strip ul{display:flex;flex-wrap:wrap;gap:6px 8px}.strip li{font-family:var(--f-ru);font-size:13px;background:var(--sheet);border:1px solid var(--line);border-radius:4px;padding:3px 8px}
+.proc{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;font-size:12.5px;margin-bottom:12px}
+.proc span.p{border:1px solid var(--line);border-radius:4px;padding:3px 8px;font-family:var(--f-zh)}
+.proc span.p.me{border-color:var(--aspect);color:var(--aspect);font-weight:700}
+.proc .arr{color:var(--muted)}
+.proc .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--muted);width:100%}
+.flow{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.stepc{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;align-content:start;min-width:0}
+.stepc h3{font-family:var(--f-zh);font-size:14px}
+.stepc .use{font-size:12px;color:var(--muted)}
+.anote{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.x .hw{white-space:normal}
+@media (min-width:900px){.axis{grid-template-columns:repeat(3,1fr)}}
+@media print{.axis{grid-template-columns:repeat(6,1fr)}.flow{grid-template-columns:repeat(5,1fr)}}
+</style>
+<div class="wrap">
+<header class="top">
+  <h1 class="ru">«Данные свидетельствуют…»<small>学术论证与答辩互动 · 单元图 T11-U01 · 证据与结论的强度表达（P2 样板）</small></h1>
+  <p class="meta"><b>单元类型：</b>构式型，没有单一核心动词，按“确定程度”从强到弱排列。<b>要解决的问题：</b>写论文、答辩时，结论说得太满或太虚。说太满会被评委抓住；说太虚又像没有结论。</p>
+  <div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div>
+</header>
+<div class="legend"><span><i class="tag t-trap">⚠</i>容易出错</span><span><i class="tag t-cross">跨</i>跨单元链接</span><span><i class="tag t-acad">学</i>学术、答辩用法</span><span>格的缩写：<b class="case">Д</b>三格 <b class="case">В</b>四格 <b class="case">Т</b>五格 <b class="case">П</b>六格 <b class="case">Р</b>二格</span><span>核验状态：除特别说明外均为“待核实”</span></div>
+<section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>确定程度轴</h2>
+<p class="anote">从左到右，断言的强度递减。强度排序是教学推论（参照学术写作中 hedges / boosters 的区分），不是词典规定。</p>
+<div class="axis">
+<article class="lvl" style="--c:var(--ink)"><div class="meter" aria-label="强度 6/6"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div><h3>① 已确立</h3><p class="use">只用于有充分证据或学界公认的结论</p><ul class="cons"><li>Установлено, что…</li><li>Результаты подтвердили гипотезу о том, что…</li><li>Доказано, что…  ⚠ 经验研究慎用</li></ul></article>
+<article class="lvl" style="--c:var(--aspect)"><div class="meter" aria-label="强度 5/6"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div><h3>② 明确表明</h3><p class="use">论文结论的默认强度</p><ul class="cons"><li>Полученные данные свидетельствуют о том, что…</li><li>Результаты показали, что…</li><li>Анализ позволяет сделать вывод о том, что…</li></ul></article>
+<article class="lvl" style="--c:var(--deriv)"><div class="meter" aria-label="强度 4/6"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div><h3>③ 指向 / 一致</h3><p class="use">证据支持，但不是直接证明</p><ul class="cons"><li>Данные указывают на то, что…</li><li>Эти результаты согласуются с данными (кого)…</li><li>Это соответствует предположению о том, что…</li></ul></article>
+<article class="lvl" style="--c:var(--cross)"><div class="meter" aria-label="强度 3/6"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><h3>④ 推测</h3><p class="use">提出解释或可能性</p><ul class="cons"><li>Можно предположить, что…</li><li>Это позволяет предположить, что…</li><li>По-видимому, … / Вероятно, …</li><li>Есть основания полагать, что…</li></ul></article>
+<article class="lvl" style="--c:var(--muted)"><div class="meter" aria-label="强度 2/6"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div><h3>⑤ 证据不足</h3><p class="use">承认局限，留出后续研究</p><ul class="cons"><li>Имеющихся данных недостаточно для того, чтобы утверждать, что…</li><li>Пока нельзя сделать однозначный вывод о…</li><li>Вопрос остаётся открытым.</li><li>…требует дальнейшего изучения.</li></ul></article>
+<article class="lvl" style="--c:var(--trap)"><div class="meter" aria-label="强度 1/6"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div><h3>⑥ 阻止不当推论</h3><p class="use">防止别人（或自己）推得过远</p><ul class="cons"><li>Из этого не следует, что…</li><li>Это не означает, что…</li><li>Полученные данные не дают оснований утверждать, что…</li></ul></article>
+</div>
+<div class="strip"><h3>限定范围（可加在任何一级上）</h3><ul><li>в рамках данного исследования</li><li>применительно к + 三格</li><li>по крайней мере для данной выборки</li><li>при условии, что…</li><li>с известной долей осторожности</li></ul></div>
+<div class="strip"><h3>作者立场（论文用“мы”或无人称，答辩口头可用“я”）</h3><ul><li>Мы полагаем, что…</li><li>Нам представляется, что…</li><li>Представляется, что…</li><li>На мой взгляд, …（口头）</li></ul></div>
+</section>
+<div class="row2">
+<section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>相关单元与词 <em>只写一行，展开见对应单元</em></h2><div class="xlist">
+<div class="x"><span class="hw">объясня́ть · дока́зывать · пока́зывать</span><span class="zh">解释、证明、展示</span><span class="ref">→ T01-U04</span></div>
+<div class="x"><span class="hw">влия́ть · вызыва́ть · приводи́ть к</span><span class="zh">因果与影响</span><span class="ref">→ T05-U04</span></div>
+<div class="x"><span class="hw">ду́мать · счита́ть · представля́ть</span><span class="zh">思考与看法</span><span class="ref">→ T02-U01</span></div>
+<div class="x"><span class="hw">зави́сеть · отлича́ться · относи́ться</span><span class="zh">关系与依存</span><span class="ref">→ T05-U02</span></div>
+<div class="x"><span class="hw">回应提问、质疑与异议</span><span class="zh">答辩中用上这些强度</span><span class="ref">→ T11-U02</span></div>
+<div class="x"><span class="hw">论证结构动作</span><span class="zh">问题 → 方法 → 结果 → 局限</span><span class="ref">→ T11-U04</span></div>
+<div class="x"><span class="hw">свиде́тельствовать</span><span class="zh">表明（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">подтвержда́ть / подтверди́ть</span><span class="zh">证实（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">ука́зывать / указа́ть на</span><span class="zh">指向（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">предполага́ть / предположи́ть</span><span class="zh">推测（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">противоре́чить</span><span class="zh">与…矛盾（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">сле́довать из</span><span class="zh">由…推出（书中词表未收）</span><span class="ref">新</span></div>
+</div></section>
+<section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody>
+<tr><td class="hw">доказа́ть / подтверди́ть / показа́ть</td><td>严格证明（数学、逻辑）/ 证实已有假设 / 结果展示出某事。经验研究里说“доказали”往往过强。</td><td class="ru">✓ Результаты подтвердили гипотезу. ⚠ Мы доказали, что метод лучше всех существующих.</td></tr>
+<tr><td class="hw">свиде́тельствовать о / ука́зывать на / говори́ть о том, что</td><td>书面，证据指向结论 / 指出迹象、趋势 / 较口语，答辩口头可用</td><td class="ru">Рост показателя указывает на тенденцию к снижению затрат.</td></tr>
+<tr><td class="hw">предположи́ть / полага́ть / счита́ть / «Счита́ется, что…»</td><td>提出推测 / 认为（书面，作者立场）/ 认为（中性）/ 普遍认为（把观点归于学界）</td><td class="ru">Считается, что этот фактор незначим; однако наши данные показывают обратное.</td></tr>
+<tr><td class="hw">вероя́тно / возмо́жно / по-ви́димому</td><td>比较可能 / 有可能（更弱）/ 从迹象看来</td><td class="ru">По-видимому, эффект носит временный характер.</td></tr>
+<tr><td class="hw">Из э́того не сле́дует / Э́то не означа́ет</td><td>逻辑上推不出 / 意思上不等于</td><td class="ru">Это не означает, что метод неприменим; из этого лишь следует, что…</td></tr>
+<tr><td class="hw">сле́дует（应当）/ сле́дует（推出）</td><td>Сле́дует отме́тить, что…（应当指出）/ Из э́того сле́дует, что…（由此可得）</td><td class="ru">Следует отметить, что из этого не следует…（两个义项同句出现）</td></tr>
+</tbody></table></div></section>
+</div>
+<section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps">
+<div class="trapbox"><h3>① 说得太满</h3><div class="pair"><span class="bad">Мы доказали, что…（统计结果）</span><span class="good">Результаты подтверждают / позволяют предположить, что…</span></div><div class="pair"><span class="bad">Очевидно, что…（证据其实有限）</span><span class="good">Можно предположить, что…</span></div></div>
+<div class="trapbox"><h3>② 支配错误</h3><div class="pair"><span class="bad">свидетельствует, что…</span><span class="good">свидетельствует о том, что…</span></div><div class="pair"><span class="bad">указывает о…</span><span class="good">указывает на…</span></div><div class="pair"><span class="bad">противоречит с…</span><span class="good">противоречит + 三格</span></div><div class="pair"><span class="bad">согласуется к…</span><span class="good">согласуется с + 五格</span></div></div>
+<div class="trapbox"><h3>③ 词形与多义</h3><div class="pair"><span class="bad">засвидетельствовать = 表明 的完成体</span><span class="good">表明义只有 свидетельствовать；засвидетельствовать = 见证、（公证）证明</span></div><div class="pair"><span class="bad">显著（统计）→ значительно</span><span class="good">统计上显著 = статистически значимо；значительно 只是“明显、大幅”</span></div></div>
+<div class="trapbox"><h3>④ 中文直译</h3><div class="pair"><span class="bad">我认为……（论文里）Я думаю, что…</span><span class="good">Полагаем / Нам представляется, что…</span></div><div class="pair"><span class="bad">这说明…… Это говорит, что…</span><span class="good">Это говорит о том, что… / свидетельствует о том, что…</span></div><div class="pair"><span class="bad">可以看出…… Можно увидеть, что…（不地道）</span><span class="good">Как видно из таблицы 2, … / Из таблицы видно, что…</span></div></div>
+</div></section>
+<div class="row2">
+<section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配与构式槽位</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配 / 槽位</th><th>说明</th></tr></thead><tbody>
+<tr><td class="hw">свиде́тельствовать</td><td class="ru">о чём<b class='case'>П</b> · о том, что…</td><td>表明义只有 НСВ</td></tr>
+<tr><td class="hw">ука́зывать / указа́ть</td><td class="ru">на что<b class='case'>В</b> · на то, что…</td><td></td></tr>
+<tr><td class="hw">подтвержда́ть / подтверди́ть</td><td class="ru">что<b class='case'>В</b>：гипотезу, вывод</td><td></td></tr>
+<tr><td class="hw">согласу́ется</td><td class="ru">с чем<b class='case'>Т</b></td><td>常用现在时第三人称</td></tr>
+<tr><td class="hw">противоре́чить</td><td class="ru">чему<b class='case'>Д</b></td><td>不加 с</td></tr>
+<tr><td class="hw">соотве́тствовать</td><td class="ru">чему<b class='case'>Д</b></td><td></td></tr>
+<tr><td class="hw">сле́довать</td><td class="ru">из чего<b class='case'>Р</b> · , что…</td><td>Из этого следует, что…</td></tr>
+<tr><td class="hw">позволя́ть / позво́лить</td><td class="ru">+ 不定式：предположить, сделать вывод о<b class='case'>П</b></td><td></td></tr>
+<tr><td class="hw">объясня́ться</td><td class="ru">тем, что…<b class='case'>Т</b></td><td>Это объясняется тем, что…</td></tr>
+<tr><td class="hw">быть обусло́вленным</td><td class="ru">чем<b class='case'>Т</b> · тем, что…</td><td>обусловлено тем, что…</td></tr>
+<tr><td class="hw">исходи́ть</td><td class="ru">из того, что…<b class='case'>Р</b></td><td>说明前提</td></tr>
+</tbody></table></div></section>
+<section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>日常 / 口头讨论</th><th>答辩口头</th><th>论文书面</th></tr></thead><tbody>
+<tr><td class="zh">下结论</td><td class="ru">То есть получается, что…</td><td class="ru">Таким образом, мы видим, что…</td><td class="ru">Таким образом, полученные результаты свидетельствуют о том, что…</td></tr>
+<tr><td class="zh">推测</td><td class="ru">Скорее всего, …</td><td class="ru">Я бы предположил(а), что…</td><td class="ru">Можно предположить, что… / По-видимому, …</td></tr>
+<tr><td class="zh">证据不足</td><td class="ru">Пока непонятно.</td><td class="ru">Пока рано говорить о…</td><td class="ru">Имеющихся данных недостаточно, чтобы утверждать…</td></tr>
+<tr><td class="zh">阻止推论</td><td class="ru">Это ещё не значит, что…</td><td class="ru">Это не означает, что…</td><td class="ru">Из этого не следует, что…</td></tr>
+<tr><td class="zh">作者立场</td><td class="ru">Я думаю, …</td><td class="ru">На мой взгляд, …</td><td class="ru">Мы полагаем / Представляется, что…</td></tr>
+</tbody></table></div></section>
+</div>
+<div class="row2">
+<section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>打开自测模式后，点击俄语查看答案</em></h2><div class="intent">
+<div class="iv"><span class="zh">结果证实了假设</span><span class="arr">→</span><span class="q ru" tabindex="0">Результаты подтвердили гипотезу.</span></div>
+<div class="iv"><span class="zh">数据明确表明</span><span class="arr">→</span><span class="q ru" tabindex="0">Данные свидетельствуют о том, что…</span></div>
+<div class="iv"><span class="zh">数据指向某种趋势</span><span class="arr">→</span><span class="q ru" tabindex="0">указывают на тенденцию к…</span></div>
+<div class="iv"><span class="zh">与前人结果一致</span><span class="arr">→</span><span class="q ru" tabindex="0">согласуются с результатами (кого)…</span></div>
+<div class="iv"><span class="zh">与前人结论矛盾</span><span class="arr">→</span><span class="q ru" tabindex="0">противоречат выводам (кого)…</span></div>
+<div class="iv"><span class="zh">我推测</span><span class="arr">→</span><span class="q ru" tabindex="0">Можно предположить, что… / По-видимому, …</span></div>
+<div class="iv"><span class="zh">数据还不够下结论</span><span class="arr">→</span><span class="q ru" tabindex="0">Имеющихся данных недостаточно…</span></div>
+<div class="iv"><span class="zh">这并不意味着</span><span class="arr">→</span><span class="q ru" tabindex="0">Это не означает, что…</span></div>
+<div class="iv"><span class="zh">由此推不出</span><span class="arr">→</span><span class="q ru" tabindex="0">Из этого не следует, что…</span></div>
+<div class="iv"><span class="zh">如表 2 所示</span><span class="arr">→</span><span class="q ru" tabindex="0">Как видно из таблицы 2, …</span></div>
+<div class="iv"><span class="zh">需要进一步研究</span><span class="arr">→</span><span class="q ru" tabindex="0">…требует дальнейшего изучения.</span></div>
+<div class="iv"><span class="zh">这是由于……</span><span class="arr">→</span><span class="q ru" tabindex="0">Это объясняется тем, что…</span></div>
+</div></section>
+<section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先自己说或写，再看答案；“口头即时”请计时并录音</em></h2><div class="drill">
+<div class="dr"><span class="zh">所得结果证实了第一个假设，但没有证实第二个。</span><span class="q ru" tabindex="0">Полученные результаты подтвердили первую гипотезу, но не подтвердили вторую.</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">这些数据与伊万诺夫（2019）的结果一致。</span><span class="q ru" tabindex="0">Эти данные согласуются с результатами Иванова (2019).</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">可以推测，这种效应与样本的年龄结构有关。</span><span class="q ru" tabindex="0">Можно предположить, что этот эффект связан с возрастной структурой выборки.</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">现有数据还不足以断言两者之间存在因果关系。</span><span class="q ru" tabindex="0">Имеющихся данных недостаточно для того, чтобы утверждать, что между ними существует причинно-следственная связь.</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">由此并不能得出该方法不适用的结论。</span><span class="q ru" tabindex="0">Из этого не следует, что метод неприменим.</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">如表 3 所示，该指标在第二阶段（统计上）显著下降。</span><span class="q ru" tabindex="0">Как видно из таблицы 3, на втором этапе показатель статистически значимо снизился.</span><span class="hint">中→俄笔头；“显著”在统计意义上是 статистически значимо</span></div>
+<div class="dr"><span class="zh">把这句改得不那么绝对：«Мы доказали, что метод эффективен.»</span><span class="q ru" tabindex="0">Результаты подтверждают эффективность метода. / Полученные данные свидетельствуют об эффективности метода.</span><span class="hint">替换判断</span></div>
+<div class="dr"><span class="zh">评委问：«Можно ли утверждать, что метод универсален?» 30 秒口头回答：不能，只适用于本研究条件。</span><span class="q ru" tabindex="0">Нет, этого утверждать нельзя. Полученные результаты относятся только к условиям данного исследования; для других условий требуется дополнительная проверка.</span><span class="hint">口头即时；建议录音后对照</span></div>
+</div></section>
+</div>
+<footer class="foot"><p>强度分级参照学术写作研究中 hedges（弱化）与 boosters（强化）的区分：Hyland, K. (1998). Boosting, hedging and the negotiation of academic knowledge. TEXT 18(3)。具体分级和排序是教学推论。</p><p>俄语科学语体：作者常用“мы”代替“я”，或用无人称结构；вероятно、по всей видимости、как нам кажется 等是表达“достоверность”的常用手段（据俄罗斯高校科学语体教学材料）。</p><p>支配和词形（свидетельствовать о、указывать на、противоречить чему 等）属于常规词典信息，本单元尚未逐条对照 Грамота.ру 或 НКРЯ，状态为“待核实”。</p><p>本页由 tools/build_p2.py 从数据生成，数据同时写入 P2_样板单元数据.xlsx；修改内容请改数据再重新生成，不要直接改 HTML。打印按 A3 横向排版。</p></footer>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>

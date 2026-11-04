@@ -1,0 +1,309 @@
+<title>答辩回应单元图</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.axis{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.lvl{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:6px;padding:10px 11px;display:grid;gap:6px;align-content:start;min-width:0}
+.lvl h3{font-family:var(--f-zh);font-size:14px;color:var(--c)}
+.meter{display:flex;gap:3px}.meter i{width:14px;height:6px;border-radius:2px;background:var(--line)}.meter i.on{background:var(--c)}
+.lvl .use{font-size:12px;color:var(--muted)}
+.cons{display:grid;gap:5px;font-size:13px}.cons li{font-family:var(--f-ru);border-left:2px solid var(--line);padding-left:7px}
+.strip{display:grid;gap:6px;background:var(--soft);border-radius:6px;padding:10px 12px;margin-top:12px}
+.strip h3{font-family:var(--f-zh);font-size:12.5px;color:var(--muted);letter-spacing:.04em}
+.strip ul{display:flex;flex-wrap:wrap;gap:6px 8px}.strip li{font-family:var(--f-ru);font-size:13px;background:var(--sheet);border:1px solid var(--line);border-radius:4px;padding:3px 8px}
+.proc{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;font-size:12.5px;margin-bottom:12px}
+.proc span.p{border:1px solid var(--line);border-radius:4px;padding:3px 8px;font-family:var(--f-zh)}
+.proc span.p.me{border-color:var(--aspect);color:var(--aspect);font-weight:700}
+.proc .arr{color:var(--muted)}
+.proc .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--muted);width:100%}
+.flow{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.stepc{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;align-content:start;min-width:0}
+.stepc h3{font-family:var(--f-zh);font-size:14px}
+.stepc .use{font-size:12px;color:var(--muted)}
+.anote{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.x .hw{white-space:normal}
+@media (min-width:900px){.axis{grid-template-columns:repeat(3,1fr)}}
+@media print{.axis{grid-template-columns:repeat(6,1fr)}.flow{grid-template-columns:repeat(5,1fr)}}
+</style>
+<div class="wrap">
+<header class="top">
+  <h1 class="ru">«Спасибо за вопрос…»<small>学术论证与答辩互动 · 单元图 T11-U02 · 回应提问、质疑与异议（P2 样板）</small></h1>
+  <p class="meta"><b>单元类型：</b>构式型，按答辩回应的先后顺序组织（见方法表 M10）。<b>要解决的问题：</b>答辩时能接住问题、给出依据、合理让步或礼貌地坚持，不显得生硬，也不过度认错。</p>
+  <div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div>
+</header>
+<div class="legend"><span><i class="tag t-trap">⚠</i>容易出错</span><span><i class="tag t-cross">跨</i>跨单元链接</span><span><i class="tag t-acad">学</i>学术、答辩用法</span><span>格的缩写：<b class="case">Д</b>三格 <b class="case">В</b>四格 <b class="case">Т</b>五格 <b class="case">П</b>六格 <b class="case">Р</b>二格</span><span>核验状态：除特别说明外均为“待核实”</span></div>
+<section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>回答一个问题的步骤</h2>
+<div class="proc"><span class="lab">答辩流程（据公开的答辩会议记录整理，具体以本委员会规程为准）</span><span class="p">申请人报告</span><span class="arr">→</span><span class="p me">委员提问与回答</span><span class="arr">→</span><span class="p">导师发言</span><span class="arr">→</span><span class="p">宣读评价意见 · 官方评阅人发言</span><span class="arr">→</span><span class="p me">回应各项意见</span><span class="arr">→</span><span class="p">讨论</span><span class="arr">→</span><span class="p me">结束语</span><span class="arr">→</span><span class="p">无记名投票</span></div>
+<p class="anote">编号表示常见的先后顺序；不是每个问题都要走完全部步骤。② 只在没听清或不确定时用。</p>
+<div class="flow">
+<article class="stepc"><h3>① 接住、致谢</h3><ul class="cons"><li>Спасибо за вопрос.</li><li>Благодарю за вопрос.</li><li>Это важный вопрос.</li></ul><p class="use">同一句不要每次都用</p></article>
+<article class="stepc"><h3>② 确认问题</h3><ul class="cons"><li>Если я правильно понял(а), вас интересует…</li><li>Вы имеете в виду…?</li></ul><p class="use">详见 T11-U03 互动修复</p></article>
+<article class="stepc"><h3>③ 直接回答</h3><ul class="cons"><li>Отвечая на ваш вопрос, хочу сказать, что…</li><li>Дело в том, что…</li></ul><p class="use">先给结论，再展开</p></article>
+<article class="stepc"><h3>④ 给出依据</h3><ul class="cons"><li>Как показано во второй главе, …</li><li>Это подтверждается данными, приведёнными в таблице 3.</li></ul><p class="use">指向论文中的具体位置</p></article>
+<article class="stepc"><h3>⑤ 部分让步</h3><ul class="cons"><li>Вы правы в том, что…, однако…</li><li>Действительно, …, но…</li><li>Соглашусь с тем, что…, но…</li></ul><p class="use">只认同具体的一点</p></article>
+<article class="stepc"><h3>⑥ 限定结论</h3><ul class="cons"><li>Следует уточнить, что…</li><li>Этот вывод относится только к…</li></ul><p class="use">强度用语见 T11-U01</p></article>
+<article class="stepc"><h3>⑦ 礼貌异议</h3><ul class="cons"><li>Позвольте не согласиться.</li><li>С этим трудно согласиться, поскольку…</li><li>Мне кажется, здесь возможна иная трактовка.</li></ul><p class="use">说完要马上给理由</p></article>
+<article class="stepc"><h3>⑧ 超出范围 / 不掌握</h3><ul class="cons"><li>Этот вопрос выходит за рамки данного исследования, но представляет интерес для дальнейшей работы.</li><li>Этот аспект в работе не рассматривался.</li><li>К сожалению, точными данными по этому вопросу я не располагаю.</li></ul><p class="use">不要只说 Я не знаю</p></article>
+<article class="stepc"><h3>⑨ 接受意见</h3><ul class="cons"><li>Я согласен (согласна) с этим замечанием.</li><li>Замечание принято, я учту его в дальнейшей работе.</li></ul><p class="use">承诺程度见 C 区</p></article>
+<article class="stepc"><h3>⑩ 收尾确认</h3><ul class="cons"><li>Я ответил(а) на ваш вопрос?</li></ul><p class="use">让提问人确认</p></article>
+</div>
+<div class="strip"><h3>回应官方评阅人的意见（逐条）</h3><ul><li>Благодарю уважаемого оппонента за внимательное прочтение работы и ценные замечания.</li><li>Позвольте ответить на них по порядку.</li><li>По первому замечанию: …</li><li>Что касается второго замечания, то…</li><li>С третьим замечанием я согласен (согласна); оно будет учтено в дальнейшей работе.</li></ul></div>
+<div class="strip"><h3>开场与结束语</h3><ul><li>Уважаемый председатель, уважаемые члены диссертационного совета!</li><li>Позвольте выразить благодарность моему научному руководителю…, официальным оппонентам и членам диссертационного совета за внимание к работе.</li></ul></div>
+</section>
+<div class="row2">
+<section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>相关单元与词 <em>只写一行，展开见对应单元</em></h2><div class="xlist">
+<div class="x"><span class="hw">спра́шивать · отвеча́ть · обраща́ться</span><span class="zh">提问与回答</span><span class="ref">→ T01-U07</span></div>
+<div class="x"><span class="hw">соглаша́ться · отка́зываться · принима́ть</span><span class="zh">同意与拒绝</span><span class="ref">→ T06-U04</span></div>
+<div class="x"><span class="hw">благодари́ть · извиня́ться</span><span class="zh">致谢与道歉</span><span class="ref">→ T01-U09</span></div>
+<div class="x"><span class="hw">объясня́ть · дока́зывать</span><span class="zh">解释与论证</span><span class="ref">→ T01-U04</span></div>
+<div class="x"><span class="hw">证据与结论的强度表达</span><span class="zh">限定结论时用</span><span class="ref">→ T11-U01</span></div>
+<div class="x"><span class="hw">互动修复与澄清</span><span class="zh">没听清、被误解时用</span><span class="ref">→ T11-U03</span></div>
+<div class="x"><span class="hw">возража́ть / возрази́ть</span><span class="zh">提出反对（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">признава́ть / призна́ть</span><span class="zh">承认（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">учи́тывать / уче́сть</span><span class="zh">考虑到、采纳（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">уточня́ть / уточни́ть</span><span class="zh">澄清、说明（书中词表未收）</span><span class="ref">新</span></div>
+<div class="x"><span class="hw">располага́ть</span><span class="zh">掌握（数据等）（书中词表未收）</span><span class="ref">新</span></div>
+</div></section>
+<section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody>
+<tr><td class="hw">согласи́ться с / согласи́ться на / призна́ть</td><td>同意某个观点或意见（+ 五格）/ 同意接受建议、条件（+ 四格）/ 承认不足或事实</td><td class="ru">согласиться с замечанием · согласиться на эти условия · признать недостаток</td></tr>
+<tr><td class="hw">замеча́ние / вопро́с / пожела́ние</td><td>批评性意见，需要正面回应 / 问题 / 希望、建议（多为善意，常回答“учту”）</td><td class="ru">Спасибо за замечание. · Спасибо за пожелание, оно будет учтено.</td></tr>
+<tr><td class="hw">возрази́ть / не согласи́ться / опрове́ргнуть</td><td>提出反对理由 / 表明不同意 / 证明对方是错的（很强，对评委慎用）</td><td class="ru">Позвольте возразить: в главе 2…</td></tr>
+<tr><td class="hw">Вы пра́вы / Вы пра́вы в том, что… / Соглашу́сь</td><td>全面认同 / 只认同某一点 / 同意（语气较缓）</td><td class="ru">Вы правы в том, что выборка невелика, однако…</td></tr>
+<tr><td class="hw">уче́сть / приня́ть во внима́ние / испра́вить</td><td>会考虑 / 会纳入考量 / 会改正（承诺程度由弱到强）</td><td class="ru">Опечатка будет исправлена; методическое замечание я учту в дальнейшей работе.</td></tr>
+</tbody></table></div></section>
+</div>
+<section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps">
+<div class="trapbox"><h3>① 语气太硬</h3><div class="pair"><span class="bad">Это не так. / Вы ошибаетесь.</span><span class="good">Позвольте не согласиться… / Мне кажется, здесь возможна иная трактовка.</span></div></div>
+<div class="trapbox"><h3>② 过度认错</h3><div class="pair"><span class="bad">Да, вы правы, это ошибка.（其实不是错误）</span><span class="good">Вы правы в том, что…, однако…</span></div></div>
+<div class="trapbox"><h3>③ 不知道时</h3><div class="pair"><span class="bad">Я не знаю.</span><span class="good">Этот аспект в работе не рассматривался, но… / Точными данными я не располагаю.</span></div></div>
+<div class="trapbox"><h3>④ 支配错误</h3><div class="pair"><span class="bad">отвечать вопрос</span><span class="good">отвечать на вопрос</span></div><div class="pair"><span class="bad">согласен этому</span><span class="good">согласен с этим</span></div><div class="pair"><span class="bad">благодарю для вопроса</span><span class="good">благодарю за вопрос</span></div><div class="pair"><span class="bad">согласиться на замечание</span><span class="good">согласиться с замечанием（对意见、观点用 с）</span></div></div>
+<div class="trapbox"><h3>⑤ 中文直译</h3><div class="pair"><span class="bad">关于这个问题…… Об этом вопросе, я думаю…</span><span class="good">Что касается этого вопроса, то… / По этому вопросу…</span></div><div class="pair"><span class="bad">我们以后会改进</span><span class="good">Это будет учтено в дальнейшей работе.</span></div><div class="pair"><span class="bad">您的意思是…… Ваше значение…</span><span class="good">Вы имеете в виду…?</span></div></div>
+<div class="trapbox"><h3>⑥ 性别一致</h3><div class="pair"><span class="bad">女性说话人：Я согласен. / Я понял.</span><span class="good">Я согласна. / Я поняла. / Я ответила.</span></div></div>
+</div></section>
+<div class="row2">
+<section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配与构式槽位</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配 / 槽位</th><th>说明</th></tr></thead><tbody>
+<tr><td class="hw">отвеча́ть / отве́тить</td><td class="ru">на что<b class='case'>В</b> · кому<b class='case'>Д</b></td><td></td></tr>
+<tr><td class="hw">соглаша́ться / согласи́ться</td><td class="ru">с кем / с чем<b class='case'>Т</b> · с тем, что… · на что<b class='case'>В</b>（接受）</td><td>с 和 на 意思不同</td></tr>
+<tr><td class="hw">возража́ть / возрази́ть</td><td class="ru">кому<b class='case'>Д</b> · против чего<b class='case'>Р</b></td><td></td></tr>
+<tr><td class="hw">благодари́ть / поблагодари́ть</td><td class="ru">кого<b class='case'>В</b> за что<b class='case'>В</b></td><td></td></tr>
+<tr><td class="hw">учи́тывать / уче́сть</td><td class="ru">что<b class='case'>В</b>：учесть замечание</td><td></td></tr>
+<tr><td class="hw">признава́ть / призна́ть</td><td class="ru">что<b class='case'>В</b> · , что…</td><td></td></tr>
+<tr><td class="hw">каса́ться</td><td class="ru">чего<b class='case'>Р</b>：Что касается…, то…</td><td>书面一般加 то</td></tr>
+<tr><td class="hw">выходи́ть / вы́йти</td><td class="ru">за ра́мки чего<b class='case'>Р</b></td><td></td></tr>
+<tr><td class="hw">располага́ть</td><td class="ru">чем<b class='case'>Т</b>：располагать данными</td><td></td></tr>
+<tr><td class="hw">относи́ться</td><td class="ru">к чему<b class='case'>Д</b></td><td>Вывод относится только к…</td></tr>
+</tbody></table></div></section>
+<section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>同行讨论 / 口头</th><th>答辩现场</th><th>书面答复</th></tr></thead><tbody>
+<tr><td class="zh">接住问题</td><td class="ru">Хороший вопрос!</td><td class="ru">Спасибо за вопрос. / Благодарю за вопрос.</td><td class="ru">Благодарю за замечание.</td></tr>
+<tr><td class="zh">部分同意</td><td class="ru">Ну, отчасти да.</td><td class="ru">Отчасти я с вами согласен (согласна), однако…</td><td class="ru">С замечанием можно согласиться лишь частично, поскольку…</td></tr>
+<tr><td class="zh">异议</td><td class="ru">Не совсем так.</td><td class="ru">Позвольте не согласиться…</td><td class="ru">С данным замечанием трудно согласиться, поскольку…</td></tr>
+<tr><td class="zh">超出范围</td><td class="ru">Это уже другая тема.</td><td class="ru">Этот вопрос выходит за рамки данного исследования.</td><td class="ru">Данный аспект не входил в задачи исследования.</td></tr>
+<tr><td class="zh">接受意见</td><td class="ru">Да, надо будет поправить.</td><td class="ru">Я согласен (согласна) с замечанием и учту его.</td><td class="ru">Замечание принято и будет учтено в дальнейшей работе.</td></tr>
+</tbody></table></div></section>
+</div>
+<div class="row2">
+<section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>打开自测模式后，点击俄语查看答案</em></h2><div class="intent">
+<div class="iv"><span class="zh">谢谢提问</span><span class="arr">→</span><span class="q ru" tabindex="0">Спасибо за вопрос. / Благодарю за вопрос.</span></div>
+<div class="iv"><span class="zh">没听清，想确认</span><span class="arr">→</span><span class="q ru" tabindex="0">Если я правильно понял(а), …</span></div>
+<div class="iv"><span class="zh">先承认对方一部分对</span><span class="arr">→</span><span class="q ru" tabindex="0">Вы правы в том, что…, однако…</span></div>
+<div class="iv"><span class="zh">礼貌地不同意</span><span class="arr">→</span><span class="q ru" tabindex="0">Позвольте не согласиться…</span></div>
+<div class="iv"><span class="zh">超出研究范围</span><span class="arr">→</span><span class="q ru" tabindex="0">…выходит за рамки данного исследования.</span></div>
+<div class="iv"><span class="zh">不掌握数据</span><span class="arr">→</span><span class="q ru" tabindex="0">Точными данными я не располагаю.</span></div>
+<div class="iv"><span class="zh">接受并会改</span><span class="arr">→</span><span class="q ru" tabindex="0">Замечание принято, я учту его в дальнейшей работе.</span></div>
+<div class="iv"><span class="zh">承认不足</span><span class="arr">→</span><span class="q ru" tabindex="0">Признаю, что…</span></div>
+<div class="iv"><span class="zh">逐条回应评阅人</span><span class="arr">→</span><span class="q ru" tabindex="0">Позвольте ответить по порядку. По первому замечанию…</span></div>
+<div class="iv"><span class="zh">问对方是否满意回答</span><span class="arr">→</span><span class="q ru" tabindex="0">Я ответил(а) на ваш вопрос?</span></div>
+<div class="iv"><span class="zh">结束语致谢</span><span class="arr">→</span><span class="q ru" tabindex="0">Позвольте выразить благодарность…</span></div>
+</div></section>
+<section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先自己说或写，再看答案；“口头即时”请计时并录音</em></h2><div class="drill">
+<div class="dr"><span class="zh">评委说：“你的样本只有 40 人，太少了。”（30 秒口头回应）</span><span class="q ru" tabindex="0">Спасибо за замечание. Действительно, объём выборки ограничен, и это отмечено в работе как ограничение исследования. Вместе с тем для поставленных задач он достаточен, поскольку… В дальнейшем планируется расширить выборку.</span><span class="hint">口头即时；让步 → 依据 → 后续计划</span></div>
+<div class="dr"><span class="zh">评委的问题你没完全听懂，想确认他问的是方法选择。</span><span class="q ru" tabindex="0">Простите, если я правильно понял(а), вас интересует, почему был выбран именно этот метод?</span><span class="hint">情境回答</span></div>
+<div class="dr"><span class="zh">评委问：“为什么不用方法 B？”而方法 B 不在研究范围内。</span><span class="q ru" tabindex="0">Метод B действительно широко применяется, однако сравнение с ним не входило в задачи данного исследования. Это интересное направление для дальнейшей работы.</span><span class="hint">口头即时</span></div>
+<div class="dr"><span class="zh">你不同意评阅人的第二条意见，依据在第二章第 54 页。</span><span class="q ru" tabindex="0">Что касается второго замечания, то с ним трудно согласиться, поскольку во второй главе (с. 54) приводятся данные, которые…</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">评阅人的第三条意见指出了排版错误，你接受。</span><span class="q ru" tabindex="0">С третьим замечанием я согласен (согласна): это техническая неточность, она будет исправлена.</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">被追问一个你没有数据的问题。</span><span class="q ru" tabindex="0">К сожалению, точными данными по этому вопросу я не располагаю, однако, по имеющимся оценкам, …</span><span class="hint">口头即时</span></div>
+<div class="dr"><span class="zh">结束语：感谢导师、评阅人和委员会。</span><span class="q ru" tabindex="0">Позвольте выразить искреннюю благодарность моему научному руководителю…, официальным оппонентам и членам диссертационного совета за внимание к работе и ценные замечания.</span><span class="hint">中→俄笔头</span></div>
+<div class="dr"><span class="zh">改得更得体：«Это не так, вы ошибаетесь.»</span><span class="q ru" tabindex="0">Позвольте не согласиться: в работе показано, что… / Мне кажется, здесь возможна иная трактовка.</span><span class="hint">替换判断</span></div>
+</div></section>
+</div>
+<footer class="foot"><p>答辩流程据公开的答辩会议记录整理（如乌拉尔国立经济大学的答辩记录摘录、莫斯科大学学位委员会会议记录），各委员会的具体规程可能不同。</p><p>交际策略与会话修复的分类参照 Dörnyei &amp; Scott (1997, Language Learning 47(1)) 与 Schegloff, Jefferson &amp; Sacks (1977, Language 53(2))。</p><p>本单元的俄语句块是常用的正式表达，属于教学整理；尚未逐条在 НКРЯ 中核对频率与语境，状态为“待核实”。建议请导师或俄语母语的同事过一遍。</p><p>本页由 tools/build_p2.py 从数据生成，数据同时写入 P2_样板单元数据.xlsx；修改内容请改数据再重新生成，不要直接改 HTML。打印按 A3 横向排版。</p></footer>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
