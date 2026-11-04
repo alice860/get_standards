@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>存在、出现与发生 · T05-U01</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T01-U12.html">上一组：发声与沉默</a><a href="T05-U02.html">下一组：关系、属性与依存</a></nav><header class="top"><h1 class="ru">«быть · явля́ться · возника́ть · происходи́ть…»<small>T05 存在、关系与变化（学术核心） · 详细单元图 T05-U01 · 存在、出现与发生 · 24 张卡片</small></h1><p class="meta"><b>意图：</b>我想说某物是什么、有没有、在哪里、出现、消失、发生、举行。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">быть<small>是；有；在（最基本的存在动词）</small></div><div class="forks"><div class="fork"><i class="tag t-deriv">派</i><span class="hw">явля́ться</span><span class="zh">是（书面，接五格）</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">существова́ть</span><span class="zh">存在</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">есть</span><span class="zh">“有”（быть 的现在时；与“吃”同形）</span></div></div><p class="note">按“是 → 存在、位置 → 出现 → 消失 → 发生、举行”排列。书面语里 быть 的现在时常换成 являться、представлять собой、иметься、существовать。</p></div><div class="clusters"><div class="cluster"><h3>是：系词与定义</h3><article class="card"><div class="head"><span class="hw">быть</span><span class="pt">无对</span></div><p class="mean">是；有；在</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кем? чем?（过去、将来时身份多用五格）· у кого́?（有）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">У меня есть время; был студентом</span></li><li><i class="tag t-trap">⚠</i><span>现在时“是”一般省略（Он — аспирант）；过去时说身份常用五格：был аспирантом</span></li></ul><p class="ex"><span class="ru">В 2020 году он был аспирантом МГУ.</span><span class="zh">2020 年他是莫斯科大学的博士生。</span></p></article><article class="card"><div class="head"><span class="hw">явля́ться</span><span class="pt">按义项体对应</span></div><p class="mean">是（书面）；（явиться）到场</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кем? чем?（五格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">является ключевым фактором</span></li><li><i class="tag t-trap">⚠</i><span>“是”义无体对；不要加 как</span></li><li><i class="tag t-acad">学</i><span class="ru">X является одним из ключевых факторов</span></li></ul><p class="ex"><span class="ru">Этот метод является наиболее точным.</span><span class="zh">这种方法是最精确的。</span></p></article><article class="card"><div class="head"><span class="hw">представля́ть собо́й</span><span class="pt">无对</span></div><p class="mean">是、构成（书面，描述“是什么样的东西”）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?（四格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">представлять собой исследование / систему</span></li><li><i class="tag t-trap">⚠</i><span>接四格：✗ представляет собой исследованием</span></li><li><i class="tag t-acad">学</i><span class="ru">X представляет собой…</span></li></ul><p class="ex"><span class="ru">Диссертация представляет собой комплексное исследование городской среды.</span><span class="zh">本论文是一项关于城市环境的综合研究。</span></p></article><article class="card"><div class="head"><span class="hw">служи́ть / послужи́ть</span><span class="pt">按义项体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">充当、作为；服务</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем?（五格）· для чего́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">служить основой / примером / доказательством</span></li><li><i class="tag t-acad">学</i><span class="ru">служить основой для…</span></li></ul><p class="ex"><span class="ru">Эти данные служат основой для дальнейшего анализа.</span><span class="zh">这些数据是进一步分析的基础。</span></p></article><article class="card"><div class="head"><span class="hw">счита́ться</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">被认为是</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кем? чем?（五格）· , что…</span></li><li><i class="tag t-deriv">搭</i><span class="ru">считается ведущим специалистом; считается, что…</span></li><li><i class="tag t-acad">学</i><span class="ru">Считается, что…</span></li></ul><p class="ex"><span class="ru">Этот подход считается классическим.</span><span class="zh">这种方法被认为是经典的。</span></p></article></div><div class="cluster"><h3>存在、有与位置</h3><article class="card"><div class="head"><span class="hw">существова́ть</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">存在</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · у кого́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">существует мнение, что…; существуют разные подходы</span></li><li><i class="tag t-deriv">派</i><span class="ru">существова́ние</span></li><li><i class="tag t-trap">⚠</i><span>形近：суще́ственный = 重要的、重大的，不是“存在的”</span></li><li><i class="tag t-acad">学</i><span class="ru">Существует несколько подходов к…</span></li></ul><p class="ex"><span class="ru">Существует несколько подходов к решению этой задачи.</span><span class="zh">解决这个问题有几种方法。</span></p></article><article class="card"><div class="head"><span class="hw">име́ться</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">有（书面）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">у кого́? · где?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">имеются данные; имеется в виду</span></li><li><i class="tag t-trap">⚠</i><span>口语说 есть；имеется в виду = 指的是</span></li><li><i class="tag t-acad">学</i><span class="ru">Имеются данные о том, что…</span></li></ul><p class="ex"><span class="ru">Имеются данные о том, что эффект временный.</span><span class="zh">有数据表明该效应是暂时的。</span></p></article><article class="card"><div class="head"><span class="hw">находи́ться</span><span class="pt">无对</span></div><p class="mean">位于、处在</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">находиться на стадии разработки</span></li></ul><p class="ex"><span class="ru">Проект находится на стадии разработки.</span><span class="zh">项目处于研发阶段。</span></p></article><article class="card new"><div class="head"><span class="hw">располага́ться / расположи́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">位于（书面）；安顿</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где?</span></li></ul></article><article class="card"><div class="head"><span class="hw">прису́тствовать</span><span class="pt">无对</span></div><p class="mean">出席；存在于</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">на чём? · в чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">присутствовать на заседании</span></li><li><i class="tag t-deriv">派</i><span class="ru">прису́тствие</span></li><li><i class="tag t-trap">⚠</i><span>会议用 на</span></li></ul><p class="ex"><span class="ru">На защите присутствовали 18 членов совета.</span><span class="zh">有 18 位委员出席了答辩。</span></p></article><article class="card"><div class="head"><span class="hw">отсу́тствовать</span><span class="pt">无对</span></div><p class="mean">缺席；缺乏</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · у кого́?</span></li><li><i class="tag t-deriv">派</i><span class="ru">отсу́тствие</span></li></ul><p class="ex"><span class="ru">Данные за 2020 год отсутствуют.</span><span class="zh">缺少 2020 年的数据。</span></p></article><article class="card"><div class="head"><span class="hw">быва́ть / побыва́ть</span><span class="pt">按义项体对应</span></div><p class="mean">常有、有时发生；（побывать）到过</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · у кого́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Так бывает</span></li><li><i class="tag t-trap">⚠</i><span>两者不是严格体对</span></li></ul><p class="ex"><span class="ru">Я побывал во многих городах России.</span><span class="zh">我去过俄罗斯很多城市。</span></p></article><article class="card"><div class="head"><span class="hw">встреча́ться</span><span class="pt">按义项体对应</span></div><p class="mean">见于、出现（文献中）；遇见</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · в чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">встречается в литературе</span></li><li><i class="tag t-acad">学</i><span class="ru">встречается в литературе</span></li></ul><p class="ex"><span class="ru">Этот термин часто встречается в работах по социолингвистике.</span><span class="zh">这个术语常见于社会语言学著作。</span></p></article></div><div class="cluster"><h3>出现与消失</h3><article class="card"><div class="head"><span class="hw">появля́ться / появи́ться</span><span class="pt">严格体对应</span></div><p class="mean">出现</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · у кого́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">появиться впервые</span></li><li><i class="tag t-deriv">派</i><span class="ru">появле́ние</span></li></ul><p class="ex"><span class="ru">Первые работы по этой теме появились в 1990-х годах.</span><span class="zh">这个题目的最早研究出现在 20 世纪 90 年代。</span></p></article><article class="card"><div class="head"><span class="hw">возника́ть / возни́кнуть</span><span class="pt">严格体对应</span></div><p class="mean">产生（问题、疑问、困难）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">у кого́? · где?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">возникает вопрос</span></li><li><i class="tag t-deriv">派</i><span class="ru">возникнове́ние</span></li><li><i class="tag t-trap">⚠</i><span>问题“产生”多用 возникать</span></li><li><i class="tag t-acad">学</i><span class="ru">Возникает вопрос о…</span></li></ul><p class="ex"><span class="ru">У меня возник вопрос.</span><span class="zh">我有个问题。</span></p></article><article class="card"><div class="head"><span class="hw">исчеза́ть / исче́знуть</span><span class="pt">严格体对应</span></div><p class="mean">消失</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">откуда?</span></li><li><i class="tag t-deriv">派</i><span class="ru">исчезнове́ние</span></li></ul><p class="ex"><span class="ru">Эффект исчезает при высокой температуре.</span><span class="zh">高温时该效应消失。</span></p></article><article class="card new"><div class="head"><span class="hw">зарожда́ться / зароди́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">萌生（思想、运动）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? когда?</span></li></ul></article><article class="card new"><div class="head"><span class="hw">обнару́живаться / обнару́житься</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">显出、被发现</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · у кого́?</span></li></ul></article></div><div class="cluster"><h3>发生、来临与举行</h3><article class="card"><div class="head"><span class="hw">происходи́ть / произойти́</span><span class="pt">按义项体对应</span></div><p class="mean">① 发生 ② 起源于</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · от чего́? / из чего́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">происходит рост</span></li><li><i class="tag t-deriv">派</i><span class="ru">происхожде́ние</span></li><li><i class="tag t-acad">学</i><span class="ru">В последние годы происходит рост…</span></li></ul><p class="ex"><span class="ru">Что произошло?</span><span class="zh">发生了什么？</span></p></article><article class="card"><div class="head"><span class="hw">случа́ться / случи́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">（意外地）发生</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">с кем? · где?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Что случилось?</span></li><li><i class="tag t-deriv">派</i><span class="ru">слу́чай（情况；案例）, случа́йно</span></li><li><i class="tag t-trap">⚠</i><span>в данном случае = 在这种情况下（学术常用）</span></li><li><i class="tag t-acad">学</i><span class="ru">в данном случае</span></li></ul><p class="ex"><span class="ru">Что с вами случилось?</span><span class="zh">您怎么了？</span></p></article><article class="card"><div class="head"><span class="hw">наступа́ть / наступи́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 来临（时期、季节）② 踩</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">· на что?（踩）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">наступил новый этап</span></li></ul><p class="ex"><span class="ru">Наступил новый этап исследования.</span><span class="zh">研究进入了新阶段。</span></p></article><article class="card"><div class="head"><span class="hw">состоя́ться</span><span class="pt">无对</span></div><p class="mean">举行、得以实现（СВ）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? когда?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Защита состоится 15 мая.</span></li><li><i class="tag t-trap">⚠</i><span>计划中的活动“举行”用 состояться，不用 произойти</span></li></ul><p class="ex"><span class="ru">Защита диссертации состоится 15 мая.</span><span class="zh">论文答辩将于 5 月 15 日举行。</span></p></article><article class="card"><div class="head"><span class="hw">проходи́ть / пройти́（举行义）</span><span class="pt">按义项体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">（会议、答辩）进行、举行；经过</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · как?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Защита прошла успешно.</span></li><li><i class="tag t-trap">⚠</i><span>说活动“进行得怎样”用 пройти</span></li></ul><p class="ex"><span class="ru">Защита прошла успешно.</span><span class="zh">答辩顺利通过。</span></p></article><article class="card short"><div class="head"><span class="hw">име́ть ме́сто</span><span class="kind k-short">简写</span></div><p class="mean">发生、存在（书面）</p><ul class="rel"></ul></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T05-U02.html">关系与依存</a></span><span class="zh">зависеть, отличаться</span></div><div class="x"><span class="hw"><a href="T05-U03.html">变化与保持</a></span><span class="zh">изменяться, становиться</span></div><div class="x"><span class="hw"><a href="T02.html">считать</a></span><span class="zh">认为（T02）</span></div><div class="x"><span class="hw"><a href="T04.html">выявить / обнаружить</a></span><span class="zh">研究中发现</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">быть / явля́ться / представля́ть собо́й / служи́ть</td><td>是（中性）/ 是（书面，五格）/ 是（描述是什么样的东西，四格）/ 充当（五格）</td><td class="ru">Это важно · является важным · представляет собой систему · служит основой</td></tr><tr><td class="hw">существова́ть / име́ться / есть / находи́ться</td><td>存在 / 有（书面）/ 有（口语）/ 位于</td><td class="ru">существуют подходы · имеются данные · у меня есть · находится в центре</td></tr><tr><td class="hw">возника́ть / появля́ться / происходи́ть / случа́ться</td><td>（问题、想法）产生 / 出现（新事物）/ 发生（事件、过程）/ 意外发生</td><td class="ru">возник вопрос · появились работы · произошли изменения · что случилось</td></tr><tr><td class="hw">состоя́ться / пройти́ / произойти́</td><td>（计划中的活动）举行 / 进行得（怎样）/ （事件）发生</td><td class="ru">конференция состоится · защита прошла успешно · произошла авария</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>结构</h3><div class="pair"><span class="bad ru">является как ключевой фактор</span><span class="good ru">является ключевым фактором（五格）</span></div><div class="pair"><span class="bad ru">представляет собой исследованием</span><span class="good ru">представляет собой исследование（四格）</span></div></div><div class="trapbox"><h3>搭配</h3><div class="pair"><span class="bad ru">конференция произошла</span><span class="good ru">конференция состоялась / прошла</span></div></div><div class="trapbox"><h3>前置词</h3><div class="pair"><span class="bad ru">присутствовать в собрании</span><span class="good ru">присутствовать на собрании</span></div></div><div class="trapbox"><h3>语体</h3><div class="pair"><span class="bad ru">У меня имеется время（口语）</span><span class="good ru">У меня есть время</span></div></div><div class="trapbox"><h3>形近</h3><div class="pair"><span class="bad ru">существенный = 存在的</span><span class="good ru">существенный = 重要的；существующий = 现有的</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">быть</td><td class="ru">кем? чем?（过去、将来时身份多用五格）· у кого́?（有）</td></tr><tr><td class="hw">явля́ться</td><td class="ru">кем? чем?（五格）</td></tr><tr><td class="hw">представля́ть собо́й</td><td class="ru">что?（四格）</td></tr><tr><td class="hw">служи́ть / послужи́ть</td><td class="ru">чем?（五格）· для чего́?</td></tr><tr><td class="hw">счита́ться</td><td class="ru">кем? чем?（五格）· , что…</td></tr><tr><td class="hw">существова́ть</td><td class="ru">где? · у кого́?</td></tr><tr><td class="hw">име́ться</td><td class="ru">у кого́? · где?</td></tr><tr><td class="hw">находи́ться</td><td class="ru">где?</td></tr><tr><td class="hw">располага́ться / расположи́ться</td><td class="ru">где?</td></tr><tr><td class="hw">прису́тствовать</td><td class="ru">на чём? · в чём?</td></tr><tr><td class="hw">отсу́тствовать</td><td class="ru">где? · у кого́?</td></tr><tr><td class="hw">быва́ть / побыва́ть</td><td class="ru">где? · у кого́?</td></tr><tr><td class="hw">встреча́ться</td><td class="ru">где? · в чём?</td></tr><tr><td class="hw">появля́ться / появи́ться</td><td class="ru">где? · у кого́?</td></tr><tr><td class="hw">возника́ть / возни́кнуть</td><td class="ru">у кого́? · где?</td></tr><tr><td class="hw">исчеза́ть / исче́знуть</td><td class="ru">откуда?</td></tr><tr><td class="hw">зарожда́ться / зароди́ться</td><td class="ru">где? когда?</td></tr><tr><td class="hw">обнару́живаться / обнару́житься</td><td class="ru">где? · у кого́?</td></tr><tr><td class="hw">происходи́ть / произойти́</td><td class="ru">где? · от чего́? / из чего́?</td></tr><tr><td class="hw">случа́ться / случи́ться</td><td class="ru">с кем? · где?</td></tr><tr><td class="hw">наступа́ть / наступи́ть</td><td class="ru">· на что?（踩）</td></tr><tr><td class="hw">состоя́ться</td><td class="ru">где? когда?</td></tr><tr><td class="hw">проходи́ть / пройти́（举行义）</td><td class="ru">где? · как?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>书面 / 学术</th></tr></thead><tbody><tr><td class="zh">定义</td><td class="ru">X — это…</td><td class="ru">X — это…</td><td class="ru">X является… / X представляет собой…</td></tr><tr><td class="zh">存在</td><td class="ru">Есть…</td><td class="ru">Существует…</td><td class="ru">Имеются… / Имеет место…</td></tr><tr><td class="zh">位置</td><td class="ru">Где это?</td><td class="ru">Находится в…</td><td class="ru">Располагается в…</td></tr><tr><td class="zh">出现</td><td class="ru">Появилось…</td><td class="ru">Возникла проблема.</td><td class="ru">Возникает вопрос о…</td></tr><tr><td class="zh">发生</td><td class="ru">Что случилось?</td><td class="ru">Что произошло?</td><td class="ru">Произошли существенные изменения…</td></tr><tr><td class="zh">举行</td><td class="ru">Защита была вчера.</td><td class="ru">Защита прошла успешно.</td><td class="ru">Защита состоится 15 мая.</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">是（书面）</span><span class="arr">→</span><span class="q ru" tabindex="0">являться + 五格</span></div><div class="iv"><span class="zh">本论文是一项……研究</span><span class="arr">→</span><span class="q ru" tabindex="0">Диссертация представляет собой исследование…</span></div><div class="iv"><span class="zh">作为……的基础</span><span class="arr">→</span><span class="q ru" tabindex="0">служить основой для…</span></div><div class="iv"><span class="zh">被认为是</span><span class="arr">→</span><span class="q ru" tabindex="0">считаться + 五格</span></div><div class="iv"><span class="zh">存在几种方法</span><span class="arr">→</span><span class="q ru" tabindex="0">Существует несколько подходов</span></div><div class="iv"><span class="zh">有数据表明</span><span class="arr">→</span><span class="q ru" tabindex="0">Имеются данные о том, что…</span></div><div class="iv"><span class="zh">位于</span><span class="arr">→</span><span class="q ru" tabindex="0">находиться / располагаться</span></div><div class="iv"><span class="zh">缺少数据</span><span class="arr">→</span><span class="q ru" tabindex="0">данные отсутствуют</span></div><div class="iv"><span class="zh">见于文献</span><span class="arr">→</span><span class="q ru" tabindex="0">встречается в литературе</span></div><div class="iv"><span class="zh">产生了一个问题</span><span class="arr">→</span><span class="q ru" tabindex="0">возникает вопрос</span></div><div class="iv"><span class="zh">在这种情况下</span><span class="arr">→</span><span class="q ru" tabindex="0">в данном случае</span></div><div class="iv"><span class="zh">答辩顺利通过</span><span class="arr">→</span><span class="q ru" tabindex="0">Защита прошла успешно</span></div><div class="iv"><span class="zh">答辩将举行</span><span class="arr">→</span><span class="q ru" tabindex="0">Защита состоится…</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">本论文是一项关于移民语言适应的综合研究。</span><span class="q ru" tabindex="0">Диссертация представляет собой комплексное исследование языковой адаптации мигрантов.</span></div><div class="dr"><span class="zh">关于这个问题有几种观点。</span><span class="q ru" tabindex="0">По этому вопросу существует несколько точек зрения.</span></div><div class="dr"><span class="zh">由此产生一个问题：……</span><span class="q ru" tabindex="0">В связи с этим возникает вопрос: …</span></div><div class="dr"><span class="zh">答辩将于 6 月 10 日举行。</span><span class="q ru" tabindex="0">Защита состоится 10 июня.</span></div><div class="dr"><span class="zh">这些数据是进一步分析的基础。</span><span class="q ru" tabindex="0">Эти данные служат основой для дальнейшего анализа.</span></div><div class="dr"><span class="zh">答辩顺利通过了。</span><span class="q ru" tabindex="0">Защита прошла успешно.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>

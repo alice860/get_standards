@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>говор- 词族图</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+</style></head><body>
+
+<div class="wrap"><nav class="nav" aria-label="导航" style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px"><a href="../index_page.html" style="color:var(--aspect)">← 全部主题</a><a href="T01-U02.html" style="color:var(--aspect)">下一组：告知、通知与宣布</a></nav>
+
+<header class="top">
+  <h1>говор- · говори́ть / сказа́ть<small>交流与信息传达 · 单元图 1 · 词族核心（重构示例）</small></h1>
+  <p class="meta"><b>适用：</b>在俄生活多年、准备博士答辩并长期使用俄语的中文母语者。<b>主线：</b>中文意图 → 精准选词 → 完整表达。同根词在 A 区按功能分簇；跨词族的词在 B 区只写一行，详见各自单元图。</p>
+  <div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div>
+</header>
+
+<div class="legend" aria-label="图例">
+  <span><i class="tag t-aspect">体</i>体对应（严格 / 异根 / 按义项）</span>
+  <span><i class="tag t-aspect">限</i>限定（по-，“做一阵”）</span>
+  <span><i class="tag t-aspect">起</i>起始（за-，“开始做”）</span>
+  <span><i class="tag t-deriv">派</i>同根派生（名词、形容词）</span>
+  <span><i class="tag t-gov">支</i>支配与格</span>
+  <span><i class="tag t-trap">⚠</i>假体对 / 同根异义 / 重音陷阱</span>
+  <span><i class="tag t-cross">跨</i>跨词族的功能近邻</span>
+  <span><i class="tag t-acad">学</i>书面语与学术用法</span>
+  <span>格的缩写：<b class="case">Д</b>三格 <b class="case">В</b>四格 <b class="case">Т</b>五格 <b class="case">П</b>六格 <b class="case">Р</b>二格</span>
+</div>
+
+<!-- A -->
+<section class="sec" aria-labelledby="hA">
+  <h2 id="hA"><span class="L">A</span>词族核心图 <em>同根词按“表达功能”分五簇；只有在意义独立、或容易误判时才单独成卡</em></h2>
+
+  <div class="root">
+    <div class="core">говори́ть<small>未完成体，最中性的“说”</small></div>
+    <div class="forks">
+      <div class="fork"><i class="tag t-aspect">体</i><span class="hw">сказа́ть</span><span class="zh">说出某个内容（异根，按义项对应）</span></div>
+      <div class="fork"><i class="tag t-aspect">限</i><span class="hw">поговори́ть</span><span class="zh">谈一阵、谈一次（限定）</span></div>
+      <div class="fork"><i class="tag t-aspect">起</i><span class="hw">заговори́ть</span><span class="zh">开口、开始说（起始）</span></div>
+    </div>
+    <p class="note">关键点：говори́ть 没有唯一的完成体，三个形式的性质也不同：只有 сказа́ть 是（按义项的）体对应，поговори́ть 加了“一阵”，заговори́ть 加了“开始”。сказа́ть 与 говори́ть 词根不同（сказ- / говор-），它是“说出内容”这一义项的配对。这也说明 разгова́ривать → разговори́ть 的类推不成立。</p>
+  </div>
+
+  <div class="clusters">
+
+    <div class="cluster">
+      <h3>I 说出 · 开口</h3>
+      <article class="card">
+        <div class="head"><span class="hw">говори́ть</span><span class="asp">НСВ</span></div>
+        <p class="mean">说、讲；会说某种语言；谈论</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>кому́<b class="case">Д</b> что<b class="case">В</b> · о чём<b class="case">П</b> · с кем<b class="case">Т</b> · на како́м языке́<b class="case">П</b> / по-ру́сски</span></li>
+          <li><i class="tag t-acad">学</i><span>Да́нные говоря́т о том, что… 数据表明……</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Он свободно говорит по-китайски и по-русски.</span><span class="zh">他能流利地说中文和俄语。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">сказа́ть</span><span class="asp">СВ · НСВ: говори́ть</span></div>
+        <p class="mean">说出、告诉（具体内容，一次）</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>кому́<b class="case">Д</b> что<b class="case">В</b> · о чём<b class="case">П</b> · , что… · , что́бы…（转告让某人做）</span></li>
+          <li><i class="tag t-deriv">派</i><span>ска́занное 所说的话 · вышеска́занное 上述内容</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Скажите ему, чтобы он позвонил мне завтра.</span><span class="zh">请告诉他明天给我打电话。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">загова́ривать / заговори́ть</span></div>
+        <p class="mean">开始说话；（与陌生人）搭话</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>с кем<b class="case">Т</b> · о чём<b class="case">П</b></span></li>
+          <li><i class="tag t-trap">⚠</i><span>заговори́ть зу́бы 东拉西扯、转移注意（口）</span></li>
+        </ul>
+        <p class="ex"><span class="ru">В очереди со мной заговорил незнакомый человек.</span><span class="zh">排队时一个陌生人跟我搭话。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">го́вор</span><span class="asp">сущ.</span> · <span class="hw">погово́рка</span></div>
+        <ul class="rel">
+          <li><i class="tag t-acad">学</i><span>го́вор：<b>方言土语</b>（语言学术语：ме́стный го́вор）；也指嘈杂的说话声</span></li>
+          <li><i class="tag t-deriv">派</i><span>погово́рка：俗语（比 посло́вица 更短，常不成完整判断）</span></li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="cluster">
+      <h3>II 交谈 · 交换话语</h3>
+      <article class="card">
+        <div class="head"><span class="hw">разгова́ривать</span><span class="asp">НСВ · 无标准СВ</span></div>
+        <p class="mean">（双方）交谈、谈话</p>
+        <ul class="rel">
+          <li><i class="tag t-aspect">限</i><span>“谈了一次、谈一阵” → поговори́ть（限定，不是严格体对）</span></li>
+          <li><i class="tag t-deriv">派</i><span>разгово́р 谈话 · разгово́рный 口语的 · разгово́рник 会话手册 · разгово́рчивый 健谈的</span></li>
+          <li><i class="tag t-gov">支</i><span>с кем<b class="case">Т</b> · о чём<b class="case">П</b></span></li>
+        </ul>
+        <p class="ex"><span class="ru">Мы долго разговаривали с научным руководителем о структуре диссертации.</span><span class="zh">我们和导师谈了很久论文结构。</span></p>
+      </article>
+      <article class="card trap">
+        <div class="head"><span class="hw">разговори́ть</span><span class="asp">СВ</span> · <span class="hw">разговори́ться</span><span class="asp">СВ</span></div>
+        <p class="mean"><span class="warn">⚠ 不是 разгова́ривать 的完成体</span></p>
+        <ul class="rel">
+          <li><i class="tag t-trap">⚠</i><span>разговори́ть кого́<b class="case">В</b>：让（沉默的人）开口、打开话匣子</span></li>
+          <li><i class="tag t-trap">⚠</i><span>разговори́ться：自己聊开了、话多起来</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Сначала он молчал, но потом разговорился.</span><span class="zh">他一开始不说话，后来聊开了。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">переговори́ть</span><span class="asp">СВ</span> · <span class="hw">перегова́риваться</span><span class="asp">НСВ</span></div>
+        <p class="mean">（简短、私下）谈一谈 · 互相低声交谈</p>
+        <ul class="rel">
+          <li><i class="tag t-trap">⚠</i><span>两者不是简单体对；переговори́ть 口语中还表示“说得比人多、说赢”</span></li>
+          <li><i class="tag t-deriv">派</i><span>перегово́ры（只用复数）谈判：вести́ перегово́ры с кем<b class="case">Т</b> о чём<b class="case">П</b></span></li>
+        </ul>
+        <p class="ex"><span class="ru">Мне надо переговорить с вами наедине.</span><span class="zh">我需要和您单独谈一下。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">обговори́ть</span><span class="asp">СВ · 口语/工作语</span></div>
+        <p class="mean">把（细节、条件）谈妥、说清楚</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>что<b class="case">В</b>：обговори́ть сро́ки, усло́вия</span></li>
+          <li><i class="tag t-cross">跨</i><span>正式场合用 обсуди́ть（→ 单元图 7）</span></li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="cluster">
+      <h3>III 达成一致 · 影响对方</h3>
+      <article class="card">
+        <div class="head"><span class="hw">догова́риваться / договори́ться</span></div>
+        <p class="mean">商定、约好、达成协议</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>с кем<b class="case">Т</b> о чём<b class="case">П</b> · + 不定式 · , что…</span></li>
+          <li><i class="tag t-deriv">派</i><span>догово́р 合同、条约 · договорённость 约定、共识 · «Договори́лись!» 说定了！</span></li>
+          <li><i class="tag t-trap">⚠</i><span>重音：规范为 догово́р；до́говор 是口语变体，正式场合不用</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Мы договорились с оппонентом о дате встречи.</span><span class="zh">我和评阅人约好了见面日期。</span></p>
+      </article>
+      <article class="card trap">
+        <div class="head"><span class="hw">догова́ривать / договори́ть</span><span class="asp">без -ся</span></div>
+        <p class="mean"><span class="warn">⚠ 把话说完</span>（不是“约定”）</p>
+        <p class="ex"><span class="ru">Дайте мне договорить!</span><span class="zh">让我把话说完！</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">угова́ривать / уговори́ть</span></div>
+        <p class="mean">劝（去做）、说服（靠请求、反复劝）</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>кого́<b class="case">В</b> + 不定式 · на что<b class="case">В</b>（口）</span></li>
+          <li><i class="tag t-deriv">派</i><span>угово́ры（复数）劝说的话</span></li>
+          <li><i class="tag t-cross">跨</i><span>убежда́ть / убеди́ть кого́ в чём<b class="case">П</b>：以理服人</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Руководитель уговорил меня выступить на конференции.</span><span class="zh">导师劝我在会议上发言。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">отгова́ривать / отговори́ть</span></div>
+        <p class="mean">劝阻、劝（某人）别做</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>кого́<b class="case">В</b> от чего́<b class="case">Р</b> · + 不定式</span></li>
+          <li><i class="tag t-trap">⚠</i><span>отгово́рка = <b>借口、托词</b>，意思已经和“劝阻”无关</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Друзья отговорили его от смены темы.</span><span class="zh">朋友们劝他别换课题。</span></p>
+      </article>
+    </div>
+
+    <div class="cluster">
+      <h3>IV 说漏 · 口误 · 限定</h3>
+      <article class="card">
+        <div class="head"><span class="hw">проговори́ться</span><span class="asp">СВ</span></div>
+        <p class="mean">说漏嘴（泄露了不该说的<b>内容</b>）</p>
+        <ul class="rel">
+          <li><i class="tag t-gov">支</i><span>о чём<b class="case">П</b> · кому́<b class="case">Д</b></span></li>
+          <li><i class="tag t-deriv">派</i><span>прогова́ривать / проговори́ть：一字一字说出；把想法说出来理一理</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Он случайно проговорился о сюрпризе.</span><span class="zh">他不小心把惊喜说漏了。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">огова́риваться / оговори́ться</span></div>
+        <p class="mean">① 口误（说错了<b>字词</b>）② 事先声明、附加说明</p>
+        <ul class="rel">
+          <li><i class="tag t-deriv">派</i><span>огово́рка：口误；保留条件、附加说明</span></li>
+          <li><i class="tag t-acad">学</i><span>Сле́дует оговори́ться, что… 需要事先说明…… · с ря́дом огово́рок 有若干保留</span></li>
+          <li><i class="tag t-trap">⚠</i><span>огова́ривать / оговори́ть что：在合同里写明条件；也可指诬陷（оговори́ть невино́вного）</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Следует оговориться, что выборка была невелика.</span><span class="zh">需要说明的是，样本量不大。</span></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">выгова́ривать / вы́говорить</span></div>
+        <p class="mean">① 发出（某个音）② (НСВ) 数落、训斥 кому́<b class="case">Д</b></p>
+        <ul class="rel">
+          <li><i class="tag t-trap">⚠</i><span>重音：СВ 是 <b>вы́</b>говорить，НСВ 是 выгова́ривать</span></li>
+          <li><i class="tag t-deriv">派</i><span>вы́говор：口音、发音特点；（行政）警告处分 объяви́ть вы́говор</span></li>
+        </ul>
+        <p class="ex"><span class="ru">Ребёнок ещё не выговаривает «р».</span><span class="zh">孩子还发不出“р”。</span></p>
+      </article>
+    </div>
+
+    <div class="cluster">
+      <h3>V 同根远义（以认读为主）</h3>
+      <article class="card trap">
+        <div class="head"><span class="hw">за́говор</span><span class="asp">сущ.</span></div>
+        <p class="mean">阴谋；（民俗）咒语 · 重音在 <b>за́</b>-</p>
+        <ul class="rel"><li><i class="tag t-deriv">派</i><span>загово́рщик 阴谋者 · тео́рия за́говора 阴谋论</span></li></ul>
+      </article>
+      <article class="card trap">
+        <div class="head"><span class="hw">сго́вор</span> · <span class="hw">сговори́ться</span></div>
+        <p class="mean">串通、合谋（多含贬义）：престу́пный сго́вор</p>
+        <ul class="rel"><li><i class="tag t-trap">⚠</i><span>сговори́ться 口语里也能表示“约好”，但正式场合会被理解为“串通”，中性说法用 договори́ться</span></li></ul>
+      </article>
+      <article class="card trap">
+        <div class="head"><span class="hw">пригово́р</span> · <span class="hw">приговори́ть</span></div>
+        <p class="mean">判决：вы́нести пригово́р · приговори́ть кого́<b class="case">В</b> к чему́<b class="case">Д</b></p>
+      </article>
+      <article class="card">
+        <div class="head"><span class="hw">дар ре́чи</span> · <span class="hw">речь идёт о…</span></div>
+        <p class="mean">（异根，可与本簇一起记）</p>
+        <ul class="rel"><li><i class="tag t-cross">跨</i><span>речь：言语、讲话；Речь идёт о том, что… 说的是…… · вы́ступить с ре́чью 发表讲话</span></li></ul>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<div class="row2">
+<!-- B -->
+<section class="sec" aria-labelledby="hB">
+  <h2 id="hB"><span class="L">B</span>跨词族功能定位 <em>只写一行，展开见对应单元图</em></h2>
+  <div class="xlist">
+    <div class="x"><span class="hw">сообщи́ть</span><span class="zh">告知信息</span><span class="ref">→ 3</span></div>
+    <div class="x"><span class="hw">уве́домить</span><span class="zh">正式通知</span><span class="ref">→ 3</span></div>
+    <div class="x"><span class="hw">переда́ть</span><span class="zh">转达、传话</span><span class="ref">→ 4</span></div>
+    <div class="x"><span class="hw">объясни́ть</span><span class="zh">讲清楚、使理解</span><span class="ref">→ 5</span></div>
+    <div class="x"><span class="hw">рассказа́ть</span><span class="zh">展开讲述经过</span><span class="ref">→ 6</span></div>
+    <div class="x"><span class="hw">обсуди́ть</span><span class="zh">围绕议题讨论</span><span class="ref">→ 7</span></div>
+    <div class="x"><span class="hw">бесе́довать</span><span class="zh">（较正式、平和地）交谈</span><span class="ref">新</span></div>
+    <div class="x"><span class="hw">заяви́ть</span><span class="zh">公开声明</span><span class="ref">新</span></div>
+    <div class="x"><span class="hw">отме́тить</span><span class="zh">指出（学术引述）</span><span class="ref">新</span></div>
+    <div class="x"><span class="hw">подчеркну́ть</span><span class="zh">强调</span><span class="ref">新</span></div>
+    <div class="x"><span class="hw">утвержда́ть</span><span class="zh">主张、断言</span><span class="ref">新</span></div>
+    <div class="x"><span class="hw">убеди́ть</span><span class="zh">以理说服</span><span class="ref">新</span></div>
+  </div>
+</section>
+
+<!-- C -->
+<section class="sec" aria-labelledby="hC">
+  <h2 id="hC"><span class="L">C</span>关键辨析 <em>按“我想说什么”区分，不按中文译名</em></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead>
+    <tbody>
+      <tr><td><span class="hw">говори́ть</span> / <span class="hw">сказа́ть</span> / <span class="hw">разгова́ривать</span></td><td>说话这件事、语言能力 / 说出某个内容 / 双方来回交谈</td><td><span class="good ru">Мы разговаривали два часа.</span><br><span class="bad ru">Мы сказали два часа.</span></td></tr>
+      <tr><td><span class="hw">поговори́ть</span> / <span class="hw">переговори́ть</span> / <span class="hw">обсуди́ть</span></td><td>谈一阵（话题宽） / 简短私下商量 / 讨论某个议题，后接四格</td><td class="ru">поговорить о жизни · переговорить с деканом · обсудить результаты</td></tr>
+      <tr><td><span class="hw">договори́ться</span> / <span class="hw">согласи́ться</span> / <span class="hw">уговори́ть</span></td><td>双方谈成 / 自己同意别人 / 让对方同意</td><td class="ru">договорились о сроках · согласился с оппонентом · уговорил коллегу</td></tr>
+      <tr><td><span class="hw">уговори́ть</span> / <span class="hw">убеди́ть</span></td><td>靠请求、反复劝，+不定式 / 靠论据说服，в чём<b class="case">П</b> 或 , что…</td><td class="ru">уговорил остаться · убедил в своей правоте</td></tr>
+      <tr><td><span class="hw">проговори́ться</span> / <span class="hw">оговори́ться</span></td><td>泄露了不该说的内容 / 说错了字词</td><td class="ru">проговорился о планах · оговорился: «метод» вместо «методика»</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+<!-- D -->
+<section class="sec" aria-labelledby="hD">
+  <h2 id="hD"><span class="L">D</span>易混与陷阱 <em>新增：中文母语干扰、重音</em></h2>
+  <div class="traps">
+    <div class="trapbox">
+      <h3>① 假体对：形式像，意义不对应</h3>
+      <ul>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">разгова́ривать</span> 的完成体<b>不是</b> <span class="ru">разговори́ть</span>，一次谈话用 <span class="ru">поговори́ть</span></span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">договори́ться</span> 约定，<span class="ru">договори́ть</span> 说完；只差一个 -ся</span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">говори́ть</span> 按义项对应 <span class="ru">сказа́ть / поговори́ть / заговори́ть</span></span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">переговори́ть</span> 的意思不是“谈判”，谈判是 <span class="ru">вести́ перегово́ры</span></span></li>
+      </ul>
+    </div>
+    <div class="trapbox">
+      <h3>② 同根异义名词</h3>
+      <ul>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">отгово́рка</span> 借口 · <span class="ru">огово́рка</span> 口误、保留条件</span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">за́говор</span> 阴谋 · <span class="ru">сго́вор</span> 串通 · <span class="ru">пригово́р</span> 判决</span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">вы́говор</span> 口音、处分 · <span class="ru">го́вор</span> 方言</span></li>
+      </ul>
+    </div>
+    <div class="trapbox">
+      <h3>③ 重音</h3>
+      <ul>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">догово́р, догово́ры</span>（规范）；<span class="ru">до́говор</span> 是口语变体，答辩和正式发言不用</span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">за́говор</span> · <span class="ru">вы́говорить</span>（СВ）↔ <span class="ru">выгова́ривать</span></span></li>
+        <li><i class="tag t-trap">⚠</i><span><span class="ru">договорённость</span>（ё 永远重读）</span></li>
+      </ul>
+    </div>
+    <div class="trapbox">
+      <h3>④ 中文直译会出的错</h3>
+      <div class="pair"><span class="zh">跟他说</span><span class="bad ru">сказать с ним</span><span class="good ru">сказать ему</span></div>
+      <div class="pair"><span class="zh">讨论这个问题</span><span class="bad ru">обсуждать о проблеме</span><span class="good ru">обсуждать проблему / говорить о проблеме</span></div>
+      <div class="pair"><span class="zh">说服他参加</span><span class="bad ru">уговорить ему</span><span class="good ru">уговорить его участвовать</span></div>
+      <div class="pair"><span class="zh">这说明……</span><span class="bad ru">Это говорит, что…</span><span class="good ru">Это говорит о том, что…</span></div>
+      <div class="pair"><span class="zh">会说俄语</span><span class="bad ru">говорить русский язык</span><span class="good ru">говорить по-русски / на русском языке</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="row2">
+<!-- E -->
+<section class="sec" aria-labelledby="hE">
+  <h2 id="hE"><span class="L">E</span>语法支配速查</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>动词</th><th>支配</th><th>例</th></tr></thead>
+    <tbody>
+      <tr><td class="hw">говори́ть</td><td>кому́<b class="case">Д</b> что<b class="case">В</b> · о чём<b class="case">П</b> · с кем<b class="case">Т</b> · на чём<b class="case">П</b></td><td class="ru">говорить с коллегами на русском языке</td></tr>
+      <tr><td class="hw">сказа́ть</td><td>кому́<b class="case">Д</b> что<b class="case">В</b> · , что… · , что́бы…</td><td class="ru">Скажи, чтобы он подождал.</td></tr>
+      <tr><td class="hw">разгова́ривать</td><td>с кем<b class="case">Т</b> о чём<b class="case">П</b></td><td class="ru">разговаривать с соседом о погоде</td></tr>
+      <tr><td class="hw">договори́ться</td><td>с кем<b class="case">Т</b> о чём<b class="case">П</b> · + 不定式 · , что…</td><td class="ru">договориться встретиться в шесть</td></tr>
+      <tr><td class="hw">уговори́ть</td><td>кого́<b class="case">В</b> + 不定式 · на что<b class="case">В</b>（口）</td><td class="ru">уговорить друга поехать</td></tr>
+      <tr><td class="hw">отговори́ть</td><td>кого́<b class="case">В</b> от чего́<b class="case">Р</b> · + 不定式</td><td class="ru">отговорить от покупки</td></tr>
+      <tr><td class="hw">проговори́ться</td><td>о чём<b class="case">П</b> · кому́<b class="case">Д</b></td><td class="ru">проговориться о секрете</td></tr>
+      <tr><td class="hw">оговори́ться</td><td>, что… · （口误时不带补语）</td><td class="ru">оговориться, что данные предварительные</td></tr>
+      <tr><td class="hw">вести́ перегово́ры</td><td>с кем<b class="case">Т</b> о чём<b class="case">П</b></td><td class="ru">вести переговоры о сотрудничестве</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- F -->
+<section class="sec" aria-labelledby="hF">
+  <h2 id="hF"><span class="L">F</span>交际功能 × 语域，学术与答辩用法 <em>同一行 = 同一功能，左右只差语域</em></h2>
+  <div class="tbl"><table>
+    <thead><tr><th>功能</th><th>口语</th><th>中性</th><th>较正式</th><th>机构 / 学术</th></tr></thead>
+    <tbody>
+      <tr><td class="zh">闲聊</td><td class="ru">болта́ть</td><td class="ru">—</td><td class="ru">—</td><td class="ru">—</td></tr>
+      <tr><td class="zh">交谈</td><td class="ru">поговори́ть по душа́м</td><td class="ru">разгова́ривать</td><td class="ru">бесе́довать</td><td class="ru">вести́ бесе́ду</td></tr>
+      <tr><td class="zh">讨论议题</td><td class="ru">обговори́ть</td><td class="ru">обсужда́ть</td><td class="ru">дискути́ровать</td><td class="ru">вы́нести на обсужде́ние</td></tr>
+      <tr><td class="zh">谈判、商定</td><td class="ru">—</td><td class="ru">договори́ться</td><td class="ru">прийти́ к договорённости</td><td class="ru">вести́ перегово́ры</td></tr>
+      <tr><td class="zh">表态</td><td class="ru">сказа́ть, что…</td><td class="ru">вы́сказать мне́ние</td><td class="ru">вы́разить пози́цию</td><td class="ru">отме́тить · подчеркну́ть</td></tr>
+    </tbody>
+  </table></div>
+  <p class="subh" style="font-weight:400">вести́ перегово́ры 是谈判，不是“更正式的聊天”；заяви́ть（公开声明）是另一种功能，不放在“表态”行。</p>
+  <p class="subh">论文写作</p>
+  <div class="chunks">
+    <div class="chunk"><span class="ru">Полученные данные говорят о том, что… → свидетельствуют о том, что… / указывают на то, что…</span><span class="zh">所得数据表明……（箭头后是更书面的说法）</span></div>
+    <div class="chunk"><span class="ru">свидетельствуют о том, что… → позволяют предположить, что… → недостаточно, чтобы утверждать, что… → из этого не следует, что…</span><span class="zh">按证据强度：强 → 中 → 不足 → 阻止不当推论</span></div>
+    <div class="chunk"><span class="ru">Как уже говорилось выше, … / Как было сказано в главе 1, …</span><span class="zh">如上所述…… / 如第一章所述……</span></div>
+    <div class="chunk"><span class="ru">Иначе говоря / Иными словами, …</span><span class="zh">换句话说……</span></div>
+    <div class="chunk"><span class="ru">Строго говоря, … · Не говоря уже о…</span><span class="zh">严格地说…… · 更不用说……</span></div>
+    <div class="chunk"><span class="ru">Следует оговориться, что… · с рядом оговорок</span><span class="zh">需要事先说明…… · 带有若干保留</span></div>
+  </div>
+  <p class="subh">答辩现场</p>
+  <div class="chunks">
+    <div class="chunk"><span class="ru">Позвольте сказать несколько слов о практической значимости работы.</span><span class="zh">请允许我简要谈谈本研究的实践意义。</span></div>
+    <div class="chunk"><span class="ru">Если говорить о новизне, то…</span><span class="zh">至于创新点……</span></div>
+    <div class="chunk"><span class="ru">Спасибо за вопрос. Иначе говоря, вы спрашиваете, почему…</span><span class="zh">谢谢提问。换句话说，您问的是为什么……</span></div>
+  </div>
+</section>
+</div>
+
+<div class="row2">
+<!-- G -->
+<section class="sec" aria-labelledby="hG">
+  <h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；打开自测模式后，点击俄语查看答案</em></h2>
+  <div class="intent">
+    <div class="iv"><span class="zh">说出一句话、一件事</span><span class="arr">→</span><span class="q ru" tabindex="0">сказа́ть</span></div>
+    <div class="iv"><span class="zh">会说某种语言</span><span class="arr">→</span><span class="q ru" tabindex="0">говори́ть по-…</span></div>
+    <div class="iv"><span class="zh">和人聊（过程）</span><span class="arr">→</span><span class="q ru" tabindex="0">разгова́ривать</span></div>
+    <div class="iv"><span class="zh">谈一谈（一次）</span><span class="arr">→</span><span class="q ru" tabindex="0">поговори́ть</span></div>
+    <div class="iv"><span class="zh">开口了、搭话</span><span class="arr">→</span><span class="q ru" tabindex="0">заговори́ть</span></div>
+    <div class="iv"><span class="zh">让沉默的人开口</span><span class="arr">→</span><span class="q ru" tabindex="0">разговори́ть кого́</span></div>
+    <div class="iv"><span class="zh">约好、谈妥</span><span class="arr">→</span><span class="q ru" tabindex="0">договори́ться</span></div>
+    <div class="iv"><span class="zh">把话说完</span><span class="arr">→</span><span class="q ru" tabindex="0">договори́ть</span></div>
+    <div class="iv"><span class="zh">劝他去做</span><span class="arr">→</span><span class="q ru" tabindex="0">уговори́ть + 不定式</span></div>
+    <div class="iv"><span class="zh">劝他别做</span><span class="arr">→</span><span class="q ru" tabindex="0">отговори́ть от чего́</span></div>
+    <div class="iv"><span class="zh">说漏嘴</span><span class="arr">→</span><span class="q ru" tabindex="0">проговори́ться</span></div>
+    <div class="iv"><span class="zh">口误</span><span class="arr">→</span><span class="q ru" tabindex="0">оговори́ться</span></div>
+    <div class="iv"><span class="zh">先声明一点</span><span class="arr">→</span><span class="q ru" tabindex="0">оговори́ться, что…</span></div>
+    <div class="iv"><span class="zh">发不出某个音</span><span class="arr">→</span><span class="q ru" tabindex="0">не выгова́ривать</span></div>
+    <div class="iv"><span class="zh">据说</span><span class="arr">→</span><span class="q ru" tabindex="0">говоря́т, (что)…</span></div>
+    <div class="iv"><span class="zh">这说明（书面）</span><span class="arr">→</span><span class="q ru" tabindex="0">свиде́тельствует о том, что…</span></div>
+  </div>
+</section>
+
+<!-- H -->
+<section class="sec" aria-labelledby="hH">
+  <h2 id="hH"><span class="L">H</span>输出自测 <em>先自己说出俄语，再看答案。这一块直接针对“知道中文、说不出俄语”</em></h2>
+  <div class="drill">
+    <div class="dr"><span class="zh">我需要和导师单独谈一谈。</span><span class="q ru" tabindex="0">Мне нужно переговорить с научным руководителем наедине.</span></div>
+    <div class="dr"><span class="zh">我们约好周五讨论第二章。</span><span class="q ru" tabindex="0">Мы договорились обсудить вторую главу в пятницу.</span></div>
+    <div class="dr"><span class="zh">他一开始不说话，后来聊开了。</span><span class="q ru" tabindex="0">Сначала он молчал, а потом разговорился.</span></div>
+    <div class="dr"><span class="zh">所得数据表明假设得到了证实。</span><span class="q ru" tabindex="0">Полученные данные свидетельствуют о том, что гипотеза подтвердилась.</span><span class="hint">口语可用 говорят о том, что…</span></div>
+    <div class="dr"><span class="zh">需要说明的是，样本量不大。</span><span class="q ru" tabindex="0">Следует оговориться, что объём выборки невелик.</span></div>
+    <div class="dr"><span class="zh">朋友们劝他别换课题。</span><span class="q ru" tabindex="0">Друзья отговорили его от смены темы.</span></div>
+    <div class="dr"><span class="zh">请转告他明天给我打电话。</span><span class="q ru" tabindex="0">Скажите (передайте) ему, чтобы он позвонил мне завтра.</span></div>
+    <div class="dr"><span class="zh">抱歉，我口误了，我想说的是“方法”。</span><span class="q ru" tabindex="0">Простите, я оговорился: я хотел сказать «метод».</span><span class="hint">女性：оговорилась, хотела</span></div>
+    <div class="dr"><span class="zh">这只是个借口。</span><span class="q ru" tabindex="0">Это просто отговорка.</span></div>
+    <div class="dr"><span class="zh">让我把话说完。</span><span class="q ru" tabindex="0">Дайте мне договорить.</span></div>
+  </div>
+</section>
+</div>
+
+<footer class="foot">
+  <p><b>来源与核对：</b>词义和支配参照 Грамота.ру、МАС（Евгеньева）、Апресян《Новый объяснительный словарь синонимов》的常规说法整理。重音按规范词典标注，但本次没能在线逐条核对（会话网络无法访问 ru.wiktionary）。打印前建议用 Грамота.ру 或 НКРЯ（ruscorpora.ru）抽查。</p>
+  <p><b>V2 修订：</b>体关系分成“体 / 限 / 起”三种标签；F 区由单轴语体阶梯改为“功能 × 语域”表；догово́р 的说明改为口语变体，核验状态为部分核实。</p>
+  <p><b>打印：</b>样式已按 A3 横向排版。请在浏览器里直接打开 HTML 文件后打印，自测遮挡在打印时会自动取消。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>

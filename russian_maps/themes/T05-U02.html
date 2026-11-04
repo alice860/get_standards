@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>关系、属性与依存 · T05-U02</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T05-U01.html">上一组：存在、出现与发生</a><a href="T05-U03.html">下一组：变化与保持</a></nav><header class="top"><h1 class="ru">«относи́ться · зави́сеть · отлича́ться · состоя́ть…»<small>T05 存在、关系与变化（学术核心） · 详细单元图 T05-U02 · 关系、属性与依存 · 25 张卡片</small></h1><p class="meta"><b>意图：</b>我想说属于、涉及、取决于、不同于、符合、由……组成、在于、具有……特征。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">относи́ться<small>关系动词中语义最宽的（属于、涉及、对待）</small></div><div class="forks"><div class="fork"><i class="tag t-deriv">派</i><span class="hw">отноше́ние</span><span class="zh">关系；态度；比率</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">относи́тельно</span><span class="zh">相对地；关于（+ 二格）</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">относи́тельный</span><span class="zh">相对的（不是“有关的”）</span></div></div><p class="note">按关系类型排列：属于与涉及 → 依存与决定 → 异同与对应 → 组成与包含 → 属性与需要。</p></div><div class="clusters"><div class="cluster"><h3>属于与涉及</h3><article class="card"><div class="head"><span class="hw">относи́ться / отнести́сь</span><span class="pt">按义项体对应</span></div><p class="mean">① 属于（某类）② 对待 ③ 与……有关</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">к чему́? · к кому́? как?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">относиться к группе; относиться с уважением</span></li><li><i class="tag t-deriv">派</i><span class="ru">отноше́ние, относи́тельно</span></li><li><i class="tag t-trap">⚠</i><span>отнестись（СВ）只有“对待”义</span></li><li><i class="tag t-acad">学</i><span class="ru">относиться к группе / к числу…</span></li></ul><p class="ex"><span class="ru">Этот вид относится к семейству розовых.</span><span class="zh">这个物种属于蔷薇科。</span></p></article><article class="card"><div class="head"><span class="hw">принадлежа́ть</span><span class="pt">无对</span></div><p class="mean">属于（所有）；（想法）出自</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кому́? · к чему́?（群体）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">идея принадлежит…</span></li><li><i class="tag t-deriv">派</i><span class="ru">принадле́жность</span></li></ul><p class="ex"><span class="ru">Эта идея принадлежит Выготскому.</span><span class="zh">这个观点出自维果茨基。</span></p></article><article class="card"><div class="head"><span class="hw">каса́ться / косну́ться</span><span class="pt">按义项体对应</span></div><p class="mean">① 涉及 ② 触碰</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чего́?（二格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Что касается…, то…; это касается всех</span></li><li><i class="tag t-trap">⚠</i><span>接二格：✗ касается о…</span></li><li><i class="tag t-acad">学</i><span class="ru">Что касается…, то…</span></li></ul><p class="ex"><span class="ru">Это требование касается только аспирантов первого года.</span><span class="zh">这项要求只涉及一年级博士生。</span></p></article><article class="card new"><div class="head"><span class="hw">каса́тельно</span><span class="kind k-new">表外补充</span></div><p class="mean">关于（公文，+ 二格）</p><ul class="rel"></ul></article></div><div class="cluster"><h3>依存与决定</h3><article class="card"><div class="head"><span class="hw">зави́сеть</span><span class="pt">无对</span></div><p class="mean">取决于；依赖</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">от чего́?（二格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">зависеть от условий</span></li><li><i class="tag t-deriv">派</i><span class="ru">зави́симость, незави́симый</span></li><li><i class="tag t-trap">⚠</i><span>用 от</span></li><li><i class="tag t-acad">学</i><span class="ru">в зависимости от…</span></li></ul><p class="ex"><span class="ru">Результат зависит от многих факторов.</span><span class="zh">结果取决于很多因素。</span></p></article><article class="card"><div class="head"><span class="hw">определя́ться</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">取决于、由……决定（书面）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем?（五格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">определяется спросом</span></li></ul><p class="ex"><span class="ru">Цена определяется соотношением спроса и предложения.</span><span class="zh">价格由供求关系决定。</span></p></article></div><div class="cluster"><h3>异同与对应</h3><article class="card"><div class="head"><span class="hw">отлича́ться</span><span class="pt">按义项体对应</span></div><p class="mean">① 不同于 ② 以……见长</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">от чего́? чем? · тем, что… · чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">отличаться высокой точностью</span></li><li><i class="tag t-deriv">派</i><span class="ru">отли́чие</span></li><li><i class="tag t-trap">⚠</i><span>不是 отличиться 的未完成体</span></li><li><i class="tag t-acad">学</i><span class="ru">отличаться от чего тем, что…</span></li></ul><p class="ex"><span class="ru">Наш метод отличается от традиционного тем, что учитывает время.</span><span class="zh">我们的方法与传统方法的不同在于考虑了时间。</span></p></article><article class="card"><div class="head"><span class="hw">различа́ться</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">彼此不同</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем? · по чему́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">различаться по возрасту</span></li><li><i class="tag t-deriv">派</i><span class="ru">разли́чие</span></li></ul><p class="ex"><span class="ru">Группы различаются по возрасту и уровню образования.</span><span class="zh">各组在年龄和受教育程度上不同。</span></p></article><article class="card"><div class="head"><span class="hw">соотве́тствовать</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">符合、对应</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чему́?（三格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">соответствовать требованиям / ожиданиям</span></li><li><i class="tag t-deriv">派</i><span class="ru">соотве́тствие, соотве́тствующий（相应的）, соотве́тственно</span></li><li><i class="tag t-trap">⚠</i><span>接三格：✗ соответствовать с…</span></li><li><i class="tag t-acad">学</i><span class="ru">в соответствии с…</span></li></ul><p class="ex"><span class="ru">Результаты соответствуют теоретическим ожиданиям.</span><span class="zh">结果符合理论预期。</span></p></article><article class="card"><div class="head"><span class="hw">совпада́ть / совпа́сть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">一致、重合</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">с чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">совпадать с результатами</span></li><li><i class="tag t-deriv">派</i><span class="ru">совпаде́ние（巧合）</span></li></ul><p class="ex"><span class="ru">Наши данные совпадают с результатами предыдущих исследований.</span><span class="zh">我们的数据与以往研究的结果一致。</span></p></article><article class="card new"><div class="head"><span class="hw">противоре́чить</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">与……矛盾</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чему́?（三格）</span></li></ul></article></div><div class="cluster"><h3>组成与包含</h3><article class="card"><div class="head"><span class="hw">состоя́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 由……组成 ② 在于 ③ 是……成员</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">из чего́? · в чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">состоять из трёх глав; состоит в том, чтобы…</span></li><li><i class="tag t-deriv">派</i><span class="ru">соста́в</span></li><li><i class="tag t-trap">⚠</i><span>形近 состояться（举行）</span></li><li><i class="tag t-acad">学</i><span class="ru">Задача состоит в том, чтобы…</span></li></ul><p class="ex"><span class="ru">Диссертация состоит из введения, трёх глав и заключения.</span><span class="zh">论文由引言、三章和结论组成。</span></p></article><article class="card"><div class="head"><span class="hw">заключа́ться</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">在于（书面）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">в чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">суть заключается в том, что…</span></li><li><i class="tag t-acad">学</i><span class="ru">Суть заключается в том, что…</span></li></ul><p class="ex"><span class="ru">Суть метода заключается в сопоставлении двух выборок.</span><span class="zh">该方法的本质在于对比两个样本。</span></p></article><article class="card"><div class="head"><span class="hw">включа́ть / включи́ть</span><span class="pt">按义项体对应</span></div><p class="mean">① 包括、列入 ② 打开（电器）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? во что? · в себя́</span></li><li><i class="tag t-deriv">搭</i><span class="ru">включать в себя; включить в список</span></li><li><i class="tag t-deriv">派</i><span class="ru">включе́ние</span></li><li><i class="tag t-trap">⚠</i><span>重音 включи́т</span></li><li><i class="tag t-acad">学</i><span class="ru">включать в себя</span></li></ul><p class="ex"><span class="ru">Программа включает в себя три модуля.</span><span class="zh">该方案包括三个模块。</span></p></article><article class="card"><div class="head"><span class="hw">содержа́ть</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">含有、包含；维持</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">содержать данные</span></li><li><i class="tag t-deriv">派</i><span class="ru">содержа́ние（内容）</span></li></ul><p class="ex"><span class="ru">Таблица содержит данные за пять лет.</span><span class="zh">表格包含五年的数据。</span></p></article><article class="card short"><div class="head"><span class="hw">входи́ть (в соста́в)</span><span class="pt">严格体对应</span><span class="kind k-short">简写</span></div><p class="mean">是……的组成部分</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">во что?</span></li></ul></article><article class="card new"><div class="head"><span class="hw">охва́тывать / охвати́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">涵盖</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div><div class="cluster"><h3>属性、价值与需要</h3><article class="card"><div class="head"><span class="hw">характеризова́ться</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">具有……特征</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем?（五格）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">характеризоваться высокой плотностью</span></li><li><i class="tag t-deriv">派</i><span class="ru">характери́стика</span></li></ul><p class="ex"><span class="ru">Регион характеризуется высокой плотностью населения.</span><span class="zh">该地区人口密度高。</span></p></article><article class="card short"><div class="head"><span class="hw">име́ть</span><span class="pt">无对</span><span class="kind k-short">简写</span></div><p class="mean">有（иметь значение 有意义）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article><article class="card short"><div class="head"><span class="hw">зна́чить</span><span class="pt">无对</span><span class="kind k-short">简写</span></div><p class="mean">意味着</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · , что…</span></li></ul></article><article class="card short"><div class="head"><span class="hw">сто́ить</span><span class="pt">无对</span><span class="kind k-short">简写</span></div><p class="mean">值；值得（+ 不定式）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">сколько · + 不定式</span></li></ul></article><article class="card short"><div class="head"><span class="hw">нужда́ться</span><span class="pt">无对</span><span class="kind k-short">简写</span></div><p class="mean">需要</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">в чём?</span></li></ul></article><article class="card short"><div class="head"><span class="hw">вы́глядеть</span><span class="pt">无对</span><span class="kind k-short">简写</span></div><p class="mean">看起来</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">как? каким?</span></li></ul></article><article class="card short"><div class="head"><span class="hw">грани́чить</span><span class="pt">无对</span><span class="kind k-short">简写</span></div><p class="mean">接壤；近似于</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">с чем?</span></li></ul></article><article class="card new"><div class="head"><span class="hw">облада́ть</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">具有（性质）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем?</span></li></ul></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T05-U01.html">存在、出现与发生</a></span><span class="zh">являться, существовать</span></div><div class="x"><span class="hw"><a href="T05-U04.html">原因与影响</a></span><span class="zh">зависеть ↔ влиять</span></div><div class="x"><span class="hw"><a href="T07.html">обладать / располагать</a></span><span class="zh">具有、掌握（T07）</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">состоя́ть в / заключа́ться в</td><td>都可表示“在于”；заключаться 更书面</td><td class="ru">Задача состоит в том, чтобы… · Суть заключается в том, что…</td></tr><tr><td class="hw">состоя́ть из / включа́ть в себя́ / содержа́ть</td><td>由……组成（列全部分）/ 包括（可以只列一部分）/ 含有（成分、数据）</td><td class="ru">состоит из трёх глав · включает анализ · содержит данные</td></tr><tr><td class="hw">отлича́ться от / различа́ться / не совпада́ть</td><td>A 不同于 B / A 和 B 彼此不同 / 不一致（数据、结果）</td><td class="ru">отличается от… · различаются по… · данные не совпадают</td></tr><tr><td class="hw">соотве́тствовать / совпада́ть</td><td>符合（标准、预期）/ 与……一致、重合</td><td class="ru">соответствует требованиям · совпадает с данными</td></tr><tr><td class="hw">относи́ться к / принадлежа́ть</td><td>属于（类别）/ 属于（所有者）；出自</td><td class="ru">относится к группе · принадлежит автору</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>前置词</h3><div class="pair"><span class="bad ru">зависеть на условиях</span><span class="good ru">зависеть от условий</span></div><div class="pair"><span class="bad ru">состоять с трёх частей</span><span class="good ru">состоять из трёх частей</span></div><div class="pair"><span class="bad ru">отличаться с традиционного</span><span class="good ru">отличаться от традиционного</span></div></div><div class="trapbox"><h3>支配</h3><div class="pair"><span class="bad ru">соответствовать с требованиями</span><span class="good ru">соответствовать требованиям（三格）</span></div><div class="pair"><span class="bad ru">касается о студентах</span><span class="good ru">касается студентов（二格）</span></div></div><div class="trapbox"><h3>形近</h3><div class="pair"><span class="bad ru">относительный = 有关的</span><span class="good ru">относительный = 相对的；关于……用 относительно чего</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">относи́ться / отнести́сь</td><td class="ru">к чему́? · к кому́? как?</td></tr><tr><td class="hw">принадлежа́ть</td><td class="ru">кому́? · к чему́?（群体）</td></tr><tr><td class="hw">каса́ться / косну́ться</td><td class="ru">чего́?（二格）</td></tr><tr><td class="hw">зави́сеть</td><td class="ru">от чего́?（二格）</td></tr><tr><td class="hw">определя́ться</td><td class="ru">чем?（五格）</td></tr><tr><td class="hw">отлича́ться</td><td class="ru">от чего́? чем? · тем, что… · чем?</td></tr><tr><td class="hw">различа́ться</td><td class="ru">чем? · по чему́?</td></tr><tr><td class="hw">соотве́тствовать</td><td class="ru">чему́?（三格）</td></tr><tr><td class="hw">совпада́ть / совпа́сть</td><td class="ru">с чем?</td></tr><tr><td class="hw">противоре́чить</td><td class="ru">чему́?（三格）</td></tr><tr><td class="hw">состоя́ть</td><td class="ru">из чего́? · в чём?</td></tr><tr><td class="hw">заключа́ться</td><td class="ru">в чём?</td></tr><tr><td class="hw">включа́ть / включи́ть</td><td class="ru">что? во что? · в себя́</td></tr><tr><td class="hw">содержа́ть</td><td class="ru">что?</td></tr><tr><td class="hw">входи́ть (в соста́в)</td><td class="ru">во что?</td></tr><tr><td class="hw">охва́тывать / охвати́ть</td><td class="ru">что?</td></tr><tr><td class="hw">характеризова́ться</td><td class="ru">чем?（五格）</td></tr><tr><td class="hw">име́ть</td><td class="ru">что?</td></tr><tr><td class="hw">зна́чить</td><td class="ru">что? · , что…</td></tr><tr><td class="hw">сто́ить</td><td class="ru">сколько · + 不定式</td></tr><tr><td class="hw">нужда́ться</td><td class="ru">в чём?</td></tr><tr><td class="hw">вы́глядеть</td><td class="ru">как? каким?</td></tr><tr><td class="hw">грани́чить</td><td class="ru">с чем?</td></tr><tr><td class="hw">облада́ть</td><td class="ru">чем?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>书面 / 学术</th></tr></thead><tbody><tr><td class="zh">属于</td><td class="ru">Это из…</td><td class="ru">Это относится к…</td><td class="ru">Данный вид относится к…</td></tr><tr><td class="zh">取决于</td><td class="ru">Смотря как.</td><td class="ru">Это зависит от…</td><td class="ru">Определяется… / Зависит от…</td></tr><tr><td class="zh">不同</td><td class="ru">Это другое.</td><td class="ru">Отличается от…</td><td class="ru">Отличается тем, что… / Различия заключаются в…</td></tr><tr><td class="zh">一致</td><td class="ru">Сходится.</td><td class="ru">Совпадает с…</td><td class="ru">Соответствует… / Согласуется с…</td></tr><tr><td class="zh">组成</td><td class="ru">Там три части.</td><td class="ru">Состоит из…</td><td class="ru">Включает в себя… / Содержит…</td></tr><tr><td class="zh">在于</td><td class="ru">Дело в том, что…</td><td class="ru">Суть в том, что…</td><td class="ru">Суть заключается в том, что…</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">属于某类</span><span class="arr">→</span><span class="q ru" tabindex="0">относиться к чему</span></div><div class="iv"><span class="zh">观点出自某人</span><span class="arr">→</span><span class="q ru" tabindex="0">идея принадлежит кому</span></div><div class="iv"><span class="zh">至于……</span><span class="arr">→</span><span class="q ru" tabindex="0">Что касается…, то…</span></div><div class="iv"><span class="zh">取决于</span><span class="arr">→</span><span class="q ru" tabindex="0">зависеть от чего</span></div><div class="iv"><span class="zh">随……而定</span><span class="arr">→</span><span class="q ru" tabindex="0">в зависимости от…</span></div><div class="iv"><span class="zh">由……决定（书面）</span><span class="arr">→</span><span class="q ru" tabindex="0">определяться чем</span></div><div class="iv"><span class="zh">不同在于</span><span class="arr">→</span><span class="q ru" tabindex="0">отличаться от чего тем, что…</span></div><div class="iv"><span class="zh">以……见长</span><span class="arr">→</span><span class="q ru" tabindex="0">отличаться чем</span></div><div class="iv"><span class="zh">彼此不同</span><span class="arr">→</span><span class="q ru" tabindex="0">различаться по чему</span></div><div class="iv"><span class="zh">符合要求</span><span class="arr">→</span><span class="q ru" tabindex="0">соответствовать требованиям</span></div><div class="iv"><span class="zh">与……一致</span><span class="arr">→</span><span class="q ru" tabindex="0">совпадать с чем</span></div><div class="iv"><span class="zh">由……组成</span><span class="arr">→</span><span class="q ru" tabindex="0">состоять из чего</span></div><div class="iv"><span class="zh">本质在于</span><span class="arr">→</span><span class="q ru" tabindex="0">Суть заключается в том, что…</span></div><div class="iv"><span class="zh">包括</span><span class="arr">→</span><span class="q ru" tabindex="0">включать в себя</span></div><div class="iv"><span class="zh">具有……特征</span><span class="arr">→</span><span class="q ru" tabindex="0">характеризоваться чем</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">论文由引言、三章和结论组成。</span><span class="q ru" tabindex="0">Диссертация состоит из введения, трёх глав и заключения.</span></div><div class="dr"><span class="zh">我们的方法的不同在于它考虑了时间因素。</span><span class="q ru" tabindex="0">Наш метод отличается тем, что учитывает фактор времени.</span></div><div class="dr"><span class="zh">结果符合理论预期。</span><span class="q ru" tabindex="0">Результаты соответствуют теоретическим ожиданиям.</span></div><div class="dr"><span class="zh">至于第二个问题，它需要单独研究。</span><span class="q ru" tabindex="0">Что касается второго вопроса, то он требует отдельного изучения.</span></div><div class="dr"><span class="zh">我们的数据与以往研究一致。</span><span class="q ru" tabindex="0">Наши данные совпадают с результатами предыдущих исследований.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>

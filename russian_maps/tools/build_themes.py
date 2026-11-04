@@ -5,7 +5,7 @@
 """
 import sys, os, html, re, copy
 sys.path.insert(0, os.path.dirname(__file__))
-from units import t01, t02, t04, t05, t06, extra, t01_detail
+from units import t01, t02, t04, t05, t06, extra, t01_detail, t05_detail
 from units.common import PT
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -33,18 +33,23 @@ THEMES = []
 for tid, m in extra.META.items():
     THEMES.append(dict(id=tid, **m, groups=[G[g] for g in m["order"]]))
 
-# T01：分组改用详细单元图的数据；总图里简写，组标题链接到详细图
-DET = {d["id"]: d for d in t01_detail.DETAILS}
-t01g = []
-for gid in extra.META["T01"]["order"]:
-    if gid == "T01-U01":
-        u = G[gid]
-        t01g.append(dict(id=gid, name=u["name"], purpose="我想说话、交谈、谈妥、劝说、发言（говор- 词族）", clusters=t01_detail.GOVOR_OVERVIEW,
-                         C=u["C"], D=u["D"], G=u["G"], H=u["H"], detail=LINKS["govor"]))
-    else:
-        d = DET[gid]
-        t01g.append(dict(id=gid, name=d["name"], purpose=d["purpose"], clusters=d["clusters"], C=d["C"], D=d["D"], G=d["G"], H=d["H"], detail=f"{gid}.html"))
-THEMES[0]["groups"] = t01g
+# 已有详细单元图的分组：总图里简写，组标题链接到详细图
+GOVOR_PAGE = "T01-U01.html"
+DETAIL_LISTS = [t01_detail.DETAILS, t05_detail.DETAILS]
+DET = {d["id"]: d for dl in DETAIL_LISTS for d in dl}
+for t in THEMES:
+    ng = []
+    for g in t["groups"]:
+        if g["id"] == "T01-U01":
+            ng.append(dict(id=g["id"], name=g["name"], purpose="我想说话、交谈、谈妥、劝说、发言（говор- 词族）", clusters=t01_detail.GOVOR_OVERVIEW,
+                           C=g["C"], D=g["D"], G=g["G"], H=g["H"], detail=GOVOR_PAGE))
+        elif g["id"] in DET:
+            d = DET[g["id"]]
+            ng.append(dict(id=d["id"], name=d["name"], purpose=d["purpose"], clusters=d["clusters"], C=d["C"], D=d["D"], G=d["G"], H=d["H"], detail=f"{d['id']}.html"))
+        else:
+            ng.append(g)
+    t["groups"] = ng
+THEME_NAME = {t["id"]: t["name"] for t in THEMES}
 
 def plain(s):
     return s.replace("́", "").replace("ё", "е")
@@ -71,7 +76,7 @@ for _t in THEMES:
     for _g in _t["groups"]:
         for _, _cs in _g["clusters"]:
             for _c in _cs: _fix(_c)
-for _d in t01_detail.DETAILS:
+for _d in DET.values():
     for _, _cs in _d["clusters"]:
         for _c in _cs: _fix(_c)
 
@@ -165,7 +170,7 @@ def theme_page(t, i):
     o.append('<div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>相关主题与单元</h2><div class="xlist">')
     for name, zh in t["B"]:
         key = "govor" if name.startswith("говор") else ("T11-U01" if name.startswith("T11") else None)
-        label = f'<a href="{LINKS[key]}">{E(name)}</a>' if key else (f'<a href="{name[:3]}.html">{E(name)}</a>' if name[:3] in [x["id"] for x in THEMES] else E(name))
+        label = f'<a href="{GOVOR_PAGE if key == "govor" else LINKS[key]}">{E(name)}</a>' if key else (f'<a href="{name[:3]}.html">{E(name)}</a>' if name[:3] in [x["id"] for x in THEMES] else E(name))
         o.append(f'<div class="x"><span class="hw">{label}</span><span class="zh">{E(zh)}</span></div>')
     o.append('</div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析 <em>先看跨分组的，再看组内的</em></h2><div class="tbl"><table><thead><tr><th>分组</th><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody>')
     for a, b, c in t["C"]:
@@ -220,7 +225,7 @@ for i, t in enumerate(THEMES):
 
 # ------------------------------------------------------------ 详细单元图（говор- 图的精细程度）
 def ref_link(word, ref):
-    if ref == "govor": return f'<a href="{LINKS["govor"]}">{E(word)}</a>'
+    if ref == "govor": return f'<a href="{GOVOR_PAGE}">{E(word)}</a>'
     if ref in LINKS: return f'<a href="{LINKS[ref]}">{E(word)}</a>'
     if ref in DET: return f'<a href="{ref}.html">{E(word)}</a>'
     if ref in [t["id"] for t in THEMES]: return f'<a href="{ref}.html">{E(word)}</a>'
@@ -228,12 +233,12 @@ def ref_link(word, ref):
 
 def detail_page(d, prev, nxt):
     o = ['<div class="wrap">']
-    nav = '<nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T01.html">↑ T01 交流与信息传达（总图）</a>'
+    nav = '<nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a>'
     if prev: nav += f'<a href="{prev["id"]}.html">上一组：{E(prev["name"])}</a>'
     if nxt: nav += f'<a href="{nxt["id"]}.html">下一组：{E(nxt["name"])}</a>'
     o.append(nav + "</nav>")
     n = sum(len(cs) for _, cs in d["clusters"])
-    o.append(f'<header class="top"><h1 class="ru">{E(d["h1"])}<small>T01 交流与信息传达 · 详细单元图 {E(d["id"])} · {E(d["name"])} · {n} 张卡片</small></h1>'
+    o.append(f'<header class="top"><h1 class="ru">{E(d["h1"])}<small>{E(d["id"][:3])} {E(THEME_NAME[d["id"][:3]])} · 详细单元图 {E(d["id"])} · {E(d["name"])} · {n} 张卡片</small></h1>'
              f'<p class="meta"><b>意图：</b>{E(d["purpose"])}。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header>')
     o.append('<div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span>'
              '<span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span>'
@@ -274,25 +279,45 @@ def detail_page(d, prev, nxt):
     o.append('</div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill">')
     o += [f'<div class="dr"><span class="zh">{E(zh)}</span><span class="q ru" tabindex="0">{E(ru)}</span></div>' for zh, ru in d["H"]]
     o.append('</div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p>'
-             '<p>本页由 tools/build_themes.py 从 tools/units/t01_detail.py 生成。打印按 A3 横向排版。</p></footer></div>')
+             '<p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div>')
     return doc(f"{d['name']} · {d['id']}", "".join(o))
 
-DLIST = t01_detail.DETAILS
-for i, d in enumerate(DLIST):
-    open(os.path.join(OUT, f"{d['id']}.html"), "w", encoding="utf-8").write(detail_page(d, DLIST[i - 1] if i else None, DLIST[i + 1] if i + 1 < len(DLIST) else None))
+# 链条：говор- 图（T01-U01）在最前，之后按主题顺序串起所有详细图
+GOVOR_STUB = dict(id="T01-U01", name="说、讲、交谈（говор- 词族）")
+CHAIN = [GOVOR_STUB] + [d for dl in DETAIL_LISTS for d in dl]
+for i, d in enumerate(CHAIN):
+    if d is GOVOR_STUB: continue
+    open(os.path.join(OUT, f"{d['id']}.html"), "w", encoding="utf-8").write(detail_page(d, CHAIN[i - 1] if i else None, CHAIN[i + 1] if i + 1 < len(CHAIN) else None))
+
+# говор- 词族图放进同一套页面，加上同样的导航
+_g = open(os.path.join(ROOT, "govor_unit.html"), encoding="utf-8").read()
+_head, _rest = _g.split("</style>", 1)
+_nxt = CHAIN[1]
+_nav = ('<nav class="nav" aria-label="导航" style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px">'
+        '<a href="../index_page.html" style="color:var(--aspect)">← 全部主题</a>'
+        f'<a href="{_nxt["id"]}.html" style="color:var(--aspect)">下一组：{E(_nxt["name"])}</a></nav>')
+_rest = _rest.replace('<div class="wrap">', '<div class="wrap">' + _nav, 1)
+open(os.path.join(OUT, GOVOR_PAGE), "w", encoding="utf-8").write(
+    '<!doctype html>\n<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
+    + _head + "</style></head><body>" + _rest + "</body></html>")
 
 def index_body(prefix):
     tot = sum(1 for t in THEMES for _ in cards(t)); nf = sum(1 for t in THEMES for _ in cards(t, ("full",)))
     o = ['<div class="wrap"><header class="top"><h1>动词主题图谱<small>'
          f'{len(THEMES)} 个主题 · 卡片 {tot} 张（重点卡 {nf}）· 覆盖你标黄的 {len(marked) - len(missing)} / {len(marked)} 个动词</small></h1>'
-         '<p class="meta">两层结构：主题总图（A 区按功能分组，C 辨析，D 易错，E 支配，F 功能 × 语域，G 从中文意图选词，H 自测）＋ 每个功能分组一张详细单元图（говор- 图的精细程度）。目前 T01 的详细图已全部完成，其他主题按顺序补。</p></header><div class="ix"><ul>']
+         '<p class="meta">两层结构：主题总图（A 区按功能分组，C 辨析，D 易错，E 支配，F 功能 × 语域，G 从中文意图选词，H 自测）＋ 每个功能分组一张详细单元图（говор- 图的精细程度）。目前 T01、T05 的详细图已完成，其他主题按顺序补。</p></header><div class="ix"><ul>']
     for t in THEMES:
         n = sum(1 for _ in cards(t))
         o.append(f'<li><a href="{prefix}{t["id"]}.html"><b>{E(t["id"])} {E(t["name"])}</b><small>{len(t["groups"])} 个功能分组 · {n} 张卡片 · {E(t["purpose"])}</small></a></li>')
-    o.append('</ul><h2>T01 交流与信息传达：详细单元图</h2><ul>' + f'<li><a href="{LINKS["govor"]}"><b>T01-U01 说、讲、交谈（говор- 词族图）</b><small>单独发布的详细图</small></a></li>'
-             + "".join(f'<li><a href="{prefix}{d["id"]}.html"><b>{E(d["id"])} {E(d["name"])}</b><small>{E(d["h1"])} · {sum(len(cs) for _, cs in d["clusters"])} 张卡片</small></a></li>' for d in t01_detail.DETAILS)
-             + '</ul><h2>已完成的单独单元</h2><ul>'
-             f'<li><a href="{LINKS["govor"]}"><b>говор- 词族图</b><small>交流主题的核心词族</small></a></li>'
+    o.append('</ul>')
+    for dl in DETAIL_LISTS:
+        tid = dl[0]["id"][:3]
+        o.append(f'<h2>{E(tid)} {E(THEME_NAME[tid])}：详细单元图</h2><ul>')
+        if tid == "T01":
+            o.append(f'<li><a href="{prefix}{GOVOR_PAGE}"><b>T01-U01 说、讲、交谈</b><small>«говори́ть / сказа́ть» · говор- 词族图</small></a></li>')
+        o += [f'<li><a href="{prefix}{d["id"]}.html"><b>{E(d["id"])} {E(d["name"])}</b><small>{E(d["h1"])} · {sum(len(cs) for _, cs in d["clusters"])} 张卡片</small></a></li>' for d in dl]
+        o.append('</ul>')
+    o.append('<h2>学术与答辩（单独发布）</h2><ul>'
              f'<li><a href="{LINKS["T11-U01"]}"><b>T11-U01 证据与结论的强度表达</b><small>学术论证</small></a></li>'
              f'<li><a href="{LINKS["T11-U02"]}"><b>T11-U02 回应提问、质疑与异议</b><small>答辩互动</small></a></li></ul>'
              '<p class="foot">原 T03（情感）和 T09（日常生活）这次只标了一个词：стремиться 放进 T04“能力、尝试与追求”，включать（包括义）放进 T05“关系、属性与依存”。这两个主题以后可以单独做成完整的图。</p></div></div>')
