@@ -5,7 +5,7 @@
 """
 import sys, os, html, re, copy
 sys.path.insert(0, os.path.dirname(__file__))
-from units import t01, t02, t04, t05, t06, extra
+from units import t01, t02, t04, t05, t06, extra, t01_detail
 from units.common import PT
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -33,6 +33,19 @@ THEMES = []
 for tid, m in extra.META.items():
     THEMES.append(dict(id=tid, **m, groups=[G[g] for g in m["order"]]))
 
+# T01：分组改用详细单元图的数据；总图里简写，组标题链接到详细图
+DET = {d["id"]: d for d in t01_detail.DETAILS}
+t01g = []
+for gid in extra.META["T01"]["order"]:
+    if gid == "T01-U01":
+        u = G[gid]
+        t01g.append(dict(id=gid, name=u["name"], purpose="我想说话、交谈、谈妥、劝说、发言（говор- 词族）", clusters=t01_detail.GOVOR_OVERVIEW,
+                         C=u["C"], D=u["D"], G=u["G"], H=u["H"], detail=LINKS["govor"]))
+    else:
+        d = DET[gid]
+        t01g.append(dict(id=gid, name=d["name"], purpose=d["purpose"], clusters=d["clusters"], C=d["C"], D=d["D"], G=d["G"], H=d["H"], detail=f"{gid}.html"))
+THEMES[0]["groups"] = t01g
+
 def plain(s):
     return s.replace("́", "").replace("ё", "е")
 
@@ -40,12 +53,27 @@ def heads(card):
     s = re.sub(r"\(([^)]*)\)", r" \1 ", plain(card["hw"]))
     return {w.strip() for w in re.split(r"[ /·,]+", s) if w.strip()}
 
-def cards(theme, kinds=("full", "short", "new")):
+def cards(theme, kinds=("full", "short", "new", "newfull")):
     for g in theme["groups"]:
         for cname, cs in g["clusters"]:
             for c in cs:
                 if c["kind"] in kinds:
                     yield g, cname, c
+
+# ------------------------------------------------------------ 卡片标签以原词表为准：表中的词不标“表外补充”
+_wsl = load_workbook(MARKED)["动词使用情况"]
+LISTHEADS = {plain(str(v)).strip() for r in _wsl.iter_rows(min_row=2, values_only=True) for v in r[:2] if v}
+def _fix(c):
+    inlist = bool(heads(c) & LISTHEADS)
+    if inlist and c["kind"] == "newfull": c["kind"] = "full"
+    elif inlist and c["kind"] == "new": c["kind"] = "short"
+for _t in THEMES:
+    for _g in _t["groups"]:
+        for _, _cs in _g["clusters"]:
+            for _c in _cs: _fix(_c)
+for _d in t01_detail.DETAILS:
+    for _, _cs in _d["clusters"]:
+        for _c in _cs: _fix(_c)
 
 # ------------------------------------------------------------ 覆盖核对
 ws = load_workbook(MARKED)["动词使用情况"]
@@ -78,6 +106,8 @@ EXTRA = """
 .grp .card{align-self:start;align-content:start}
 @media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
 .gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
 .toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
 .ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
 .ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
@@ -91,9 +121,11 @@ def doc(title, body, with_script=True):
             f"<title>{E(title)}</title><meta name=\"claude:viewport-fit-sides\" content=\"cover\">" + style + EXTRA + "</style></head><body>" + body
             + (script if with_script else "") + "</body></html>")
 
-def card_html(c):
-    cls = {"full": "card", "short": "card short", "new": "card new"}[c["kind"]]
-    badge = {"full": "", "short": '<span class="kind k-short">同主题</span>', "new": '<span class="kind k-new">表外补充</span>'}[c["kind"]]
+def card_html(c, compact=False):
+    if compact:
+        c = dict(c, col="", der="", trap="", acad="", ex="", kind={"full": "short", "newfull": "new"}.get(c["kind"], c["kind"]))
+    cls = {"full": "card", "short": "card short", "new": "card new", "newfull": "card"}[c["kind"]]
+    badge = {"full": "", "short": '<span class="kind k-short">简写</span>', "new": '<span class="kind k-new">表外补充</span>', "newfull": '<span class="kind k-new">表外补充</span>'}[c["kind"]]
     pt = f'<span class="pt">{E(PT[c["pt"]])}</span>' if c["pt"] else ""
     o = [f'<article class="{cls}"><div class="head"><span class="hw">{E(c["hw"])}</span>{pt}{badge}</div><p class="mean">{E(c["zh"])}</p><ul class="rel">']
     for key, tag, tcls, ru in (("gov", "支", "t-gov", True), ("col", "搭", "t-deriv", True), ("der", "派", "t-deriv", True), ("trap", "⚠", "t-trap", False), ("acad", "学", "t-acad", True)):
@@ -112,7 +144,7 @@ def theme_page(t, i):
     for tt in THEMES:
         nav += f'<b>{E(tt["id"])} {E(tt["name"])}</b>' if tt is t else f'<a href="{tt["id"]}.html">{E(tt["id"])} {E(tt["name"])}</a>'
     o.append(nav + "</nav>")
-    nf = sum(1 for _ in cards(t, ("full",))); ns = sum(1 for _ in cards(t, ("short",))); nn = sum(1 for _ in cards(t, ("new",)))
+    nf = sum(1 for _ in cards(t, ("full",))); ns = sum(1 for _ in cards(t, ("short",))); nn = sum(1 for _ in cards(t, ("new", "newfull")))
     o.append(f'<header class="top"><h1 class="ru">{E(t["h1"])}<small>{E(t["id"])} {E(t["name"])} · {len(t["groups"])} 个功能分组 · 重点卡 {nf} · 同主题 {ns} · 表外补充 {nn}</small></h1>'
              f'<p class="meta"><b>意图：</b>{E(t["purpose"])}。<b>读法：</b>A 区按功能分组，同一组是意思相近、要互相比较的词；G 区从中文意图出发选词；F 区看同一功能在不同场合的说法。</p>'
              '<div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header>')
@@ -123,9 +155,10 @@ def theme_page(t, i):
     toc = "".join(f'<a href="#g{k}">{NO[k]} {E(g["name"])}</a>' for k, g in enumerate(t["groups"]))
     o.append(f'<section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>功能分组 <em>同组的词意思相近，要放在一起比较</em></h2><div class="toc">{toc}</div>')
     for k, g in enumerate(t["groups"]):
-        o.append(f'<div class="grp" id="g{k}"><h3 class="gh"><span class="no">{NO[k]}</span>{E(g["name"])}</h3><p class="gp">意图：{E(g["purpose"])}</p><div class="clusters">')
+        link = f'<a class="dl" href="{g["detail"]}">→ 详细单元图</a>' if g.get("detail") else ""
+        o.append(f'<div class="grp" id="g{k}"><h3 class="gh"><span class="no">{NO[k]}</span>{E(g["name"])}{link}</h3><p class="gp">意图：{E(g["purpose"])}</p><div class="clusters">')
         for cname, cs in g["clusters"]:
-            o.append(f'<div class="cluster"><h3>{E(cname)}</h3>' + "".join(card_html(c) for c in cs) + "</div>")
+            o.append(f'<div class="cluster"><h3>{E(cname)}</h3>' + "".join(card_html(c, compact=bool(g.get("detail"))) for c in cs) + "</div>")
         o.append("</div></div>")
     o.append("</section>")
     # B + C
@@ -185,15 +218,80 @@ def theme_page(t, i):
 for i, t in enumerate(THEMES):
     open(os.path.join(OUT, f"{t['id']}.html"), "w", encoding="utf-8").write(theme_page(t, i))
 
+# ------------------------------------------------------------ 详细单元图（говор- 图的精细程度）
+def ref_link(word, ref):
+    if ref == "govor": return f'<a href="{LINKS["govor"]}">{E(word)}</a>'
+    if ref in LINKS: return f'<a href="{LINKS[ref]}">{E(word)}</a>'
+    if ref in DET: return f'<a href="{ref}.html">{E(word)}</a>'
+    if ref in [t["id"] for t in THEMES]: return f'<a href="{ref}.html">{E(word)}</a>'
+    return E(word)
+
+def detail_page(d, prev, nxt):
+    o = ['<div class="wrap">']
+    nav = '<nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T01.html">↑ T01 交流与信息传达（总图）</a>'
+    if prev: nav += f'<a href="{prev["id"]}.html">上一组：{E(prev["name"])}</a>'
+    if nxt: nav += f'<a href="{nxt["id"]}.html">下一组：{E(nxt["name"])}</a>'
+    o.append(nav + "</nav>")
+    n = sum(len(cs) for _, cs in d["clusters"])
+    o.append(f'<header class="top"><h1 class="ru">{E(d["h1"])}<small>T01 交流与信息传达 · 详细单元图 {E(d["id"])} · {E(d["name"])} · {n} 张卡片</small></h1>'
+             f'<p class="meta"><b>意图：</b>{E(d["purpose"])}。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header>')
+    o.append('<div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span>'
+             '<span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span>'
+             '<span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div>')
+    core, czh, forks, note = d["core"]
+    TAGC = {"体": "t-aspect", "派": "t-deriv", "⚠": "t-trap"}
+    fk = "".join(f'<div class="fork"><i class="tag {TAGC.get(t, "t-aspect")}">{E(t)}</i><span class="hw">{E(w)}</span><span class="zh">{E(z)}</span></div>' for t, w, z in forks)
+    o.append(f'<section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2>'
+             f'<div class="root"><div class="core">{E(core)}<small>{E(czh)}</small></div><div class="forks">{fk}</div><p class="note">{E(note)}</p></div><div class="clusters">')
+    for cname, cs in d["clusters"]:
+        o.append(f'<div class="cluster"><h3>{E(cname)}</h3>' + "".join(card_html(c) for c in cs) + "</div>")
+    o.append("</div></section>")
+    o.append('<div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist">')
+    for w, z, ref in d["B"]:
+        o.append(f'<div class="x"><span class="hw">{ref_link(w, ref)}</span><span class="zh">{E(z)}</span></div>')
+    o.append('</div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody>')
+    for a, b, c in d["C"]:
+        o.append(f'<tr><td class="hw">{E(a)}</td><td>{E(b)}</td><td class="ru">{E(c)}</td></tr>')
+    o.append("</tbody></table></div></section></div>")
+    dd = {}
+    for typ, bad, good in d["D"]:
+        dd.setdefault(typ, []).append((bad, good))
+    o.append('<section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps">')
+    for typ, items in dd.items():
+        o.append(f'<div class="trapbox"><h3>{E(typ)}</h3>' + "".join(f'<div class="pair"><span class="bad ru">{E(b)}</span><span class="good ru">{E(g)}</span></div>' for b, g in items) + "</div>")
+    o.append("</div></section>")
+    o.append('<div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody>')
+    for _, cs in d["clusters"]:
+        for c in cs:
+            if c["gov"] and not c["gov"].startswith("→"):
+                o.append(f'<tr><td class="hw">{E(c["hw"])}</td><td class="ru">{E(c["gov"])}</td></tr>')
+    cols = "".join(f"<th>{E(x)}</th>" for x in d["F_cols"])
+    o.append(f'</tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr>{cols}</tr></thead><tbody>')
+    for row in d["F"]:
+        o.append(f'<tr><td class="zh">{E(row[0])}</td>' + "".join(f'<td class="ru">{E(x)}</td>' for x in row[1:]) + "</tr>")
+    o.append('</tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent">')
+    o += [f'<div class="iv"><span class="zh">{E(zh)}</span><span class="arr">→</span><span class="q ru" tabindex="0">{E(ru)}</span></div>' for zh, ru in d["G"]]
+    o.append('</div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill">')
+    o += [f'<div class="dr"><span class="zh">{E(zh)}</span><span class="q ru" tabindex="0">{E(ru)}</span></div>' for zh, ru in d["H"]]
+    o.append('</div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p>'
+             '<p>本页由 tools/build_themes.py 从 tools/units/t01_detail.py 生成。打印按 A3 横向排版。</p></footer></div>')
+    return doc(f"{d['name']} · {d['id']}", "".join(o))
+
+DLIST = t01_detail.DETAILS
+for i, d in enumerate(DLIST):
+    open(os.path.join(OUT, f"{d['id']}.html"), "w", encoding="utf-8").write(detail_page(d, DLIST[i - 1] if i else None, DLIST[i + 1] if i + 1 < len(DLIST) else None))
+
 def index_body(prefix):
     tot = sum(1 for t in THEMES for _ in cards(t)); nf = sum(1 for t in THEMES for _ in cards(t, ("full",)))
     o = ['<div class="wrap"><header class="top"><h1>动词主题图谱<small>'
          f'{len(THEMES)} 个主题 · 卡片 {tot} 张（重点卡 {nf}）· 覆盖你标黄的 {len(marked) - len(missing)} / {len(marked)} 个动词</small></h1>'
-         '<p class="meta">每个主题一张图，和 говор- 词族图的结构一致：A 区按功能分组，C 辨析，D 易错，E 支配，F 功能 × 语域，G 从中文意图选词，H 自测。</p></header><div class="ix"><ul>']
+         '<p class="meta">两层结构：主题总图（A 区按功能分组，C 辨析，D 易错，E 支配，F 功能 × 语域，G 从中文意图选词，H 自测）＋ 每个功能分组一张详细单元图（говор- 图的精细程度）。目前 T01 的详细图已全部完成，其他主题按顺序补。</p></header><div class="ix"><ul>']
     for t in THEMES:
         n = sum(1 for _ in cards(t))
         o.append(f'<li><a href="{prefix}{t["id"]}.html"><b>{E(t["id"])} {E(t["name"])}</b><small>{len(t["groups"])} 个功能分组 · {n} 张卡片 · {E(t["purpose"])}</small></a></li>')
-    o.append('</ul><h2>已完成的单独单元</h2><ul>'
+    o.append('</ul><h2>T01 交流与信息传达：详细单元图</h2><ul>' + f'<li><a href="{LINKS["govor"]}"><b>T01-U01 说、讲、交谈（говор- 词族图）</b><small>单独发布的详细图</small></a></li>'
+             + "".join(f'<li><a href="{prefix}{d["id"]}.html"><b>{E(d["id"])} {E(d["name"])}</b><small>{E(d["h1"])} · {sum(len(cs) for _, cs in d["clusters"])} 张卡片</small></a></li>' for d in t01_detail.DETAILS)
+             + '</ul><h2>已完成的单独单元</h2><ul>'
              f'<li><a href="{LINKS["govor"]}"><b>говор- 词族图</b><small>交流主题的核心词族</small></a></li>'
              f'<li><a href="{LINKS["T11-U01"]}"><b>T11-U01 证据与结论的强度表达</b><small>学术论证</small></a></li>'
              f'<li><a href="{LINKS["T11-U02"]}"><b>T11-U02 回应提问、质疑与异议</b><small>答辩互动</small></a></li></ul>'
@@ -226,7 +324,7 @@ sheet("说明", ["项目", "内容"], [24, 110], [
     ("范围", f"覆盖你标黄的 {len(marked)} 个动词；每个主题还包含原词表中本主题的其他词（同主题，简写）和为完整补入的词（表外补充）。"),
     ("核验状态", "全部为“待核实”。"),
     ("生成方式", "tools/build_themes.py 从 tools/units/ 的数据生成；HTML 在 themes/ 目录。")])
-KIND = {"full": "重点卡", "short": "同主题", "new": "表外补充"}
+KIND = {"full": "重点卡", "short": "同主题", "new": "表外补充", "newfull": "表外补充（详写）"}
 rows = []
 for t in THEMES:
     for k, g in enumerate(t["groups"]):
@@ -251,7 +349,7 @@ sheet("F_功能语域", ["主题ID", "功能", "列 1", "列 2", "列 3", "列 4
 sheet("覆盖核对", ["НСВ（原表）", "СВ（原表）", "原表单元", "来源", "所在主题", "所在分组", "对应卡片"], [18, 18, 10, 14, 8, 26, 36], coverage, lambda r: MISS if r[6] == "未找到" else None)
 s = wb.create_sheet("汇总", 1); s.column_dimensions["A"].width = 28; s.column_dimensions["B"].width = 12
 for i, (a, b) in enumerate([("主题数", len(THEMES)), ("卡片总数", "=COUNTA('3b_词卡'!A2:A5000)"), ("重点卡", "=COUNTIF('3b_词卡'!E2:E5000,\"重点卡\")"),
-                            ("同主题", "=COUNTIF('3b_词卡'!E2:E5000,\"同主题\")"), ("表外补充", "=COUNTIF('3b_词卡'!E2:E5000,\"表外补充\")"),
+                            ("同主题", "=COUNTIF('3b_词卡'!E2:E5000,\"同主题\")"), ("表外补充", "=COUNTIF('3b_词卡'!E2:E5000,\"表外补充*\")"),
                             ("标黄动词", "=COUNTA('覆盖核对'!A2:A1000)"), ("其中找到卡片", "=COUNTA('覆盖核对'!G2:G1000)-COUNTIF('覆盖核对'!G2:G1000,\"未找到\")"),
                             ("辨析", "=COUNTA('4_辨析'!A2:A3000)"), ("陷阱", "=COUNTA('6_陷阱'!A2:A3000)"), ("意图", "=COUNTA('5_意图选词'!A2:A3000)"), ("自测题", "=COUNTA('7_自测题'!A2:A3000)")], 1):
     s.cell(row=i, column=1, value=a).font = Font(name=FN, bold=True, size=10); s.cell(row=i, column=2, value=b).font = BF
