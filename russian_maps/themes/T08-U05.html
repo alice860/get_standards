@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>手部动作与物体移动 · T08-U05</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T08-U04.html">上一组：位置与姿态</a></nav><header class="top"><h1 class="ru">«держа́ть · поднима́ть · броса́ть · снима́ть…»<small>T08 运动与位置 · 详细单元图 T08-U05 · 手部动作与物体移动 · 12 张卡片</small></h1><p class="meta"><b>意图：</b>我想说拿着、举起、放下、扔、丢掉、取出、摘下、穿戴、掉落、弄坏——以及它们的转义。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">держа́ть<small>拿着、握着（手部状态）</small></div><div class="forks"><div class="fork"><i class="tag t-aspect">限</i><span class="hw">подержа́ть</span><span class="zh">拿一会儿</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">поддержа́ть</span><span class="zh">支持（同根，→ T06）</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">держа́ться</span><span class="zh">坚持；抓住；（как）表现</span></div></div><p class="note">以“拿着”为中心：举起与放下（поднять、опустить）→ 扔与丢掉（бросить、выбросить）→ 取出与摘下（вынуть、снять）→ 穿戴（надеть）→ 掉落与弄坏（упасть、сломать）。许多词有转义：поднять вопрос、бросить курить、снять фильм / квартиру、бросаться в глаза。</p></div><div class="clusters"><div class="cluster"><h3>拿着、举起与放下</h3><article class="card"><div class="head"><span class="hw">держа́ть / подержа́ть</span><span class="pt">限定（по-）</span></div><p class="mean">拿着、握着；保持</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · в чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">держать в руках; держать в курсе</span></li><li><i class="tag t-trap">⚠</i><span>Держите меня в курсе = 随时告诉我进展</span></li></ul><p class="ex"><span class="ru">Держите меня, пожалуйста, в курсе.</span><span class="zh">请随时告诉我进展。</span></p></article><article class="card"><div class="head"><span class="hw">поднима́ть / подня́ть</span><span class="pt">严格体对应</span></div><p class="mean">举起；提出（问题）；提高</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · вопрос</span></li><li><i class="tag t-deriv">搭</i><span class="ru">поднять руку; поднять вопрос о…</span></li><li><i class="tag t-deriv">派</i><span class="ru">подъём</span></li><li><i class="tag t-acad">学</i><span class="ru">поднять вопрос о…</span></li></ul><p class="ex"><span class="ru">Оппонент поднял вопрос о репрезентативности выборки.</span><span class="zh">评阅人提出了样本代表性的问题。</span></p></article><article class="card"><div class="head"><span class="hw">поднима́ться / подня́ться</span><span class="pt">严格体对应</span></div><p class="mean">上去；上升</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">куда́? · на сколько?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">подняться на пятый этаж</span></li></ul><p class="ex"><span class="ru">Температура поднялась до 30 градусов.</span><span class="zh">气温升到了 30 度。</span></p></article><article class="card"><div class="head"><span class="hw">опуска́ть / опусти́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">放下、降低；省略</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">опустить подробности</span></li></ul><p class="ex"><span class="ru">Опустим технические подробности.</span><span class="zh">我们省略技术细节。</span></p></article></div><div class="cluster"><h3>扔与丢</h3><article class="card"><div class="head"><span class="hw">броса́ть / бро́сить</span><span class="pt">严格体对应</span></div><p class="mean">扔；放弃、戒掉</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? куда́? · + 不定式</span></li><li><i class="tag t-deriv">搭</i><span class="ru">бросить курить / работу</span></li></ul><p class="ex"><span class="ru">Он бросил курить два года назад.</span><span class="zh">他两年前戒了烟。</span></p></article><article class="card"><div class="head"><span class="hw">броса́ться / бро́ситься</span><span class="pt">严格体对应</span></div><p class="mean">冲向；（в глаза）引人注目</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">куда́? к кому́? · в глаза</span></li><li><i class="tag t-deriv">搭</i><span class="ru">бросаться в глаза</span></li></ul><p class="ex"><span class="ru">В глаза бросается резкий рост показателя.</span><span class="zh">指标的急剧上升引人注目。</span></p></article><article class="card"><div class="head"><span class="hw">выбра́сывать / вы́бросить</span><span class="pt">严格体对应</span></div><p class="mean">扔掉</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">выбросить мусор</span></li><li><i class="tag t-deriv">派</i><span class="ru">вы́брос（排放；异常值）</span></li></ul><p class="ex"><span class="ru">Не выбрасывайте черновики.</span><span class="zh">别把草稿扔了。</span></p></article></div><div class="cluster"><h3>取出、摘下与穿戴</h3><article class="card"><div class="head"><span class="hw">вынима́ть / вы́нуть</span><span class="pt">严格体对应</span></div><p class="mean">取出</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? откуда?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">вынуть из сумки</span></li></ul><p class="ex"><span class="ru">Он вынул из папки документы.</span><span class="zh">他从文件夹里拿出文件。</span></p></article><article class="card"><div class="head"><span class="hw">снима́ть / снять</span><span class="pt">按义项体对应</span></div><p class="mean">① 摘下、脱下 ② 拍摄 ③ 租（房）④ 撤销（问题）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">снять куртку; снять фильм; снять квартиру; снять вопрос</span></li></ul><p class="ex"><span class="ru">Я снимаю квартиру недалеко от университета.</span><span class="zh">我在学校附近租房。</span></p></article><article class="card"><div class="head"><span class="hw">надева́ть / наде́ть</span><span class="pt">严格体对应</span></div><p class="mean">穿上、戴上（自己）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? на что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">надеть пальто</span></li><li><i class="tag t-trap">⚠</i><span>给别人穿用 одеть кого</span></li></ul><p class="ex"><span class="ru">Наденьте, пожалуйста, бейдж.</span><span class="zh">请戴上胸牌。</span></p></article></div><div class="cluster"><h3>掉落与弄坏</h3><article class="card"><div class="head"><span class="hw">па́дать / упа́сть</span><span class="pt">严格体对应</span></div><p class="mean">掉落、跌倒；下降</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">куда́? откуда? · на сколько?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">спрос падает</span></li><li><i class="tag t-deriv">派</i><span class="ru">паде́ние（下降）</span></li></ul><p class="ex"><span class="ru">Спрос на эту продукцию падает.</span><span class="zh">这种产品的需求在下降。</span></p></article><article class="card"><div class="head"><span class="hw">лома́ть / слома́ть</span><span class="pt">严格体对应</span></div><p class="mean">弄坏、折断</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">сломать ногу</span></li><li><i class="tag t-trap">⚠</i><span>“东西坏了”用 сломаться</span></li></ul><p class="ex"><span class="ru">Ноутбук сломался перед защитой.</span><span class="zh">答辩前笔记本电脑坏了。</span></p></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T06-U01.html">支持</a></span><span class="zh">поддержать（T06）</span></div><div class="x"><span class="hw"><a href="T08-U04.html">提出问题</a></span><span class="zh">поставить вопрос（T08-U04）</span></div><div class="x"><span class="hw"><a href="T05-U03.html">下降</a></span><span class="zh">снижаться（T05）</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">держа́ть / подде́рживать</td><td>拿着、保持 / 支持</td><td class="ru">держать в руках · поддерживать идею</td></tr><tr><td class="hw">бро́сить / вы́бросить</td><td>扔；放弃、戒掉 / 扔掉（不要了）</td><td class="ru">бросил мяч · бросил курить · выбросил мусор</td></tr><tr><td class="hw">снять / наде́ть / оде́ть</td><td>摘下、脱下 / （自己）穿上 / 给别人穿</td><td class="ru">снял куртку · надел пальто · одел ребёнка</td></tr><tr><td class="hw">па́дать / снижа́ться</td><td>掉落；下降（口语、媒体）/ 下降（书面中性）</td><td class="ru">спрос падает · уровень снижается</td></tr><tr><td class="hw">подня́ть вопро́с / поста́вить вопро́с</td><td>提出（引起注意）/ 提出（作为议题）</td><td class="ru">поднял вопрос о выборке · поставить вопрос на голосование</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>易混</h3><div class="pair"><span class="bad ru">одеть пальто</span><span class="good ru">надеть пальто（自己穿）/ одеть ребёнка（给别人穿）</span></div></div><div class="trapbox"><h3>结构</h3><div class="pair"><span class="bad ru">Ноутбук сломал</span><span class="good ru">Ноутбук сломался</span></div></div><div class="trapbox"><h3>前置词</h3><div class="pair"><span class="bad ru">бросаться к глазам</span><span class="good ru">бросаться в глаза</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">держа́ть / подержа́ть</td><td class="ru">что? · в чём?</td></tr><tr><td class="hw">поднима́ть / подня́ть</td><td class="ru">что? · вопрос</td></tr><tr><td class="hw">поднима́ться / подня́ться</td><td class="ru">куда́? · на сколько?</td></tr><tr><td class="hw">опуска́ть / опусти́ть</td><td class="ru">что?</td></tr><tr><td class="hw">броса́ть / бро́сить</td><td class="ru">что? куда́? · + 不定式</td></tr><tr><td class="hw">броса́ться / бро́ситься</td><td class="ru">куда́? к кому́? · в глаза</td></tr><tr><td class="hw">выбра́сывать / вы́бросить</td><td class="ru">что?</td></tr><tr><td class="hw">вынима́ть / вы́нуть</td><td class="ru">что? откуда?</td></tr><tr><td class="hw">снима́ть / снять</td><td class="ru">что?</td></tr><tr><td class="hw">надева́ть / наде́ть</td><td class="ru">что? на что?</td></tr><tr><td class="hw">па́дать / упа́сть</td><td class="ru">куда́? откуда? · на сколько?</td></tr><tr><td class="hw">лома́ть / слома́ть</td><td class="ru">что?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>动词</th><th>具体动作</th><th>转义</th><th>学术 / 正式</th></tr></thead><tbody><tr><td class="zh">держа́ть</td><td class="ru">Держи сумку.</td><td class="ru">Держись!</td><td class="ru">Держите меня в курсе.</td></tr><tr><td class="zh">поднима́ть</td><td class="ru">Поднимите руку.</td><td class="ru">поднять настроение</td><td class="ru">поднять вопрос о…</td></tr><tr><td class="zh">броса́ть</td><td class="ru">Брось мяч.</td><td class="ru">бросить курить</td><td class="ru">бросается в глаза…</td></tr><tr><td class="zh">снима́ть</td><td class="ru">Снимите куртку.</td><td class="ru">снять квартиру / фильм</td><td class="ru">снять вопрос с повестки</td></tr><tr><td class="zh">опуска́ть</td><td class="ru">Опустите шторы.</td><td class="ru">опустить руки（泄气）</td><td class="ru">Опустим подробности.</td></tr><tr><td class="zh">па́дать</td><td class="ru">Чашка упала.</td><td class="ru">упасть духом</td><td class="ru">Спрос падает. / падение цен</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">随时告诉我进展</span><span class="arr">→</span><span class="q ru" tabindex="0">Держите меня в курсе</span></div><div class="iv"><span class="zh">提出某问题</span><span class="arr">→</span><span class="q ru" tabindex="0">поднять вопрос о…</span></div><div class="iv"><span class="zh">气温升到</span><span class="arr">→</span><span class="q ru" tabindex="0">подняться до…</span></div><div class="iv"><span class="zh">省略细节</span><span class="arr">→</span><span class="q ru" tabindex="0">Опустим подробности</span></div><div class="iv"><span class="zh">戒烟</span><span class="arr">→</span><span class="q ru" tabindex="0">бросить курить</span></div><div class="iv"><span class="zh">引人注目</span><span class="arr">→</span><span class="q ru" tabindex="0">бросаться в глаза</span></div><div class="iv"><span class="zh">租房</span><span class="arr">→</span><span class="q ru" tabindex="0">снять квартиру</span></div><div class="iv"><span class="zh">戴上胸牌</span><span class="arr">→</span><span class="q ru" tabindex="0">надеть бейдж</span></div><div class="iv"><span class="zh">需求下降</span><span class="arr">→</span><span class="q ru" tabindex="0">спрос падает</span></div><div class="iv"><span class="zh">东西坏了</span><span class="arr">→</span><span class="q ru" tabindex="0">сломаться</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">评阅人提出了样本代表性的问题。</span><span class="q ru" tabindex="0">Оппонент поднял вопрос о репрезентативности выборки.</span></div><div class="dr"><span class="zh">指标的急剧上升引人注目。</span><span class="q ru" tabindex="0">В глаза бросается резкий рост показателя.</span></div><div class="dr"><span class="zh">我们省略技术细节。</span><span class="q ru" tabindex="0">Опустим технические подробности.</span></div><div class="dr"><span class="zh">我在学校附近租房。</span><span class="q ru" tabindex="0">Я снимаю квартиру недалеко от университета.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>
