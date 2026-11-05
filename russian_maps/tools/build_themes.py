@@ -5,7 +5,7 @@
 """
 import sys, os, html, re, copy
 sys.path.insert(0, os.path.dirname(__file__))
-from units import t01, t02, t04, t05, t06, extra, t01_detail, t02_detail, t03_detail, t04_detail, t05_detail, t06_detail, t07_detail, t08_detail
+from units import t01, t02, t04, t05, t06, extra, t01_detail, t02_detail, t03_detail, t04_detail, t05_detail, t06_detail, t07_detail, t08_detail, t09_detail
 from units.common import PT
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -36,7 +36,7 @@ THEMES.sort(key=lambda t: t["id"])
 
 # 已有详细单元图的分组：总图里简写，组标题链接到详细图
 GOVOR_PAGE = "T01-U01.html"
-DETAIL_LISTS = [t01_detail.DETAILS, t02_detail.DETAILS, t03_detail.DETAILS, t04_detail.DETAILS, t05_detail.DETAILS, t06_detail.DETAILS, t07_detail.DETAILS, t08_detail.DETAILS]
+DETAIL_LISTS = [t01_detail.DETAILS, t02_detail.DETAILS, t03_detail.DETAILS, t04_detail.DETAILS, t05_detail.DETAILS, t06_detail.DETAILS, t07_detail.DETAILS, t08_detail.DETAILS, t09_detail.DETAILS]
 DET = {d["id"]: d for dl in DETAIL_LISTS for d in dl}
 for t in THEMES:
     ng = []
@@ -306,7 +306,7 @@ def index_body(prefix):
     tot = sum(1 for t in THEMES for _ in cards(t)); nf = sum(1 for t in THEMES for _ in cards(t, ("full",)))
     o = ['<div class="wrap"><header class="top"><h1>动词主题图谱<small>'
          f'{len(THEMES)} 个主题 · 卡片 {tot} 张（重点卡 {nf}）· 覆盖你标黄的 {len(marked) - len(missing)} / {len(marked)} 个动词</small></h1>'
-         '<p class="meta">两层结构：主题总图（A 区按功能分组，C 辨析，D 易错，E 支配，F 功能 × 语域，G 从中文意图选词，H 自测）＋ 每个功能分组一张详细单元图（говор- 图的精细程度）。T01–T08 全部功能分组的详细图已完成。</p></header><div class="ix"><ul>']
+         '<p class="meta">两层结构：主题总图（A 区按功能分组，C 辨析，D 易错，E 支配，F 功能 × 语域，G 从中文意图选词，H 自测）＋ 每个功能分组一张详细单元图（говор- 图的精细程度）。T01–T09 全部功能分组的详细图已完成。</p></header><div class="ix"><ul>']
     for t in THEMES:
         n = sum(1 for _ in cards(t))
         o.append(f'<li><a href="{prefix}{t["id"]}.html"><b>{E(t["id"])} {E(t["name"])}</b><small>{len(t["groups"])} 个功能分组 · {n} 张卡片 · {E(t["purpose"])}</small></a></li>')
@@ -321,7 +321,7 @@ def index_body(prefix):
     o.append('<h2>学术与答辩（单独发布）</h2><ul>'
              f'<li><a href="{LINKS["T11-U01"]}"><b>T11-U01 证据与结论的强度表达</b><small>学术论证</small></a></li>'
              f'<li><a href="{LINKS["T11-U02"]}"><b>T11-U02 回应提问、质疑与异议</b><small>答辩互动</small></a></li></ul>'
-             '<p class="foot">T03 情感与态度不在你标黄的词里（只标了 стремиться，完整卡片在 T04“能力、尝试与追求”），这次按原词表完整补齐。T09（日常生活）以后可以单独做成完整的图。</p></div></div>')
+             '<p class="foot">T03 情感与态度不在你标黄的词里（只标了 стремиться，完整卡片在 T04“能力、尝试与追求”），这次按原词表完整补齐。T09 日常生活也按原词表完整补齐，原 T10 的 7 个艺术、游戏动词并入 T09-U06“娱乐、艺术与游戏”。</p></div></div>')
     return "".join(o)
 
 frag = "<title>动词主题图谱</title>\n<meta name=\"claude:viewport-fit-sides\" content=\"cover\">\n" + style + EXTRA + "</style>\n" + index_body("themes/")

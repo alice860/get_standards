@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>饮食 · T09-U01</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T08-U05.html">上一组：手部动作与物体移动</a><a href="T09-U02.html">下一组：作息、穿衣与卫生</a></nav><header class="top"><h1 class="ru">«есть · пить · обе́дать · гото́вить · корми́ть…»<small>T09 日常生活与休闲 · 详细单元图 T09-U01 · 饮食 · 12 张卡片</small></h1><p class="meta"><b>意图：</b>我想说吃、喝、吃三餐、垫垫肚子、尝、做饭、喂、请客、吸烟。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">есть<small>吃</small></div><div class="forks"><div class="fork"><i class="tag t-aspect">体</i><span class="hw">съесть</span><span class="zh">吃掉、吃完</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">ем, ешь, ест, еди́м, еди́те, едя́т</span><span class="zh">不规则变位；命令式 ешь</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">еда́</span><span class="zh">食物；吃饭</span></div></div><p class="note">吃喝：есть / пить（完成体 съесть / выпить 强调吃完、喝完；выпить чаю 用二格表示“喝点”）。кушать 较亲切，多用于对孩子、客人，成人说自己吃用 есть。三餐：завтракать、обедать（午饭）、ужинать（晚饭）。做饭与招待：готовить、кормить、угощать。</p></div><div class="clusters"><div class="cluster"><h3>吃与喝</h3><article class="card"><div class="head"><span class="hw">есть / съесть</span><span class="pt">严格体对应</span></div><p class="mean">吃；（съесть）吃掉</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · чем?（用什么吃）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">есть суп ложкой</span></li><li><i class="tag t-deriv">派</i><span class="ru">еда́</span></li><li><i class="tag t-trap">⚠</i><span>不规则变位：ем, ешь, ест, едим, едите, едят</span></li></ul><p class="ex"><span class="ru">Я не ем мясо.</span><span class="zh">我不吃肉。</span></p></article><article class="card"><div class="head"><span class="hw">ку́шать / поку́шать</span><span class="pt">严格体对应</span></div><p class="mean">吃（亲切、口语）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Кушай, малыш!</span></li><li><i class="tag t-trap">⚠</i><span>成人说自己“吃”用 есть：Я поел（✗ Я покушал）</span></li></ul><p class="ex"><span class="ru">Ты уже покушал?</span><span class="zh">你吃过了吗？（对孩子）</span></p></article><article class="card"><div class="head"><span class="hw">пить / вы́пить</span><span class="pt">严格体对应</span></div><p class="mean">喝；（不带宾语）喝酒</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · чего́?（二格：一些）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">выпить чаю; пить лекарство</span></li><li><i class="tag t-deriv">派</i><span class="ru">питьё, напи́ток</span></li><li><i class="tag t-trap">⚠</i><span>书面“服药”用 принимать лекарство</span></li></ul><p class="ex"><span class="ru">Давай выпьем чаю.</span><span class="zh">我们喝点茶吧。</span></p></article><article class="card new"><div class="head"><span class="hw">перекуси́ть</span><span class="pt">无对</span><span class="kind k-new">表外补充</span></div><p class="mean">随便吃点、垫垫肚子</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем?</span></li></ul></article><article class="card short"><div class="head"><span class="hw">про́бовать / попро́бовать</span><span class="pt">严格体对应</span><span class="kind k-short">简写</span></div><p class="mean">尝（味道）；试（→ T04）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div><div class="cluster"><h3>三餐</h3><article class="card"><div class="head"><span class="hw">за́втракать / поза́втракать</span><span class="pt">严格体对应</span></div><p class="mean">吃早饭</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем? · где?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">завтракать дома</span></li><li><i class="tag t-deriv">派</i><span class="ru">за́втрак</span></li></ul><p class="ex"><span class="ru">Я обычно завтракаю в восемь.</span><span class="zh">我通常八点吃早饭。</span></p></article><article class="card"><div class="head"><span class="hw">обе́дать / пообе́дать</span><span class="pt">严格体对应</span></div><p class="mean">吃午饭</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · с кем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">обедать в столовой</span></li><li><i class="tag t-deriv">派</i><span class="ru">обе́д</span></li><li><i class="tag t-trap">⚠</i><span>обед = 午饭（不是“晚饭”）；обеденный перерыв = 午休</span></li></ul><p class="ex"><span class="ru">Давайте пообедаем вместе.</span><span class="zh">我们一起吃午饭吧。</span></p></article><article class="card"><div class="head"><span class="hw">у́жинать / поу́жинать</span><span class="pt">严格体对应</span></div><p class="mean">吃晚饭</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">ужинать в ресторане</span></li><li><i class="tag t-deriv">派</i><span class="ru">у́жин</span></li></ul><p class="ex"><span class="ru">Мы поужинали в кафе.</span><span class="zh">我们在咖啡馆吃了晚饭。</span></p></article></div><div class="cluster"><h3>做饭与招待</h3><article class="card"><div class="head"><span class="hw">гото́вить / пригото́вить</span><span class="pt">按义项体对应</span></div><p class="mean">① 做饭 ② 准备（→ T02、T04）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · к чему́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">готовить ужин; готовить доклад</span></li><li><i class="tag t-trap">⚠</i><span>готовиться к экзамену = 准备考试（带 -ся）</span></li></ul><p class="ex"><span class="ru">Сегодня я приготовлю пельмени.</span><span class="zh">今天我来包饺子。</span></p></article><article class="card"><div class="head"><span class="hw">корми́ть / накорми́ть</span><span class="pt">严格体对应</span></div><p class="mean">喂、给……吃</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">кормить ребёнка кашей</span></li><li><i class="tag t-deriv">派</i><span class="ru">корм</span></li><li><i class="tag t-trap">⚠</i><span>накормить = 喂饱</span></li></ul><p class="ex"><span class="ru">Бабушка накормила нас пирогами.</span><span class="zh">奶奶用馅饼把我们喂得饱饱的。</span></p></article><article class="card"><div class="head"><span class="hw">угоща́ть / угости́ть</span><span class="pt">严格体对应</span></div><p class="mean">请（吃喝）、款待</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">угостить гостей чаем</span></li><li><i class="tag t-deriv">派</i><span class="ru">угоще́ние</span></li><li><i class="tag t-trap">⚠</i><span>Я угощаю! = 我请客</span></li></ul><p class="ex"><span class="ru">Угощайтесь, пожалуйста!</span><span class="zh">请随便吃！</span></p></article></div><div class="cluster"><h3>嗜好</h3><article class="card"><div class="head"><span class="hw">кури́ть / закури́ть</span><span class="pt">起始（за-/по-）</span></div><p class="mean">吸烟</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">курить сигареты; бросить курить</span></li><li><i class="tag t-deriv">派</i><span class="ru">куре́ние</span></li><li><i class="tag t-trap">⚠</i><span>закурить = 点上烟、开始抽；戒烟 бросить курить（→ T08）</span></li></ul><p class="ex"><span class="ru">Здесь не курят.</span><span class="zh">这里禁止吸烟。</span></p></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T02-U06.html">准备考试与答辩</a></span><span class="zh">готовиться к экзамену（T02）</span></div><div class="x"><span class="hw"><a href="T08-U05.html">戒烟</a></span><span class="zh">бросить курить（T08）</span></div><div class="x"><span class="hw"><a href="T09-U03.html">健康与疾病</a></span><span class="zh">болеть, принимать лекарство</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">есть / ку́шать</td><td>吃（中性，说自己）/ 吃（亲切，对孩子、客人）</td><td class="ru">Я ем · Кушай, малыш</td></tr><tr><td class="hw">вы́пить чай / вы́пить ча́ю</td><td>把（这杯）茶喝了 / 喝点茶（二格表示一些）</td><td class="ru">выпил чай · выпей чаю</td></tr><tr><td class="hw">обе́дать / у́жинать</td><td>吃午饭 / 吃晚饭</td><td class="ru">обедаем в час · ужинаем в семь</td></tr><tr><td class="hw">корми́ть / угоща́ть</td><td>喂、给……吃 / 请客、款待</td><td class="ru">кормить кошку · угощать гостей</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>词义</h3><div class="pair"><span class="bad ru">Я покушал（成人说自己）</span><span class="good ru">Я поел</span></div><div class="pair"><span class="bad ru">обедать в семь вечера（想说吃晚饭）</span><span class="good ru">ужинать в семь вечера</span></div></div><div class="trapbox"><h3>变位</h3><div class="pair"><span class="bad ru">Он едит</span><span class="good ru">Он ест</span></div></div><div class="trapbox"><h3>格</h3><div class="pair"><span class="bad ru">угостить гостям чай</span><span class="good ru">угостить гостей чаем</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">есть / съесть</td><td class="ru">что? · чем?（用什么吃）</td></tr><tr><td class="hw">ку́шать / поку́шать</td><td class="ru">что?</td></tr><tr><td class="hw">пить / вы́пить</td><td class="ru">что? · чего́?（二格：一些）</td></tr><tr><td class="hw">перекуси́ть</td><td class="ru">чем?</td></tr><tr><td class="hw">про́бовать / попро́бовать</td><td class="ru">что?</td></tr><tr><td class="hw">за́втракать / поза́втракать</td><td class="ru">чем? · где?</td></tr><tr><td class="hw">обе́дать / пообе́дать</td><td class="ru">где? · с кем?</td></tr><tr><td class="hw">у́жинать / поу́жинать</td><td class="ru">где? · чем?</td></tr><tr><td class="hw">гото́вить / пригото́вить</td><td class="ru">что? · к чему́?</td></tr><tr><td class="hw">корми́ть / накорми́ть</td><td class="ru">кого́? чем?</td></tr><tr><td class="hw">угоща́ть / угости́ть</td><td class="ru">кого́? чем?</td></tr><tr><td class="hw">кури́ть / закури́ть</td><td class="ru">что?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>正式</th></tr></thead><tbody><tr><td class="zh">邀请吃饭</td><td class="ru">Пошли перекусим!</td><td class="ru">Давайте пообедаем вместе.</td><td class="ru">Приглашаем вас на обед.</td></tr><tr><td class="zh">请客</td><td class="ru">Я угощаю!</td><td class="ru">Угощайтесь!</td><td class="ru">Прошу к столу.</td></tr><tr><td class="zh">吃饱了</td><td class="ru">Наелся!</td><td class="ru">Спасибо, я сыт(а).</td><td class="ru">—</td></tr><tr><td class="zh">禁烟</td><td class="ru">Тут не курят.</td><td class="ru">Здесь не курят.</td><td class="ru">Курение запрещено.</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">我不吃肉</span><span class="arr">→</span><span class="q ru" tabindex="0">Я не ем мясо</span></div><div class="iv"><span class="zh">喝点茶</span><span class="arr">→</span><span class="q ru" tabindex="0">выпить чаю</span></div><div class="iv"><span class="zh">吃早饭 / 午饭 / 晚饭</span><span class="arr">→</span><span class="q ru" tabindex="0">завтракать / обедать / ужинать</span></div><div class="iv"><span class="zh">我们一起吃午饭吧</span><span class="arr">→</span><span class="q ru" tabindex="0">Давайте пообедаем вместе</span></div><div class="iv"><span class="zh">垫垫肚子</span><span class="arr">→</span><span class="q ru" tabindex="0">перекусить</span></div><div class="iv"><span class="zh">尝一尝</span><span class="arr">→</span><span class="q ru" tabindex="0">попробовать</span></div><div class="iv"><span class="zh">做饭</span><span class="arr">→</span><span class="q ru" tabindex="0">готовить</span></div><div class="iv"><span class="zh">喂饱</span><span class="arr">→</span><span class="q ru" tabindex="0">накормить</span></div><div class="iv"><span class="zh">我请客</span><span class="arr">→</span><span class="q ru" tabindex="0">Я угощаю</span></div><div class="iv"><span class="zh">请随便吃</span><span class="arr">→</span><span class="q ru" tabindex="0">Угощайтесь</span></div><div class="iv"><span class="zh">这里禁止吸烟</span><span class="arr">→</span><span class="q ru" tabindex="0">Здесь не курят</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">我们一起吃午饭吧。</span><span class="q ru" tabindex="0">Давайте пообедаем вместе.</span></div><div class="dr"><span class="zh">今天我请客。</span><span class="q ru" tabindex="0">Сегодня я угощаю.</span></div><div class="dr"><span class="zh">我通常八点吃早饭。</span><span class="q ru" tabindex="0">Я обычно завтракаю в восемь.</span></div><div class="dr"><span class="zh">你要喝点茶吗？</span><span class="q ru" tabindex="0">Хочешь выпить чаю?</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>

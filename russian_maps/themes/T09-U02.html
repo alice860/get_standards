@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>作息、穿衣与卫生 · T09-U02</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T09-U01.html">上一组：饮食</a><a href="T09-U03.html">下一组：健康与疾病</a></nav><header class="top"><h1 class="ru">«спать · засыпа́ть · одева́ться · мыть · устава́ть · отдыха́ть…»<small>T09 日常生活与休闲 · 详细单元图 T09-U02 · 作息、穿衣与卫生 · 14 张卡片</small></h1><p class="meta"><b>意图：</b>我想说睡觉、睡着、叫醒、醒来、穿衣、给别人穿、脱衣、洗、累、休息。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">спать<small>睡觉</small></div><div class="forks"><div class="fork"><i class="tag t-aspect">限</i><span class="hw">поспа́ть</span><span class="zh">睡一会儿</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">сон · засыпа́ть</span><span class="zh">睡眠；梦 · 入睡</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">спать / засну́ть / лечь спать</span><span class="zh">睡着的状态 / 入睡 / 上床睡觉</span></div></div><p class="note">按一天的顺序：будить → проснуться → встать（T08）→ мыться、одеваться → 工作 → устать → отдыхать → раздеваться → лечь спать（T08）→ заснуть。穿衣三分：одеться（自己穿衣）、одеть кого（给别人穿）、надеть что（穿上某件，T08-U05）。洗三分：мыть（碗、手）、стирать（衣服）、чистить（牙、鞋）。</p></div><div class="clusters"><div class="cluster"><h3>睡与醒</h3><article class="card"><div class="head"><span class="hw">спать / поспа́ть</span><span class="pt">限定（по-）</span></div><p class="mean">睡觉</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · ско́лько?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">спать восемь часов</span></li><li><i class="tag t-deriv">派</i><span class="ru">сон</span></li><li><i class="tag t-trap">⚠</i><span>поспать = 睡一会儿；“睡着了”用 заснуть</span></li></ul><p class="ex"><span class="ru">Я плохо спал этой ночью.</span><span class="zh">我昨晚睡得不好。</span></p></article><article class="card"><div class="head"><span class="hw">засыпа́ть / засну́ть</span><span class="pt">严格体对应</span></div><p class="mean">入睡、睡着</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">во ско́лько?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">долго не мог заснуть</span></li><li><i class="tag t-trap">⚠</i><span>засыпать 另有“撒满、填平”义（完成体 засыпать）</span></li></ul><p class="ex"><span class="ru">Я заснул только под утро.</span><span class="zh">我快天亮才睡着。</span></p></article><article class="card"><div class="head"><span class="hw">буди́ть / разбуди́ть</span><span class="pt">严格体对应</span></div><p class="mean">叫醒</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? · во ско́лько?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Разбуди меня в семь.</span></li><li><i class="tag t-deriv">派</i><span class="ru">буди́льник（闹钟）</span></li></ul><p class="ex"><span class="ru">Разбуди меня, пожалуйста, в семь.</span><span class="zh">请七点叫醒我。</span></p></article><article class="card"><div class="head"><span class="hw">просыпа́ться / просну́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">醒来</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">во ско́лько? · от чего́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">проснуться рано</span></li><li><i class="tag t-trap">⚠</i><span>醒来是 проснуться，起床是 встать</span></li></ul><p class="ex"><span class="ru">Я проснулся от шума.</span><span class="zh">我被吵醒了。</span></p></article></div><div class="cluster"><h3>穿衣</h3><article class="card"><div class="head"><span class="hw">одева́ться / оде́ться</span><span class="pt">严格体对应</span></div><p class="mean">穿衣服（自己）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">как? · во что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">тепло одеться</span></li><li><i class="tag t-deriv">派</i><span class="ru">оде́жда</span></li><li><i class="tag t-trap">⚠</i><span>穿上某件衣服用 надеть что</span></li></ul><p class="ex"><span class="ru">Оденься теплее, на улице мороз.</span><span class="zh">穿暖和点，外面很冷。</span></p></article><article class="card"><div class="head"><span class="hw">одева́ть / оде́ть</span><span class="pt">严格体对应</span></div><p class="mean">给（别人）穿衣</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">кого́? во что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">одеть ребёнка</span></li><li><i class="tag t-trap">⚠</i><span>✗ одеть пальто（自己穿）→ надеть пальто</span></li></ul><p class="ex"><span class="ru">Мама одела сына в куртку.</span><span class="zh">妈妈给儿子穿上外套。</span></p></article><article class="card"><div class="head"><span class="hw">раздева́ться / разде́ться</span><span class="pt">严格体对应</span></div><p class="mean">脱衣服</p><ul class="rel"><li><i class="tag t-deriv">搭</i><span class="ru">Раздевайтесь, проходите!</span></li><li><i class="tag t-deriv">派</i><span class="ru">раздева́лка（更衣室）</span></li><li><i class="tag t-trap">⚠</i><span>进屋时主人说 Раздевайтесь = 请脱外套</span></li></ul><p class="ex"><span class="ru">Раздевайтесь, проходите в комнату.</span><span class="zh">请脱下外套，进屋吧。</span></p></article><article class="card new"><div class="head"><span class="hw">переодева́ться / переоде́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">换衣服</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">во что?</span></li></ul></article></div><div class="cluster"><h3>清洁</h3><article class="card"><div class="head"><span class="hw">мыть / помы́ть</span><span class="pt">严格体对应</span></div><p class="mean">洗（东西、身体部位）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">мыть посуду / руки</span></li><li><i class="tag t-deriv">派</i><span class="ru">мы́ло</span></li><li><i class="tag t-trap">⚠</i><span>洗衣服用 стирать</span></li></ul><p class="ex"><span class="ru">Помой, пожалуйста, посуду.</span><span class="zh">请把碗洗了。</span></p></article><article class="card new"><div class="head"><span class="hw">мы́ться / помы́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">洗澡、洗身体</p><ul class="rel"></ul></article><article class="card new"><div class="head"><span class="hw">стира́ть / постира́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">洗（衣物）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article><article class="card new"><div class="head"><span class="hw">чи́стить / почи́стить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">刷、擦（牙、鞋）；削（皮）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div><div class="cluster"><h3>累与休息</h3><article class="card"><div class="head"><span class="hw">устава́ть / уста́ть</span><span class="pt">严格体对应</span></div><p class="mean">累、疲倦</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">от чего́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">устать от работы</span></li><li><i class="tag t-deriv">派</i><span class="ru">уста́лость</span></li><li><i class="tag t-trap">⚠</i><span>“我累了”用完成体过去时 Я устал</span></li></ul><p class="ex"><span class="ru">Я очень устал за неделю.</span><span class="zh">这一周我累坏了。</span></p></article><article class="card"><div class="head"><span class="hw">отдыха́ть / отдохну́ть</span><span class="pt">严格体对应</span></div><p class="mean">休息；度假</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">где? · от чего́?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">отдыхать на море</span></li><li><i class="tag t-deriv">派</i><span class="ru">о́тдых</span></li></ul><p class="ex"><span class="ru">Летом мы отдыхали на Байкале.</span><span class="zh">夏天我们在贝加尔湖度假。</span></p></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T08-U04.html">位置与姿态</a></span><span class="zh">встать, лечь спать（T08）</span></div><div class="x"><span class="hw"><a href="T08-U05.html">穿戴</a></span><span class="zh">надеть, снять（T08）</span></div><div class="x"><span class="hw"><a href="T09-U05.html">工作与居家</a></span><span class="zh">работать, убирать</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">спать / засну́ть / лечь спать</td><td>睡着的状态 / 入睡 / 上床睡觉</td><td class="ru">спал 8 часов · заснул в 12 · лёг спать в 11</td></tr><tr><td class="hw">просну́ться / встать</td><td>醒来 / 起床</td><td class="ru">проснулся в 6, встал в 7</td></tr><tr><td class="hw">оде́ться / оде́ть / наде́ть</td><td>自己穿衣 / 给别人穿 / 穿上某件</td><td class="ru">оделся · одел ребёнка · надел пальто</td></tr><tr><td class="hw">мыть / стира́ть / чи́стить</td><td>洗（碗、手）/ 洗（衣服）/ 刷（牙、鞋）</td><td class="ru">мыть посуду · стирать бельё · чистить зубы</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>易混</h3><div class="pair"><span class="bad ru">одеть куртку</span><span class="good ru">надеть куртку</span></div><div class="pair"><span class="bad ru">мыть одежду</span><span class="good ru">стирать одежду</span></div><div class="pair"><span class="bad ru">чистить посуду</span><span class="good ru">мыть посуду</span></div></div><div class="trapbox"><h3>体</h3><div class="pair"><span class="bad ru">Я устаю（想说“我累了”）</span><span class="good ru">Я устал(а)</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">спать / поспа́ть</td><td class="ru">где? · ско́лько?</td></tr><tr><td class="hw">засыпа́ть / засну́ть</td><td class="ru">во ско́лько?</td></tr><tr><td class="hw">буди́ть / разбуди́ть</td><td class="ru">кого́? · во ско́лько?</td></tr><tr><td class="hw">просыпа́ться / просну́ться</td><td class="ru">во ско́лько? · от чего́?</td></tr><tr><td class="hw">одева́ться / оде́ться</td><td class="ru">как? · во что?</td></tr><tr><td class="hw">одева́ть / оде́ть</td><td class="ru">кого́? во что?</td></tr><tr><td class="hw">переодева́ться / переоде́ться</td><td class="ru">во что?</td></tr><tr><td class="hw">мыть / помы́ть</td><td class="ru">что? чем?</td></tr><tr><td class="hw">стира́ть / постира́ть</td><td class="ru">что?</td></tr><tr><td class="hw">чи́стить / почи́стить</td><td class="ru">что?</td></tr><tr><td class="hw">устава́ть / уста́ть</td><td class="ru">от чего́?</td></tr><tr><td class="hw">отдыха́ть / отдохну́ть</td><td class="ru">где? · от чего́?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>正式</th></tr></thead><tbody><tr><td class="zh">累了</td><td class="ru">Сил нет!</td><td class="ru">Я очень устал(а).</td><td class="ru">—</td></tr><tr><td class="zh">去睡</td><td class="ru">Пойду посплю.</td><td class="ru">Я ложусь спать.</td><td class="ru">—</td></tr><tr><td class="zh">请脱外套</td><td class="ru">Раздевайся!</td><td class="ru">Раздевайтесь, проходите.</td><td class="ru">Верхнюю одежду можно оставить в гардеробе.</td></tr><tr><td class="zh">休息</td><td class="ru">Отдохни!</td><td class="ru">Хорошего отдыха!</td><td class="ru">Желаем приятного отдыха.</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">我昨晚没睡好</span><span class="arr">→</span><span class="q ru" tabindex="0">Я плохо спал</span></div><div class="iv"><span class="zh">睡不着</span><span class="arr">→</span><span class="q ru" tabindex="0">не могу заснуть</span></div><div class="iv"><span class="zh">请七点叫醒我</span><span class="arr">→</span><span class="q ru" tabindex="0">Разбуди меня в семь</span></div><div class="iv"><span class="zh">被吵醒</span><span class="arr">→</span><span class="q ru" tabindex="0">проснуться от шума</span></div><div class="iv"><span class="zh">穿暖和点</span><span class="arr">→</span><span class="q ru" tabindex="0">Оденься теплее</span></div><div class="iv"><span class="zh">给孩子穿衣</span><span class="arr">→</span><span class="q ru" tabindex="0">одеть ребёнка</span></div><div class="iv"><span class="zh">请脱外套进来</span><span class="arr">→</span><span class="q ru" tabindex="0">Раздевайтесь, проходите</span></div><div class="iv"><span class="zh">洗碗</span><span class="arr">→</span><span class="q ru" tabindex="0">мыть посуду</span></div><div class="iv"><span class="zh">洗衣服</span><span class="arr">→</span><span class="q ru" tabindex="0">стирать</span></div><div class="iv"><span class="zh">刷牙</span><span class="arr">→</span><span class="q ru" tabindex="0">чистить зубы</span></div><div class="iv"><span class="zh">我累了</span><span class="arr">→</span><span class="q ru" tabindex="0">Я устал</span></div><div class="iv"><span class="zh">度假</span><span class="arr">→</span><span class="q ru" tabindex="0">отдыхать на море</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">我快天亮才睡着。</span><span class="q ru" tabindex="0">Я заснул только под утро.</span></div><div class="dr"><span class="zh">穿暖和点，外面很冷。</span><span class="q ru" tabindex="0">Оденься теплее, на улице холодно.</span></div><div class="dr"><span class="zh">这一周我累坏了。</span><span class="q ru" tabindex="0">Я очень устал за неделю.</span></div><div class="dr"><span class="zh">请脱下外套，进屋吧。</span><span class="q ru" tabindex="0">Раздевайтесь, проходите в комнату.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>
