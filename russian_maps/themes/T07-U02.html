@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>买卖与金钱 · T07-U02</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=PT+Serif:wght@400;700&family=Noto+Sans+SC:wght@400;700&display=swap">
+<style>
+/* Layout: one reference sheet. Header + legend, then A–H as a dense grid that becomes an A3-landscape print sheet. Relation types own fixed colours on every unit sheet. */
+:root{
+  --paper:#f7f8fb; --sheet:#ffffff; --ink:#1a2132; --muted:#5b6579; --line:#d8dce6; --soft:#eef1f6;
+  --aspect:#2552a3; --aspect-bg:#e7eefb;
+  --deriv:#0f766b; --deriv-bg:#e2f4f1;
+  --gov:#4b6a1f; --gov-bg:#edf4e2;
+  --trap:#b8322a; --trap-bg:#fbeceb;
+  --cross:#a35f00; --cross-bg:#fbf1e1;
+  --acad:#6639b0; --acad-bg:#f1ebfb;
+  --f-ru:"PT Serif", Georgia, "Times New Roman", serif;
+  --f-body:"PT Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --f-zh:"Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#11151e; --sheet:#171c27; --ink:#e6e9f0; --muted:#9aa3b5; --line:#2c3445; --soft:#1e2431;
+  --aspect:#86a8ef; --aspect-bg:#1c2741; --deriv:#5fcfc0; --deriv-bg:#14302d; --gov:#a6c96b; --gov-bg:#212c16;
+  --trap:#f08a80; --trap-bg:#3a1c1a; --cross:#f0b45a; --cross-bg:#33260f; --acad:#b99af0; --acad-bg:#2a2140;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1680px;margin:0 auto;display:grid;gap:18px}
+.ru{font-family:var(--f-ru)}
+.hw{font-family:var(--f-ru);font-weight:700;font-size:1.12em}
+.zh{font-family:var(--f-zh)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:12px}
+.top h1{font-family:var(--f-ru);font-size:clamp(26px,3.2vw,40px);line-height:1.05;letter-spacing:-.01em}
+.top h1 small{display:block;font-family:var(--f-zh);font-size:.42em;font-weight:700;color:var(--muted);letter-spacing:.04em;margin-top:6px}
+.meta{font-size:12.5px;color:var(--muted);max-width:60ch}
+.meta b{color:var(--ink)}
+.tools{display:flex;gap:8px;align-items:center}
+button{font:inherit;font-size:13px;border:1.5px solid var(--ink);background:var(--sheet);color:var(--ink);padding:6px 12px;border-radius:999px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+button:focus-visible,.q:focus-visible{outline:3px solid var(--aspect);outline-offset:2px}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.tag{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.55em;padding:0 .35em;border-radius:4px;font-family:var(--f-zh);font-size:11px;font-weight:700;flex:none;line-height:1}
+.t-aspect{color:var(--aspect);background:var(--aspect-bg)}
+.t-deriv{color:var(--deriv);background:var(--deriv-bg)}
+.t-gov{color:var(--gov);background:var(--gov-bg)}
+.t-trap{color:var(--trap);background:var(--trap-bg)}
+.t-cross{color:var(--cross);background:var(--cross-bg)}
+.t-acad{color:var(--acad);background:var(--acad-bg)}
+
+/* sections */
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:14px 16px 16px;min-width:0}
+.sec>h2{display:flex;gap:10px;align-items:baseline;font-family:var(--f-zh);font-size:16px;margin-bottom:12px}
+.sec>h2 .L{font-family:var(--f-ru);font-size:22px;line-height:1;color:var(--sheet);background:var(--ink);width:1.35em;height:1.35em;display:inline-grid;place-items:center;border-radius:3px;flex:none}
+.sec>h2 em{font-style:normal;font-weight:400;color:var(--muted);font-size:13px}
+.row2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.row3{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))}
+
+/* A: root banner */
+.root{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:center;background:var(--soft);border-radius:6px;padding:12px 14px;margin-bottom:14px}
+.root .core{font-family:var(--f-ru);font-weight:700;font-size:26px;line-height:1.1}
+.root .core small{display:block;font-family:var(--f-zh);font-size:12px;font-weight:400;color:var(--muted)}
+.forks{display:flex;flex-wrap:wrap;gap:8px}
+.fork{display:flex;gap:8px;align-items:center;background:var(--sheet);border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:13px}
+.fork .hw{font-size:15px}
+.fork .zh{color:var(--muted)}
+.root .note{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+@media (max-width:640px){.root{grid-template-columns:1fr}}
+
+.clusters{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.cluster{display:grid;gap:10px;align-content:start;min-width:0}
+.cluster>h3{font-family:var(--f-zh);font-size:13px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{border:1px solid var(--line);border-radius:6px;padding:10px 11px;display:grid;gap:6px;min-width:0}
+.card.trap{border:1.5px solid var(--trap);background:linear-gradient(var(--trap-bg),var(--trap-bg)) top/100% 3px no-repeat}
+.card .head{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.asp{font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--aspect)}
+.card .mean{font-family:var(--f-body);font-size:13px}
+.rel{display:grid;gap:4px;font-size:12.5px}
+.rel li{display:flex;gap:6px;align-items:flex-start}
+.rel li>span:last-child{min-width:0}
+.ex{font-size:12.5px;border-left:2px solid var(--line);padding-left:8px}
+.ex .ru{display:block}
+.ex .zh{display:block;color:var(--muted);font-size:12px}
+.warn{color:var(--trap);font-weight:700}
+
+/* tables */
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-zh);font-size:12px;color:var(--muted);font-weight:700;background:var(--soft)}
+td .hw{font-size:1em}
+.case{display:inline-block;font-size:10.5px;font-weight:700;color:var(--gov);background:var(--gov-bg);border-radius:3px;padding:0 4px;margin-left:2px}
+.bad{color:var(--trap)} .bad::before{content:"✗ ";font-weight:700}
+.good{color:var(--deriv)} .good::before{content:"✓ ";font-weight:700}
+
+/* B */
+.xlist{display:grid;gap:6px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.x{display:flex;gap:8px;align-items:baseline;font-size:12.5px;border-bottom:1px dotted var(--line);padding-bottom:5px}
+.x .hw{font-size:14px;white-space:nowrap}
+.x .zh{color:var(--muted)}
+.x .ref{margin-left:auto;font-size:11px;color:var(--cross);white-space:nowrap}
+
+/* D */
+.traps{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.trapbox{border-top:3px solid var(--trap);padding-top:8px;display:grid;gap:6px;align-content:start}
+.trapbox h3{font-family:var(--f-zh);font-size:13.5px;color:var(--trap)}
+.trapbox li{font-size:12.5px;display:flex;gap:6px}
+.pair{display:grid;gap:2px;font-size:12.5px;padding:5px 0;border-bottom:1px dotted var(--line)}
+.pair .zh{color:var(--muted);font-size:12px}
+
+/* F */
+.ladder{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;font-size:13px;margin-bottom:8px}
+.ladder .step{border:1px solid var(--line);border-radius:4px;padding:3px 8px;background:var(--sheet)}
+.ladder .step small{display:block;font-size:10.5px;color:var(--muted);font-family:var(--f-zh)}
+.ladder .arr{color:var(--muted)}
+.ladder .lab{font-family:var(--f-zh);font-weight:700;font-size:12px;color:var(--acad);min-width:5.5em}
+.chunks{display:grid;gap:6px}
+.chunk{display:grid;gap:1px;font-size:12.5px;border-left:3px solid var(--acad);padding:2px 0 2px 8px}
+.chunk .zh{color:var(--muted);font-size:12px}
+.subh{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.05em}
+
+/* G / H self-test */
+.intent{display:grid;gap:4px 10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.iv{display:grid;grid-template-columns:minmax(7.5em,1fr) auto minmax(0,1.3fr);gap:8px;align-items:baseline;font-size:12.5px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.iv .zh{font-weight:700}
+.iv .arr{color:var(--muted)}
+.drill{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));counter-reset:d}
+.dr{display:grid;gap:3px;font-size:13px;border:1px solid var(--line);border-radius:6px;padding:8px 10px;counter-increment:d}
+.dr .zh::before{content:counter(d) ". ";color:var(--muted);font-family:var(--f-body)}
+.dr .hint{font-size:11.5px;color:var(--muted)}
+.q{border-radius:3px;transition:filter .15s}
+body.quiz .q{filter:blur(6px);cursor:pointer;user-select:none}
+body.quiz .q.shown{filter:none}
+@media (prefers-reduced-motion:reduce){.q{transition:none}}
+
+.foot{font-size:12px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
+
+/* print: A3 landscape sheet */
+@page{size:A3 landscape;margin:7mm}
+@media print{
+  :root{--paper:#fff;--sheet:#fff}
+  body{font-size:7.9pt;padding:0;background:#fff}
+  .tools{display:none}
+  .wrap{max-width:none;gap:3mm}
+  .sec{padding:2.5mm 3mm;break-inside:avoid;border-radius:2px}
+  .sec>h2{margin-bottom:2mm;font-size:10.5pt}
+  .clusters{grid-template-columns:repeat(5,1fr);gap:2.5mm}
+  .row2,.row3{gap:3mm}
+  .row2{grid-template-columns:1fr 1fr}
+  .row3{grid-template-columns:1fr 1fr 1fr}
+  .card{padding:1.6mm 2mm;gap:1mm;break-inside:avoid}
+  table{font-size:7.4pt} th,td{padding:1mm 1.5mm}
+  body.quiz .q{filter:none}
+}
+
+.nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}.nav a{color:var(--aspect)}.nav b{color:var(--ink)}
+.kind{font-size:10.5px;font-weight:700;border-radius:3px;padding:0 5px}
+.k-new{color:var(--cross);background:var(--cross-bg)}.k-short{color:var(--muted);background:var(--soft)}
+.card.short,.card.new{gap:3px;padding:7px 10px}.card.new{border-style:dashed}
+.pt{font-size:11px;font-weight:700;color:var(--aspect)}
+.grp{display:grid;gap:10px;padding:14px 0;border-top:1px solid var(--line)}.grp:first-of-type{border-top:0;padding-top:0}
+.gh{font-family:var(--f-zh);font-size:15px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.gh .no{font-family:var(--f-ru);color:var(--sheet);background:var(--aspect);border-radius:3px;padding:0 6px;font-size:13px}
+.gp{font-size:12.5px;color:var(--muted)}
+.grp .clusters{grid-template-columns:1fr;gap:12px}
+.grp .cluster{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:10px}
+.grp .cluster>h3{grid-column:1/-1}
+.grp .card{align-self:start;align-content:start}
+@media print{.grp .cluster{grid-template-columns:repeat(5,1fr)}}
+.gsub{font-family:var(--f-zh);font-size:12.5px;font-weight:700;color:var(--aspect);margin:10px 0 4px;grid-column:1/-1}
+.gh .dl{font-size:13px;font-weight:700;color:var(--aspect);margin-left:auto}
+.root .forks .tag{font-size:11px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}.toc a{font-size:12.5px;border:1px solid var(--line);border-radius:4px;padding:2px 8px;color:var(--ink);text-decoration:none}
+.ix ul{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.ix li a{display:block;border:1px solid var(--line);border-radius:6px;padding:10px 12px;text-decoration:none;color:var(--ink);background:var(--sheet)}
+.ix li a:hover,.ix li a:focus-visible{border-color:var(--aspect)}.ix li small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.ix h2{font-family:var(--f-zh);font-size:16px;margin:8px 0}
+</style></head><body><div class="wrap"><nav class="nav" aria-label="导航"><a href="../index_page.html">← 全部主题</a><a href="T07-U01.html">上一组：给予与获得</a><a href="T07-U03.html">下一组：寻找、发现与丢失</a></nav><header class="top"><h1 class="ru">«покупа́ть · плати́ть · тра́тить…»<small>T07 拥有、给予与交换 · 详细单元图 T07-U02 · 买卖与金钱 · 14 张卡片</small></h1><p class="meta"><b>意图：</b>我想说买、卖、订购、预订、付钱、转账、结账、花钱、省钱、挣钱、价格。</p><div class="tools"><button type="button" id="quizBtn" aria-pressed="false">自测模式：遮住俄语</button></div></header><div class="legend"><span><i class="tag t-aspect">体</i>体对 / 派生关系</span><span><i class="tag t-gov">支</i>支配</span><span><i class="tag t-deriv">搭</i>搭配</span><span><i class="tag t-deriv">派</i>派生词</span><span><i class="tag t-trap">⚠</i>易错 / 形近 / 同根远义</span><span><i class="tag t-acad">学</i>学术 / 正式用法</span><span><span class="kind k-new">表外补充</span>原词表没有的词</span><span><span class="kind k-short">简写</span>只列义项和支配</span><span>蓝字为体对类型</span><span>核验状态：全部“待核实”</span></div><section class="sec" aria-labelledby="hA"><h2 id="hA"><span class="L">A</span>词族与功能分簇 <em>同簇的词意思相近；只有意义独立或容易误判的才单独成卡</em></h2><div class="root"><div class="core">покупа́ть / купи́ть<small>买（异根配对）</small></div><div class="forks"><div class="fork"><i class="tag t-deriv">派</i><span class="hw">поку́пка · покупа́тель</span><span class="zh">购买 · 顾客</span></div><div class="fork"><i class="tag t-deriv">派</i><span class="hw">прода́ть</span><span class="zh">卖（同根 -да-）</span></div><div class="fork"><i class="tag t-trap">⚠</i><span class="hw">плати́ть за / опла́чивать</span><span class="zh">付……的钱 / 支付（不加 за）</span></div></div><p class="note">按交易过程排列：买与卖 → 订购与预订 → 付款 → 花钱、省钱 → 挣钱与价格。</p></div><div class="clusters"><div class="cluster"><h3>买与卖</h3><article class="card"><div class="head"><span class="hw">покупа́ть / купи́ть</span><span class="pt">异根体对应</span></div><p class="mean">买</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? у кого́? · где? · за сколько?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">купить билет; купить у знакомого</span></li><li><i class="tag t-deriv">派</i><span class="ru">поку́пка</span></li><li><i class="tag t-trap">⚠</i><span>从人手里买用 у кого；在店里用 в магазине</span></li></ul><p class="ex"><span class="ru">Я купил ноутбук за сорок тысяч.</span><span class="zh">我花四万买了一台笔记本。</span></p></article><article class="card"><div class="head"><span class="hw">продава́ть / прода́ть</span><span class="pt">严格体对应</span></div><p class="mean">卖</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? кому́? · за сколько?</span></li><li><i class="tag t-deriv">派</i><span class="ru">прода́жа, продаве́ц</span></li><li><i class="tag t-trap">⚠</i><span>продаётся = 出售</span></li></ul><p class="ex"><span class="ru">Квартира продаётся.</span><span class="zh">公寓出售。</span></p></article><article class="card new"><div class="head"><span class="hw">приобрета́ть / приобрести́</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">购置（书面，→ T07-U01）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li></ul></article></div><div class="cluster"><h3>订购与预订</h3><article class="card"><div class="head"><span class="hw">зака́зывать / заказа́ть</span><span class="pt">严格体对应</span></div><p class="mean">订购；点（菜）；预约</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">заказать такси / столик / книгу</span></li><li><i class="tag t-deriv">派</i><span class="ru">зака́з</span></li></ul><p class="ex"><span class="ru">Я заказал книгу через интернет.</span><span class="zh">我在网上订了一本书。</span></p></article><article class="card"><div class="head"><span class="hw">брони́ровать / заброни́ровать</span><span class="pt">严格体对应</span></div><p class="mean">预订（房间、票）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">забронировать номер / билет</span></li><li><i class="tag t-deriv">派</i><span class="ru">бронь, брони́рование</span></li></ul><p class="ex"><span class="ru">Я забронировал номер в гостинице на три ночи.</span><span class="zh">我订了三晚的酒店房间。</span></p></article></div><div class="cluster"><h3>付款</h3><article class="card"><div class="head"><span class="hw">плати́ть / заплати́ть</span><span class="pt">严格体对应</span></div><p class="mean">付钱</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">за что?（四格）· кому́? · сколько? · чем?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">заплатить за проезд; платить картой</span></li><li><i class="tag t-deriv">派</i><span class="ru">пла́та, платёж</span></li><li><i class="tag t-trap">⚠</i><span>付某物的钱用 за + 四格</span></li></ul><p class="ex"><span class="ru">Можно заплатить картой?</span><span class="zh">可以刷卡吗？</span></p></article><article class="card"><div class="head"><span class="hw">опла́чивать / оплати́ть</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">支付（费用）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что?（四格，不加 за）</span></li><li><i class="tag t-deriv">搭</i><span class="ru">оплатить счёт / обучение / проезд</span></li><li><i class="tag t-deriv">派</i><span class="ru">опла́та</span></li><li><i class="tag t-trap">⚠</i><span>✗ оплатить за проезд</span></li></ul><p class="ex"><span class="ru">Обучение оплачивается из средств гранта.</span><span class="zh">学费由基金支付。</span></p></article><article class="card short"><div class="head"><span class="hw">переводи́ть / перевести́ (де́ньги)</span><span class="pt">严格体对应</span><span class="kind k-short">简写</span></div><p class="mean">转账（→ T02-U06 其他义项）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? куда́? кому́?</span></li></ul></article><article class="card new"><div class="head"><span class="hw">распла́чиваться / расплати́ться</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">结账、付清</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">с кем? · чем?</span></li></ul></article></div><div class="cluster"><h3>花钱与省钱</h3><article class="card"><div class="head"><span class="hw">тра́тить / потра́тить</span><span class="pt">严格体对应</span></div><p class="mean">花费（钱、时间）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? на что?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">потратить время на работу</span></li><li><i class="tag t-deriv">派</i><span class="ru">тра́та</span></li><li><i class="tag t-trap">⚠</i><span>用 на：✗ потратить время для…</span></li></ul><p class="ex"><span class="ru">Я потратил на анализ два месяца.</span><span class="zh">我在分析上花了两个月。</span></p></article><article class="card"><div class="head"><span class="hw">эконо́мить / сэконо́мить</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">节省</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · на чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">экономить время / на транспорте</span></li><li><i class="tag t-deriv">派</i><span class="ru">эконо́мия</span></li></ul><p class="ex"><span class="ru">Новый метод позволяет сэкономить время.</span><span class="zh">新方法可以节省时间。</span></p></article></div><div class="cluster"><h3>挣钱与价格</h3><article class="card"><div class="head"><span class="hw">зараба́тывать / зарабо́тать</span><span class="pt">严格体对应</span></div><p class="mean">挣（钱）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">что? · сколько? · на чём?</span></li><li><i class="tag t-deriv">搭</i><span class="ru">зарабатывать на жизнь</span></li><li><i class="tag t-deriv">派</i><span class="ru">за́работок, зарпла́та</span></li></ul><p class="ex"><span class="ru">Во время учёбы я подрабатывал переводами.</span><span class="zh">读书期间我靠翻译打零工。</span></p></article><article class="card"><div class="head"><span class="hw">сто́ить</span><span class="pt">无对</span></div><p class="mean">值、价格是；值得（+ 不定式）</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">сколько? · + 不定式</span></li><li><i class="tag t-deriv">搭</i><span class="ru">Сколько стоит?; стоит отметить</span></li><li><i class="tag t-deriv">派</i><span class="ru">сто́имость</span></li><li><i class="tag t-trap">⚠</i><span>学术：Стоит отметить, что… = 值得指出</span></li><li><i class="tag t-acad">学</i><span class="ru">Стоит отметить, что…</span></li></ul><p class="ex"><span class="ru">Сколько стоит обучение в аспирантуре?</span><span class="zh">读博学费多少？</span></p></article><article class="card new"><div class="head"><span class="hw">подраба́тывать / подзарабо́тать</span><span class="pt">严格体对应</span><span class="kind k-new">表外补充</span></div><p class="mean">打零工、兼职挣钱</p><ul class="rel"><li><i class="tag t-gov">支</i><span class="ru">чем? · где?</span></li></ul></article></div></div></section><div class="row2"><section class="sec" aria-labelledby="hB"><h2 id="hB"><span class="L">B</span>跨组、跨词族的近邻 <em>只写一行，点开看详细图</em></h2><div class="xlist"><div class="x"><span class="hw"><a href="T07-U01.html">给予与获得</a></span><span class="zh">дать, получить</span></div><div class="x"><span class="hw"><a href="T01-U04.html">стоит отметить</a></span><span class="zh">值得指出（T01-U04）</span></div></div></section><section class="sec" aria-labelledby="hC"><h2 id="hC"><span class="L">C</span>关键辨析</h2><div class="tbl"><table><thead><tr><th>对比</th><th>区别</th><th>例</th></tr></thead><tbody><tr><td class="hw">заплати́ть за / оплати́ть</td><td>付……的钱（за + 四格）/ 支付（直接 + 四格）</td><td class="ru">заплатить за проезд · оплатить проезд</td></tr><tr><td class="hw">купи́ть / приобрести́</td><td>买（中性）/ 购置（书面）；获得（经验）</td><td class="ru">купил хлеб · приобрести оборудование</td></tr><tr><td class="hw">заказа́ть / заброни́ровать</td><td>订购、点、预约 / 预订（座位、房间、票）</td><td class="ru">заказать такси · забронировать номер</td></tr><tr><td class="hw">потра́тить / сэконо́мить</td><td>花费 / 节省</td><td class="ru">потратил время · сэкономил время</td></tr></tbody></table></div></section></div><section class="sec" aria-labelledby="hD"><h2 id="hD"><span class="L">D</span>易错与陷阱</h2><div class="traps"><div class="trapbox"><h3>支配</h3><div class="pair"><span class="bad ru">оплатить за проезд</span><span class="good ru">оплатить проезд / заплатить за проезд</span></div></div><div class="trapbox"><h3>前置词</h3><div class="pair"><span class="bad ru">потратить время для работы</span><span class="good ru">потратить время на работу</span></div><div class="pair"><span class="bad ru">купить у магазина</span><span class="good ru">купить в магазине（у кого = 从某人手里）</span></div></div></div></section><div class="row2"><section class="sec" aria-labelledby="hE"><h2 id="hE"><span class="L">E</span>支配速查</h2><div class="tbl"><table><thead><tr><th>词</th><th>支配</th></tr></thead><tbody><tr><td class="hw">покупа́ть / купи́ть</td><td class="ru">что? у кого́? · где? · за сколько?</td></tr><tr><td class="hw">продава́ть / прода́ть</td><td class="ru">что? кому́? · за сколько?</td></tr><tr><td class="hw">приобрета́ть / приобрести́</td><td class="ru">что?</td></tr><tr><td class="hw">зака́зывать / заказа́ть</td><td class="ru">что?</td></tr><tr><td class="hw">брони́ровать / заброни́ровать</td><td class="ru">что?</td></tr><tr><td class="hw">плати́ть / заплати́ть</td><td class="ru">за что?（四格）· кому́? · сколько? · чем?</td></tr><tr><td class="hw">опла́чивать / оплати́ть</td><td class="ru">что?（四格，不加 за）</td></tr><tr><td class="hw">переводи́ть / перевести́ (де́ньги)</td><td class="ru">что? куда́? кому́?</td></tr><tr><td class="hw">распла́чиваться / расплати́ться</td><td class="ru">с кем? · чем?</td></tr><tr><td class="hw">тра́тить / потра́тить</td><td class="ru">что? на что?</td></tr><tr><td class="hw">эконо́мить / сэконо́мить</td><td class="ru">что? · на чём?</td></tr><tr><td class="hw">зараба́тывать / зарабо́тать</td><td class="ru">что? · сколько? · на чём?</td></tr><tr><td class="hw">сто́ить</td><td class="ru">сколько? · + 不定式</td></tr><tr><td class="hw">подраба́тывать / подзарабо́тать</td><td class="ru">чем? · где?</td></tr></tbody></table></div></section><section class="sec" aria-labelledby="hF"><h2 id="hF"><span class="L">F</span>交际功能 × 语域 <em>同一行 = 同一功能，左右只差场合</em></h2><div class="tbl"><table><thead><tr><th>功能</th><th>口语</th><th>中性</th><th>正式</th></tr></thead><tbody><tr><td class="zh">付款</td><td class="ru">Сколько с меня?</td><td class="ru">Я заплачу картой.</td><td class="ru">Оплата производится…</td></tr><tr><td class="zh">预订</td><td class="ru">Забронирую.</td><td class="ru">Я забронировал(а) номер.</td><td class="ru">Бронирование осуществляется…</td></tr><tr><td class="zh">花费</td><td class="ru">Потратил кучу денег.</td><td class="ru">Я потратил(а)…</td><td class="ru">Расходы составили…</td></tr><tr><td class="zh">价格</td><td class="ru">Почём?</td><td class="ru">Сколько стоит?</td><td class="ru">Стоимость составляет…</td></tr></tbody></table></div></section></div><div class="row2"><section class="sec" aria-labelledby="hG"><h2 id="hG"><span class="L">G</span>选词小决策 <em>从中文意图出发；自测模式下点击俄语看答案</em></h2><div class="intent"><div class="iv"><span class="zh">可以刷卡吗</span><span class="arr">→</span><span class="q ru" tabindex="0">Можно заплатить картой?</span></div><div class="iv"><span class="zh">付车费</span><span class="arr">→</span><span class="q ru" tabindex="0">заплатить за проезд / оплатить проезд</span></div><div class="iv"><span class="zh">学费由基金支付</span><span class="arr">→</span><span class="q ru" tabindex="0">Обучение оплачивается из средств гранта</span></div><div class="iv"><span class="zh">订房间</span><span class="arr">→</span><span class="q ru" tabindex="0">забронировать номер</span></div><div class="iv"><span class="zh">网上订书</span><span class="arr">→</span><span class="q ru" tabindex="0">заказать книгу</span></div><div class="iv"><span class="zh">在……上花时间</span><span class="arr">→</span><span class="q ru" tabindex="0">потратить время на что</span></div><div class="iv"><span class="zh">节省时间</span><span class="arr">→</span><span class="q ru" tabindex="0">сэкономить время</span></div><div class="iv"><span class="zh">打零工</span><span class="arr">→</span><span class="q ru" tabindex="0">подрабатывать</span></div><div class="iv"><span class="zh">多少钱</span><span class="arr">→</span><span class="q ru" tabindex="0">Сколько стоит?</span></div><div class="iv"><span class="zh">值得指出</span><span class="arr">→</span><span class="q ru" tabindex="0">Стоит отметить, что…</span></div></div></section><section class="sec" aria-labelledby="hH"><h2 id="hH"><span class="L">H</span>输出自测 <em>先说或写，再看答案</em></h2><div class="drill"><div class="dr"><span class="zh">可以刷卡吗？</span><span class="q ru" tabindex="0">Можно заплатить картой?</span></div><div class="dr"><span class="zh">我订了三晚的酒店房间。</span><span class="q ru" tabindex="0">Я забронировал(а) номер в гостинице на три ночи.</span></div><div class="dr"><span class="zh">我在分析上花了两个月。</span><span class="q ru" tabindex="0">Я потратил(а) на анализ два месяца.</span></div><div class="dr"><span class="zh">新方法可以节省时间。</span><span class="q ru" tabindex="0">Новый метод позволяет сэкономить время.</span></div></div></section></div><footer class="foot"><p>核验状态：全部为“待核实”。词义、支配、体对和例句是按常规词典知识整理的教学材料，尚未逐条对照 Грамота.ру 或 НКРЯ。</p><p>本页由 tools/build_themes.py 从 tools/units/ 的详细数据生成。打印按 A3 横向排版。</p></footer></div><script>
+(function(){
+  var btn=document.getElementById('quizBtn');
+  function set(on){
+    document.body.classList.toggle('quiz',on);
+    btn.setAttribute('aria-pressed',on?'true':'false');
+    btn.textContent=on?'自测模式：已开启（点击俄语查看）':'自测模式：遮住俄语';
+    if(!on){document.querySelectorAll('.q.shown').forEach(function(e){e.classList.remove('shown')});}
+  }
+  btn.addEventListener('click',function(){set(!document.body.classList.contains('quiz'));});
+  function reveal(e){var t=e.target.closest('.q');if(t&&document.body.classList.contains('quiz'))t.classList.toggle('shown');}
+  document.addEventListener('click',reveal);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('q')){e.preventDefault();reveal(e);}});
+})();
+</script>
+</body></html>
